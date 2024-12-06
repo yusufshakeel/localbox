@@ -1,15 +1,16 @@
 # localBox
 
-Local box is a simple application that acts as a file storage and sharing system 
+localbox is a simple application that acts as a file storage and sharing system 
 for devices connected to a given network.
 
-![image](./assets/image.png)
+![image](public/assets/img.png)
 
 ## Table of Content
 
 * [Use Case](#use-case)
 * [Server Clients](#server-clients)
 * [Getting Started](#server-clients)
+* [Get Updates](#get-updates)
 * [License](#license)
 * [Donate](#donate)
 
@@ -29,7 +30,7 @@ Make sure to add port number to the url.
 
 If the server IP is 192.168.0.151 and is running at port 3001 then type `http://192.168.0.151:3001` in the browser.
 
-![image](./assets/server-clients.png)
+![image](public/assets/server-clients.png)
 
 ## Getting Started
 
@@ -58,6 +59,14 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in the browser to see the result.
+
+## Get Updates
+
+Just pull the latest **main** branch.
+
+```shell
+git pull origin main
+```
 
 ## License
 

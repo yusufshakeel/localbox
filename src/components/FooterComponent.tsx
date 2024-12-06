@@ -7,7 +7,11 @@ export default function FooterComponent() {
       <Row className="mt-5">
         <Col className="text-center mt-5">
           <hr className="mt-5"/>
-          <p><a className="ys-a-link" href="https://github.com/yusufshakeel/localbox">{WEBSITE_NAME} GitHub repo</a></p>
+          <p>
+            <a className="ys-a-link" href="https://github.com/yusufshakeel/localbox">{WEBSITE_NAME} GitHub repo</a>
+              &nbsp; | &nbsp;
+            <a className="ys-a-link" href="https://github.com/yusufshakeel/localbox/blob/main/LICENSE">License</a>
+          </p>
           <p>Created by Yusuf Shakeel</p>
         </Col>
       </Row>
