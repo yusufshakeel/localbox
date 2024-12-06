@@ -35,15 +35,21 @@ export default function ListDirectoryFilesComponent(props: PropType) {
 
   return (
     <>
-      <Table responsive bordered>
-        <thead>
-          <tr>
-            <th>File</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>{displayContent()}</tbody>
-      </Table>
+      {
+        files.length
+          ? (
+            <Table responsive bordered>
+              <thead>
+                <tr>
+                  <th>File</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>{displayContent()}</tbody>
+            </Table>
+          )
+          : <h3 className="text-center">Empty</h3>
+      }
     </>
   );
 }
