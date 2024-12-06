@@ -1,6 +1,7 @@
 {
   "name": "localbox",
   "version": "0.1.0",
+  "description": "Local box is a simple application that acts as a file storage and sharing system for devices connected to a given network.",
   "private": true,
   "scripts": {
     "bootstrap": "mkdirp public/uploads public/videos public/audios public/images public/documents",
@@ -8,6 +9,19 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yusufshakeel/localbox.git"
+  },
+  "author": "Yusuf Shakeel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yusufshakeel/localbox/issues"
+  },
+  "homepage": "https://github.com/yusufshakeel/localbox#readme",
+  "engines": {
+    "node": ">16.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
