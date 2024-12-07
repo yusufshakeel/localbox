@@ -1,7 +1,6 @@
 import {Table} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import showToastHelper from '@/utils/show-toast';
-import Link from 'next/link';
 
 export type PropType = {
   dir: string,
@@ -27,7 +26,7 @@ export default function ListDirectoryFilesComponent(props: PropType) {
           <td>{file}</td>
           <td>
             { props.actions.includes('download')
-                && <Link className="ys-a-link" href={`/${props.dir}/${encodeURIComponent(file)}`} passHref download>Download</Link> }
+                && <a className="ys-a-link" href={`/${props.dir}/${encodeURIComponent(file)}`} download>Download</a> }
           </td>
         </tr>
       );

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFile, faImage, faInfo, faMusic, faUpload, faVideo} from '@fortawesome/free-solid-svg-icons';
+import {faFile, faImage, faInfo, faMessage, faMusic, faUpload, faVideo} from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 
@@ -14,6 +14,7 @@ export default function Home() {
     {  icon: faMusic,  title: 'Audios',  link: '/audios'},
     {  icon: faImage,  title: 'Images',  link: '/images'},
     {  icon: faFile,  title: 'Documents',  link: '/documents'},
+    {  icon: faMessage,  title: 'TempChats',  link: '/temp-chats'},
     {  icon: faInfo,  title: 'Info',  link: '/info'}
   ];
 

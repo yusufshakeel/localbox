@@ -4,6 +4,7 @@ import {findIps} from '@/utils/ip';
 
 type Data = {
     ip: string;
+    port: string;
 };
 
 function getLocalIpAddress() {
@@ -13,5 +14,5 @@ function getLocalIpAddress() {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const localIp = getLocalIpAddress();
-  res.status(200).json({ ip: localIp || 'IP not found' });
+  res.status(200).json({ ip: localIp || 'IP not found', port: process.env.PORT || '3000' });
 }
