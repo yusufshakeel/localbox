@@ -1,10 +1,11 @@
-import {Table} from 'react-bootstrap';
+import {Button, ButtonGroup, Table} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import showToastHelper from '@/utils/show-toast';
 
 export type PropType = {
   dir: string,
   actions: string[]
+  actionHandlers?: any
 }
 
 export default function ListDirectoryFilesComponent(props: PropType) {
@@ -25,8 +26,12 @@ export default function ListDirectoryFilesComponent(props: PropType) {
         <tr key={index}>
           <td>{file}</td>
           <td>
-            { props.actions.includes('download')
-                && <a className="ys-a-link" href={`/${props.dir}/${encodeURIComponent(file)}`} download>Download</a> }
+            <ButtonGroup>
+              { props.actions.includes('download')
+                && <a className="btn btn-outline-primary" href={`/${props.dir}/${encodeURIComponent(file)}`} download>Download</a> }
+              { props.actions.includes('playVideo')
+                && <Button variant="outline-primary" onClick={() => props.actionHandlers['playVideo'](file)}>Play</Button> }
+            </ButtonGroup>
           </td>
         </tr>
       );

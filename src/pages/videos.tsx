@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import Head from 'next/head';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -8,9 +9,17 @@ import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 
 export default function Videos() {
+  const [selectedFile, setSelectedFile] = useState<string|null>(null);
+
+  const playVideoHandler = (file: string) => {
+    if (file.length) {
+      setSelectedFile(file);
+    }
+  };
+
   return (
     <>
-      <Head>{htmlHeadContentHelper({title:WEBSITE_NAME})}</Head>
+      <Head>{htmlHeadContentHelper({title: WEBSITE_NAME})}</Head>
       <BaseLayout>
         <Container>
           <Row>
@@ -19,8 +28,22 @@ export default function Videos() {
             </Col>
           </Row>
           <Row className="my-5">
-            <Col>
-              <ListDirectoryFilesComponent dir={'videos'} actions={['watch', 'download']}/>
+            <Col sm={12} md={8}>
+              {
+                selectedFile?.length
+                  ? (
+                    <video className="mb-5" controls width="100%" key={selectedFile}>
+                      <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
+                      Your browser does not support the video tag.
+                    </video>
+                  )
+                  : ''
+              }
+              <ListDirectoryFilesComponent
+                dir={'videos'}
+                actions={['playVideo', 'download']}
+                actionHandlers={{playVideo: playVideoHandler}}
+              />
             </Col>
           </Row>
         </Container>
