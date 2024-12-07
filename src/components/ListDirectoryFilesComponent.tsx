@@ -26,7 +26,8 @@ export default function ListDirectoryFilesComponent(props: PropType) {
         <tr key={index}>
           <td>{file}</td>
           <td>
-            { props.actions.includes('download') && <Link href={`/${props.dir}/${encodeURIComponent(file)}`} passHref download>Download</Link> }
+            { props.actions.includes('download')
+                && <Link className="ys-a-link" href={`/${props.dir}/${encodeURIComponent(file)}`} passHref download>Download</Link> }
           </td>
         </tr>
       );
