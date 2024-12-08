@@ -1,6 +1,6 @@
 {
   "name": "localbox",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Local box is a simple application that acts as a file storage and sharing system for devices connected to a given network.",
   "private": true,
   "scripts": {
