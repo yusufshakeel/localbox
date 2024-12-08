@@ -208,26 +208,28 @@ export default function TempChats() {
                     ))}
                   </Card.Body>
                 </Card>
-                <InputGroup>
-                  <Form.Control
-                    size="lg"
-                    as="textarea"
-                    rows={3}
-                    style={{resize: 'none'}}
-                    placeholder="Enter message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                  />
-                  <Button variant="primary" onClick={sendMessage}>
-                    <FontAwesomeIcon icon={faPaperPlane}/>
-                  </Button>
-                </InputGroup>
+                <div className="mb-5">
+                  <InputGroup>
+                    <Form.Control
+                      size="lg"
+                      as="textarea"
+                      rows={3}
+                      style={{resize: 'none'}}
+                      placeholder="Enter message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <Button variant="primary" onClick={sendMessage}>
+                      <FontAwesomeIcon icon={faPaperPlane}/>
+                    </Button>
+                  </InputGroup>
+                </div>
               </>
             )
         }
         {
           isProfileCreated && isLoggedIn
-            ? <div className="mt-5">
+            ? <div>
               <Button variant="outline-danger" onClick={openDeleteAccountModalHandler}>Delete Account</Button>
             </div>
             : ''
@@ -250,10 +252,14 @@ export default function TempChats() {
             <Col sm={12} md={8} lg={8} className="mb-5">
               { !isConnected && !isProfileCreated ? joinChatComponent() : messagesAreaComponent() }
             </Col>
-            <Col sm={12} md={4} lg={4} className="mb-5">
-              <p><strong>Info</strong></p>
-              <p>Messages are automatically deleted
-                after {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS / 60000} minutes.</p>
+          </Row>
+          <Row className="my-5">
+            <Col>
+              <div>
+                <p><strong>Info</strong></p>
+                <p>Messages are automatically deleted
+                  after {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS / 60000} minutes.</p>
+              </div>
             </Col>
           </Row>
         </Container>
