@@ -1,5 +1,5 @@
 import {Container, Row, Col} from 'react-bootstrap';
-import {WEBSITE_NAME} from '@/constants';
+import {WEBSITE_NAME, YUSUF_SHAKEEL_WEBSITE_URL} from '@/constants';
 import useInfoEffect from '@/effects/useInfoEffect';
 
 export default function FooterComponent() {
@@ -16,7 +16,7 @@ export default function FooterComponent() {
             &nbsp; | &nbsp;
             <span>Version {info?.version}</span>
           </p>
-          <p>Created by Yusuf Shakeel</p>
+          <p>Created by <a className="ys-a-link" href={YUSUF_SHAKEEL_WEBSITE_URL}>Yusuf Shakeel</a></p>
         </Col>
       </Row>
     </Container>
