@@ -11,7 +11,7 @@ import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponen
 export default function Videos() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
 
-  const playVideoHandler = (file: string) => {
+  const selectedFileHandler = (file: string) => {
     if (file.length) {
       setSelectedFile(file);
     }
@@ -24,7 +24,7 @@ export default function Videos() {
         <Container>
           <Row>
             <Col>
-              <h1 className="display-1"><FontAwesomeIcon icon={faVideo}/> Videos</h1>
+              <h1><FontAwesomeIcon icon={faVideo}/> Videos</h1>
             </Col>
           </Row>
           <Row className="my-5">
@@ -42,7 +42,7 @@ export default function Videos() {
               <ListDirectoryFilesComponent
                 dir={'videos'}
                 actions={['playVideo', 'download']}
-                actionHandlers={{playVideo: playVideoHandler}}
+                actionHandlers={{playVideo: selectedFileHandler}}
               />
             </Col>
           </Row>

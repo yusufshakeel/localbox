@@ -15,11 +15,11 @@ export default function Images() {
         <Container>
           <Row>
             <Col>
-              <h1 className="display-1"><FontAwesomeIcon icon={faFile}/> Documents</h1>
+              <h1><FontAwesomeIcon icon={faFile}/> Documents</h1>
             </Col>
           </Row>
           <Row className="my-5">
-            <Col>
+            <Col sm={12} md={8}>
               <ListDirectoryFilesComponent dir={'documents'} actions={['download']}/>
             </Col>
           </Row>

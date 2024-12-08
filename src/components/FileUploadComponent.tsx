@@ -39,7 +39,7 @@ export default function FileUploadComponent() {
 
   return (
     <form onSubmit={handleFileUpload} encType="multipart/form-data">
-      <InputGroup>
+      <InputGroup className="shadow rounded">
         <Form.Control type="file" ref={inputRef} name="file" required size="lg"/>
         <Button variant="primary" type="submit">Upload</Button>
         <Button variant="outline-danger" type="reset">X</Button>

@@ -2,6 +2,7 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import Link from 'next/link';
 import { WEBSITE_NAME } from '@/constants';
 import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
+import {pages} from '@/configs/pages';
 
 export default function NavbarComponent() {
   const {ip} = useServeIpAddressEffect();
@@ -15,7 +16,11 @@ export default function NavbarComponent() {
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} href="/">Home</Nav.Link>
+            {
+              pages.map((page, index) => {
+                return <Nav.Link key={index} as={Link} href={page.link}>{page.title}</Nav.Link>;
+              })
+            }
           </Nav>
           <Navbar.Text>{ip}</Navbar.Text>
         </Navbar.Collapse>

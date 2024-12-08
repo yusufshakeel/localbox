@@ -5,7 +5,8 @@ import BaseLayout from '@/layouts/BaseLayout';
 import {Container, Row, Col, Form, Button, InputGroup, Card} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import {TEMP_CHATS_MESSAGES_TTL_IN_MILLISECONDS, WEBSITE_NAME} from '@/constants';
+import {WEBSITE_NAME} from '@/constants';
+import {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS} from '@/configs';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 
 let socket: any;
@@ -67,11 +68,11 @@ export default function TempChats() {
         <Container>
           <Row>
             <Col>
-              <h1 className="display-1"><FontAwesomeIcon icon={faMessage}/> TempChats</h1>
+              <h1><FontAwesomeIcon icon={faMessage}/> TempChats</h1>
             </Col>
           </Row>
           <Row className="my-5">
-            <Col sm={12} md={8} lg={8}>
+            <Col sm={12} md={8} lg={8} className="mb-5">
               <div>
                 {!isConnected ? (
                   <div>
@@ -122,10 +123,10 @@ export default function TempChats() {
                 )}
               </div>
             </Col>
-            <Col sm={12} md={4} lg={4}>
+            <Col sm={12} md={4} lg={4} className="mb-5">
               <p><strong>Info</strong></p>
-              <p>Messages get cleared
-                after {TEMP_CHATS_MESSAGES_TTL_IN_MILLISECONDS / 60000} minutes.</p>
+              <p>Messages get deleted
+                after {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS / 60000} minutes.</p>
             </Col>
           </Row>
         </Container>

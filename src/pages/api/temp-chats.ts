@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import fs from 'fs-extra';
 import path from 'path';
-import {TEMP_CHATS_MESSAGES_TTL_IN_MILLISECONDS} from '@/constants';
+import {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS} from '@/configs';
 
 const messagesFile = path.join(process.cwd(), 'private/temp-chats-messages.json');
 
@@ -22,7 +22,7 @@ const cleanupExpiredMessages = () => {
   }
   const now = Date.now();
   const filteredMessages =
-      messages.filter((msg: any) => now - msg.timestamp <= TEMP_CHATS_MESSAGES_TTL_IN_MILLISECONDS);
+      messages.filter((msg: any) => now - msg.timestamp <= TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS);
   fs.writeJSONSync(messagesFile, filteredMessages);
 };
 

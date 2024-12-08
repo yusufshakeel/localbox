@@ -16,17 +16,21 @@ export default function Uploads() {
         <Container>
           <Row>
             <Col>
-              <h1 className="display-1"><FontAwesomeIcon icon={faUpload}/> Uploads</h1>
+              <h1><FontAwesomeIcon icon={faUpload}/> Uploads</h1>
             </Col>
           </Row>
           <Row className="my-5">
-            <Col>
+            <Col sm={12} md={8}>
               <FileUploadComponent/>
             </Col>
           </Row>
           <Row className="my-5">
-            <Col>
-              <ListDirectoryFilesComponent dir={'uploads'} actions={['download']}/>
+            <Col sm={12} md={8}>
+              <ListDirectoryFilesComponent
+                dir={'uploads'}
+                sort={'DESC'}
+                actions={['download']}
+              />
             </Col>
           </Row>
         </Container>

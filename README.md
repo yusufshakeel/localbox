@@ -3,7 +3,7 @@
 localbox is a simple application that acts as a file storage and sharing system 
 for devices connected to a given network.
 
-![image](public/assets/img.png)
+![image](public/assets/img-v0.2.x.png)
 
 ## Table of Content
 

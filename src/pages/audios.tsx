@@ -6,8 +6,17 @@ import { faMusic } from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
+import {useState} from 'react';
 
 export default function Audios() {
+  const [selectedFile, setSelectedFile] = useState<string|null>(null);
+
+  const selectedFileHandler = (file: string) => {
+    if (file.length) {
+      setSelectedFile(file);
+    }
+  };
+  
   return (
     <>
       <Head>{htmlHeadContentHelper({title:WEBSITE_NAME})}</Head>
@@ -15,12 +24,26 @@ export default function Audios() {
         <Container>
           <Row>
             <Col>
-              <h1 className="display-1"><FontAwesomeIcon icon={faMusic}/> Audios</h1>
+              <h1><FontAwesomeIcon icon={faMusic}/> Audios</h1>
             </Col>
           </Row>
           <Row className="my-5">
-            <Col>
-              <ListDirectoryFilesComponent dir={'audios'} actions={['listen', 'download']}/>
+            <Col sm={12} md={8}>
+              {
+                selectedFile?.length
+                  ? (
+                    <audio className="mb-5" controls key={selectedFile}>
+                      <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
+                          Your browser does not support the audio tag.
+                    </audio>
+                  )
+                  : ''
+              }
+              <ListDirectoryFilesComponent
+                dir={'audios'}
+                actions={['playAudio', 'download']}
+                actionHandlers={{playAudio: selectedFileHandler}}
+              />
             </Col>
           </Row>
         </Container>

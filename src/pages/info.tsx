@@ -17,7 +17,7 @@ export default function Home() {
         <Container>
           <Row>
             <Col>
-              <h1 className="display-1"><FontAwesomeIcon icon={faInfo}/> Info</h1>
+              <h1><FontAwesomeIcon icon={faInfo}/> Info</h1>
             </Col>
           </Row>
           <Row className="my-5">
