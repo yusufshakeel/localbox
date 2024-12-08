@@ -12,6 +12,9 @@ export default function FileUploadComponent() {
     if (error) {
       showToastHelper({ type: 'error', content: error});
     } else if (file){
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
       showToastHelper({ type: 'success', content: 'File uploaded'});
     }
   }, [file, error]);
