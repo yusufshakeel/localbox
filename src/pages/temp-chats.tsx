@@ -136,7 +136,7 @@ export default function TempChats() {
   const profileActionForExistingUser = () => {
     return (
       <>
-        <Button className="float-end" size="sm" variant="light" onClick={logOutUser}>Log out</Button>
+        <Button className="float-end" size="sm" variant="light" onClick={logOutUser}>Log Out</Button>
       </>
     );
   };
@@ -171,7 +171,7 @@ export default function TempChats() {
                 : (
                   <>
                     <span><FontAwesomeIcon icon={faCircle} style={{color: 'red'}}/> <strong>{displayName}</strong>, you are currently logged out.</span>
-                    <Button variant="light" size="sm" className="float-end" onClick={logInUser}>Join back</Button>
+                    <Button variant="light" size="sm" className="float-end" onClick={logInUser}>Join Back</Button>
                   </>
                 )
             }
@@ -192,14 +192,17 @@ export default function TempChats() {
                   style={{height: '300px', overflowY: 'scroll'}}>
                   <Card.Body>
                     {messages.map((msg: any, idx) => (
-                      <div key={idx} style={{ textAlign: msg.userId === userId ? 'right' : 'left' }}>
-                        <div className="card bg-light mb-3 p-2" style={{display: 'inline-block'}}>
+                      <div key={idx}
+                        style={{ textAlign: msg.userId === userId ? 'right' : 'left' }}>
+                        <div className={`${msg.userId === userId ? 'bg-light': ''} card mb-3 p-2`} style={{display: 'inline-block'}}>
                           <div className="mb-1">
                             <strong>{msg.displayName} </strong>
                             <span
                               className="float-end ms-3"> {new Date(msg.timestamp).toLocaleString()}</span>
                           </div>
-                          <div className="mb-1">{msg.message}</div>
+                          <div className="mb-1" style={{wordBreak: 'break-word', overflowWrap: 'break-word'}}>
+                            {msg.message}
+                          </div>
                         </div>
                       </div>
                     ))}
