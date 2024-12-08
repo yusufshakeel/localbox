@@ -1,7 +1,7 @@
 {
   "name": "localbox",
   "version": "0.2.2",
-  "description": "Local box is a simple application that acts as a file storage and sharing system for devices connected to a given network.",
+  "description": "Turn your laptop or desktop into a personal local cloud to easily share files with \nother devices on the same Wi-Fi network.",
   "private": true,
   "scripts": {
     "bootstrap": "mkdirp private public/uploads public/videos public/audios public/images public/documents",

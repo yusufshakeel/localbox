@@ -6,7 +6,7 @@ import {Container, Row, Col, Form, Button, InputGroup, Card} from 'react-bootstr
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
-import {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS} from '@/configs';
+import {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS} from '@/configs/temp-chats';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 
 let socket: any;

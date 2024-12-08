@@ -1,9 +1,12 @@
 import { Server } from 'socket.io';
 import fs from 'fs-extra';
 import path from 'path';
-import {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS} from '@/configs';
+import {
+  TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS,
+  TEMP_CHATS_MESSAGES_FILE_PATH
+} from '@/configs/temp-chats';
 
-const messagesFile = path.join(process.cwd(), 'private/temp-chats-messages.json');
+const messagesFile = path.join(process.cwd(), TEMP_CHATS_MESSAGES_FILE_PATH);
 
 // Ensure the messages file exists
 fs.ensureFileSync(messagesFile);
