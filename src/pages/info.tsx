@@ -1,14 +1,16 @@
 import Head from 'next/head';
 import BaseLayout from '@/layouts/BaseLayout';
-import { Container, Row, Col } from 'react-bootstrap';
+import {Container, Row, Col, Table} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faInfo} from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
+import useInfoEffect from '@/effects/useInfoEffect';
 
 export default function Home() {
   const {ip} = useServeIpAddressEffect();
+  const {info} = useInfoEffect();
   
   return (
     <>
@@ -22,6 +24,41 @@ export default function Home() {
           </Row>
           <Row className="my-5">
             <Col>
+              <Table responsive bordered>
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Local Server IP</td>
+                    <td>{ip}</td>
+                  </tr>
+                  <tr>
+                    <td>Version</td>
+                    <td>{info?.version}</td>
+                  </tr>
+                  <tr>
+                    <td>GitHub</td>
+                    <td>
+                      <a className="ys-a-link" href={info?.homepage}>{info?.homepage}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>License</td>
+                    <td>
+                      <a className="ys-a-link" href={info?.licensePage}>{info?.licensePage}</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+          <Row className="my-5">
+            <Col>
+              <h2>FAQ</h2>
               <h3>What is {WEBSITE_NAME}?</h3>
               <p>localbox is a simple application that acts as a file storage and
                 sharing system for devices connected to a given network.</p>
