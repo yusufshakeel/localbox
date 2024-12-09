@@ -1,9 +1,9 @@
-# localBox
+# localbox
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
 
-![image](public/assets/img-v0.2.x.png)
+![image](public/assets/img-v0.3.4.png)
 
 ## Table of Content
 
