@@ -2,6 +2,8 @@ import showToastHelper from '@/utils/show-toast';
 import {Button, Form, InputGroup} from 'react-bootstrap';
 import {useEffect, useRef} from 'react';
 import useFileUploadEffect from '@/effects/useFileUploadEffect';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faXmark, faUpload} from '@fortawesome/free-solid-svg-icons';
 
 export default function FileUploadComponent() {
   const {file, handleFileUpload, error} = useFileUploadEffect();
@@ -21,10 +23,14 @@ export default function FileUploadComponent() {
 
   return (
     <form onSubmit={handleFileUpload} encType="multipart/form-data">
-      <InputGroup className="shadow rounded">
+      <InputGroup>
         <Form.Control type="file" ref={inputRef} name="file" required size="lg"/>
-        <Button variant="primary" type="submit">Upload</Button>
-        <Button variant="outline-danger" type="reset">X</Button>
+        <Button variant="primary" type="submit">
+          <FontAwesomeIcon icon={faUpload}/> Upload
+        </Button>
+        <Button variant="outline-danger" type="reset">
+          <FontAwesomeIcon icon={faXmark}/>
+        </Button>
       </InputGroup>
     </form>
   );

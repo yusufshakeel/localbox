@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {Button, ButtonGroup, Form, InputGroup, Table} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import showToastHelper from '@/utils/show-toast';
@@ -24,7 +25,7 @@ export default function ListDirectoryFilesComponent(props: PropType) {
       setListOfFiles(data.files);
     };
     fetchFiles().catch(e => showToastHelper({content: e.message, type: 'error'}));
-  }, [props.dir]);
+  }, [props.dir, props.sort]);
 
   useEffect(() => {
     if (filesFilter.trim().length) {
@@ -44,9 +45,10 @@ export default function ListDirectoryFilesComponent(props: PropType) {
         <tr key={index}>
           <td>
             { props.actions.includes('viewImage')
-                && <img
+                && <Image
                   onClick={() => props.actionHandlers['viewImage'](file)}
-                  className="img-fluid"
+                  width={200}
+                  height={100}
                   style={{width: '100px', cursor: 'pointer'}}
                   src={`/${props.dir}/${encodeURIComponent(file)}`}
                   alt={file} />
