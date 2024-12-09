@@ -2,7 +2,7 @@ import Head from 'next/head';
 import BaseLayout from '@/layouts/BaseLayout';
 import {Container, Row, Col, Table} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faInfo} from '@fortawesome/free-solid-svg-icons';
+import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
@@ -19,7 +19,7 @@ export default function Home() {
         <Container>
           <Row>
             <Col>
-              <h1><FontAwesomeIcon icon={faInfo}/> Info</h1>
+              <h1><FontAwesomeIcon icon={faCircleInfo}/> Info</h1>
             </Col>
           </Row>
           <Row className="my-5">

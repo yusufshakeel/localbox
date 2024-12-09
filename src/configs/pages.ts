@@ -2,7 +2,7 @@ import {
   faFile,
   faHome,
   faImage,
-  faInfo,
+  faCircleInfo,
   faMessage,
   faMusic,
   faUpload,
@@ -17,5 +17,5 @@ export const pages = [
   {icon: faVideo, title: 'Videos', link: '/videos'},
   {icon: faFile, title: 'Documents', link: '/documents'},
   {icon: faMessage, title: 'TempChats', link: '/temp-chats'},
-  {icon: faInfo, title: 'Info', link: '/info', hideOnHomePage: true}
+  {icon: faCircleInfo, title: 'Info', link: '/info', hideOnHomePage: true}
 ]
