@@ -16,7 +16,6 @@ export default function JoinChatComponent(props: PropType) {
           <Form.Group className="mb-3" controlId="userDisplayName">
             <Form.Control
               className="no-focus-border"
-              size="lg"
               type="text"
               maxLength={TEMP_CHATS_MESSAGES_USER_DISPLAY_NAME_MAX_LENGTH}
               placeholder="Set your display name"

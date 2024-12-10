@@ -58,11 +58,11 @@ export default function ListDirectoryFilesComponent(props: PropType) {
             &nbsp;
             <ButtonGroup className="float-end">
               { props.actions.includes('download')
-                && <a className="btn btn-outline-primary" href={`/${props.dir}/${encodeURIComponent(file)}`} download>Download</a> }
+                && <a className="btn btn-outline-primary btn-sm" href={`/${props.dir}/${encodeURIComponent(file)}`} download>Download</a> }
               { props.actions.includes('playVideo')
-                && <Button variant="outline-primary" onClick={() => props.actionHandlers['playVideo'](file)}>Play</Button> }
+                && <Button variant="outline-primary" size="sm" onClick={() => props.actionHandlers['playVideo'](file)}>Play</Button> }
               { props.actions.includes('playAudio')
-                  && <Button variant="outline-primary" onClick={() => props.actionHandlers['playAudio'](file)}>Play</Button> }
+                  && <Button variant="outline-primary" size="sm" onClick={() => props.actionHandlers['playAudio'](file)}>Play</Button> }
             </ButtonGroup>
           </td>
         </tr>
@@ -81,7 +81,6 @@ export default function ListDirectoryFilesComponent(props: PropType) {
                 <Form.Control
                   className="no-focus-border"
                   type="text"
-                  size='lg'
                   placeholder='Search...'
                   value={filesFilter}
                   onChange={(e) => setFilesFilter(e.target.value)}

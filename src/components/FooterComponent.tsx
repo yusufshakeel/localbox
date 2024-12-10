@@ -10,11 +10,9 @@ export default function FooterComponent() {
         <Col className="text-center mt-5">
           <hr className="mt-5"/>
           <p>
-            <a className="ys-a-link" href={info?.homepage}>{WEBSITE_NAME} GitHub repo</a>
-            &nbsp; | &nbsp;
-            <a className="ys-a-link" href={info?.licensePage}>License</a>
-            &nbsp; | &nbsp;
-            <span>Version {info?.version}</span>
+            <a className="ys-a-link" href={info?.homepage}>{WEBSITE_NAME}</a>
+            &nbsp;&nbsp;
+            <span>v{info?.version}</span>
           </p>
           <p>Created by <a className="ys-a-link" href={YUSUF_SHAKEEL_WEBSITE_URL}>Yusuf Shakeel</a></p>
         </Col>
