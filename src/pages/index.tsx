@@ -39,7 +39,7 @@ export default function Home() {
         <Container>
           <Row>
             <Col>
-              <h1 className="display-1">Welcome to {WEBSITE_NAME}</h1>
+              <h1 className="display-1 text-center">Welcome to {WEBSITE_NAME}</h1>
             </Col>
           </Row>
           <Row className="my-5">
