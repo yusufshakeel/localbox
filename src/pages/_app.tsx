@@ -1,5 +1,4 @@
 import '@/styles/globals.css';
-import '@/styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify';

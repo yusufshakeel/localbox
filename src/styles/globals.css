@@ -5,3 +5,8 @@ body {
 .ys-a-link {
     text-decoration: none;
 }
+
+.no-focus-border {
+    outline: none !important; /* Remove the focus outline */
+    box-shadow: none !important; /* Remove the Bootstrap box shadow */
+}

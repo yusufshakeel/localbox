@@ -24,7 +24,7 @@ export default function FileUploadComponent() {
   return (
     <form onSubmit={handleFileUpload} encType="multipart/form-data">
       <InputGroup>
-        <Form.Control type="file" ref={inputRef} name="file" required size="lg"/>
+        <Form.Control className="no-focus-border" type="file" ref={inputRef} name="file" required size="lg"/>
         <Button variant="primary" type="submit">
           <FontAwesomeIcon icon={faUpload}/> Upload
         </Button>

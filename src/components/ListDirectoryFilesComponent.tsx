@@ -79,6 +79,7 @@ export default function ListDirectoryFilesComponent(props: PropType) {
               <InputGroup className="mb-3">
                 <InputGroup.Text><FontAwesomeIcon icon={faMagnifyingGlass}/></InputGroup.Text>
                 <Form.Control
+                  className="no-focus-border"
                   type="text"
                   size='lg'
                   placeholder='Search...'
@@ -89,7 +90,7 @@ export default function ListDirectoryFilesComponent(props: PropType) {
                   <FontAwesomeIcon icon={faXmark}/>
                 </Button>
               </InputGroup>
-              <div style={{height: '300px', overflowY: 'scroll'}}>
+              <div style={{height: '300px', overflowY: 'scroll', border: '1px solid rgba(0, 0, 0, 0.175)'}}>
                 <Table responsive bordered hover>
                   <tbody>{displayContent()}</tbody>
                 </Table>

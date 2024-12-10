@@ -23,6 +23,7 @@ export default function InputComponent(props: PropType) {
   return (
     <InputGroup>
       <Form.Control
+        className="no-focus-border"
         size="lg"
         as="textarea"
         rows={3}
