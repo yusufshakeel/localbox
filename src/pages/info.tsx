@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react';
 import Head from 'next/head';
 import BaseLayout from '@/layouts/BaseLayout';
 import {Container, Row, Col, Table} from 'react-bootstrap';
@@ -11,6 +12,21 @@ import useInfoEffect from '@/effects/useInfoEffect';
 export default function Home() {
   const {ip} = useServeIpAddressEffect();
   const {info} = useInfoEffect();
+
+  const [port, setPort] = useState('');
+  const [localServerAddress, setLocalServerAddress] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      setPort(url.port || 'Default Port (e.g., 80 for HTTP or 443 for HTTPS)');
+      if (url.port) {
+        setLocalServerAddress(`http://${ip}:${port}`);
+      } else {
+        setLocalServerAddress(`http://${ip}`);
+      }
+    }
+  }, [ip, port]);
   
   return (
     <>
@@ -35,6 +51,14 @@ export default function Home() {
                   <tr>
                     <td>Local Server IP</td>
                     <td>{ip}</td>
+                  </tr>
+                  <tr>
+                    <td>Local Server Port</td>
+                    <td>{port}</td>
+                  </tr>
+                  <tr>
+                    <td>Local Server Address</td>
+                    <td><a className="ys-a-link" href={localServerAddress}>{localServerAddress}</a></td>
                   </tr>
                   <tr>
                     <td>Version</td>
