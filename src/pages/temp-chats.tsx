@@ -7,13 +7,13 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS} from '@/configs/temp-chats';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
-import useChattingEffect from '@/pages/temp-chats/effects/useChattingEffect';
-import ChatsComponent from '@/pages/temp-chats/components/ChatsComponent';
-import JoinChatComponent from '@/pages/temp-chats/components/JoinChatComponent';
-import useUserAccountEffect from '@/pages/temp-chats/effects/useUserAccountEffect';
-import MenuBarComponent from '@/pages/temp-chats/components/MenuBarComponent';
-import InputComponent from '@/pages/temp-chats/components/InputComponent';
-import DeleteAccountModalComponent from '@/pages/temp-chats/components/DeleteAccountModalComponent';
+import useChattingEffect from '@/effects/temp-chats/useChattingEffect';
+import ChatsComponent from '@/components/temp-chats/ChatsComponent';
+import JoinChatComponent from '@/components/temp-chats/JoinChatComponent';
+import useUserAccountEffect from '@/effects/temp-chats/useUserAccountEffect';
+import MenuBarComponent from '@/components/temp-chats/MenuBarComponent';
+import InputComponent from '@/components/temp-chats/InputComponent';
+import DeleteAccountModalComponent from '@/components/temp-chats/DeleteAccountModalComponent';
 
 export default function TempChats() {
   const {messages, sendMessage} = useChattingEffect();

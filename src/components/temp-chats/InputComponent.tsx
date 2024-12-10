@@ -2,7 +2,7 @@ import {Button, Form, InputGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 import {useState} from 'react';
-import {MessageBodyType} from '@/pages/temp-chats/effects/useChattingEffect';
+import {MessageBodyType} from '@/effects/temp-chats/useChattingEffect';
 
 export type PropType = {
   userId: string;

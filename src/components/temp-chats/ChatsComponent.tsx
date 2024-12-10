@@ -1,5 +1,5 @@
 import {useEffect, useRef} from 'react';
-import {MessageType} from '@/pages/temp-chats/effects/useChattingEffect';
+import {MessageType} from '@/effects/temp-chats/useChattingEffect';
 
 export type PropType = {
   messages: MessageType[];
