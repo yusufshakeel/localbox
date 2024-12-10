@@ -1,4 +1,3 @@
-import {useEffect, useState} from 'react';
 import Head from 'next/head';
 import BaseLayout from '@/layouts/BaseLayout';
 import {Container, Row, Col, Table} from 'react-bootstrap';
@@ -10,23 +9,8 @@ import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
 import useInfoEffect from '@/effects/useInfoEffect';
 
 export default function Home() {
-  const {ip} = useServeIpAddressEffect();
+  const {ip, port, localServerAddress} = useServeIpAddressEffect();
   const {info} = useInfoEffect();
-
-  const [port, setPort] = useState('');
-  const [localServerAddress, setLocalServerAddress] = useState('');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const url = new URL(window.location.href);
-      setPort(url.port || 'Default Port (e.g., 80 for HTTP or 443 for HTTPS)');
-      if (url.port) {
-        setLocalServerAddress(`http://${ip}:${port}`);
-      } else {
-        setLocalServerAddress(`http://${ip}`);
-      }
-    }
-  }, [ip, port]);
   
   return (
     <>

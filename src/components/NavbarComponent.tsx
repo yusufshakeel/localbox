@@ -4,9 +4,10 @@ import { WEBSITE_NAME } from '@/constants';
 import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
 import {pages} from '@/configs/pages';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCloud} from '@fortawesome/free-solid-svg-icons';
 
 export default function NavbarComponent() {
-  const {ip} = useServeIpAddressEffect();
+  const {ip, port} = useServeIpAddressEffect();
 
   return (
     <Navbar expand="lg" bg="light" fixed="top">
@@ -20,7 +21,7 @@ export default function NavbarComponent() {
             {
               pages.map((page, index) => {
                 return (
-                  <Nav.Link key={index} as={Link} href={page.link} className="mx-3">
+                  <Nav.Link key={index} as={Link} href={page.link} className="me-4">
                     <FontAwesomeIcon icon={page.icon}/>
                     <span className="ms-2 d-md-none d-lg-none">{page.title}</span>
                   </Nav.Link>
@@ -28,7 +29,10 @@ export default function NavbarComponent() {
               })
             }
           </Nav>
-          <Navbar.Text>{ip}</Navbar.Text>
+          <Navbar.Text>
+            <FontAwesomeIcon icon={faCloud}/>
+            <span className="ms-2">{ip}:{port}</span>
+          </Navbar.Text>
         </Navbar.Collapse>
       </Container>
     </Navbar>
