@@ -38,8 +38,9 @@ export default function Home() {
       <BaseLayout>
         <Container>
           <Row>
-            <Col>
-              <h1 className="display-1 text-center">Welcome to {WEBSITE_NAME}</h1>
+            <Col className="text-center">
+              <h1 className="display-1">Welcome to {WEBSITE_NAME}</h1>
+              <p className="display-6">Your personal local cloud ☁️</p>
             </Col>
           </Row>
           <Row className="my-5">

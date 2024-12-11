@@ -1,9 +1,12 @@
 # localbox
 
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
+![Static Badge](https://img.shields.io/badge/version-v0.3.11-blue)
+
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
 
-![image](public/assets/img-v0.3.4.png)
+![image](public/assets/img-v0.3.10.png)
 
 ## Table of Content
 
