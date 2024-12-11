@@ -42,6 +42,7 @@ next-env.d.ts
 output
 private/
 public/uploads
+public/temp-chats
 public/audios
 public/videos
 public/documents

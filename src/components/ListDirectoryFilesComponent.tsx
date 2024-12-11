@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import showToastHelper from '@/utils/show-toast';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark, faMagnifyingGlass, faFile, faDownload, faPlay} from '@fortawesome/free-solid-svg-icons';
+import {getFilename} from '@/utils/filename';
 
 export type PropType = {
   dir: string,
@@ -43,16 +44,7 @@ export default function ListDirectoryFilesComponent(props: PropType) {
 
   const displayContent = () => {
     return listOfFiles.map((file: string, index) => {
-      let fileName = file;
-
-      // remove timestamp part when file name is like 1733659240385-hello-world.txt
-      if(/^\d{10,}-.*$/gi.test(fileName)) {
-        fileName = fileName.replace(/^\d{10,}-/gi,'')
-      }
-      // remove timestamp part when file name is like 2024-12-08T12:01:42.922Z-hello-world.txt
-      else if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z-.*$/gi.test(fileName)) {
-        fileName = fileName.replace(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z-/gi,'')
-      }
+      const fileName = getFilename(file);
 
       const buttonGroup = (file: string) => {
         return (

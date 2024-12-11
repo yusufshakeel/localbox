@@ -4,7 +4,7 @@
   "description": "Turn your laptop or desktop into a personal local cloud to easily share files with other devices on the same Wi-Fi network.",
   "private": true,
   "scripts": {
-    "bootstrap": "mkdirp private public/uploads public/videos public/audios public/images public/documents",
+    "bootstrap": "mkdirp private public/uploads public/temp-chats public/videos public/audios public/images public/documents",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
