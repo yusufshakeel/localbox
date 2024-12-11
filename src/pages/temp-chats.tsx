@@ -92,6 +92,8 @@ export default function TempChats() {
                 <p><strong>Info</strong></p>
                 <p>Messages are automatically deleted
                   after {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS / 60000} minutes.</p>
+                <p>Files are automatically deleted
+                  after {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS / 60000} minutes.</p>
               </div>
             </Col>
           </Row>

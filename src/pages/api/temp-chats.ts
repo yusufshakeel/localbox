@@ -29,6 +29,32 @@ const cleanupExpiredMessages = () => {
   fs.writeJSONSync(messagesFile, filteredMessages);
 };
 
+// Remove older files
+const cleanupOlderFiles = () => {
+  try {
+    const tempChatsDir = path.join(process.cwd(), 'public', 'temp-chats');
+
+    const now = Date.now();
+
+    // Read all files in the directory
+    const files = fs.readdirSync(tempChatsDir);
+
+    // Filter files starting with the prefix and delete them
+    files.forEach((file) => {
+      const filePath = path.join(tempChatsDir, file as string);
+      const stats = fs.statSync(filePath);
+      if (now - new Date(stats.birthtime).getTime() > TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS) {
+        fs.unlinkSync(filePath);
+        // eslint-disable-next-line
+        console.log('Deleted file:', { file, filePath, birthtime: new Date(stats.birthtime) });
+      }
+    });
+  } catch (err: any) {
+    // eslint-disable-next-line
+    console.log(`Failed to delete file: ${err}`);
+  }
+};
+
 export default function handler(req: any, res: any) {
   if (!res.socket.server.io) {
     const io = new Server(res.socket.server, {
@@ -40,6 +66,7 @@ export default function handler(req: any, res: any) {
     io.on('connection', (socket) => {
       // Send existing messages to the newly connected client
       cleanupExpiredMessages();
+      cleanupOlderFiles();
       let messages;
       try {
         messages = fs.readJSONSync(messagesFile)
