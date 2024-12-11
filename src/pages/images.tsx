@@ -33,6 +33,7 @@ export default function Images() {
                 dir={'images'}
                 actions={['viewImage', 'download']}
                 actionHandlers={{viewImage: selectedFileHandler}}
+                hasFixedHeight={400}
               />
             </Col>
             <Col sm={12} md={4} className="mb-5">

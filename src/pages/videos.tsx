@@ -37,12 +37,19 @@ export default function Videos() {
                       Your browser does not support the video tag.
                     </video>
                   )
-                  : ''
+                  : <video className="mb-5" controls width="100%" key={selectedFile}>
+                    <source src=''/>
+                    Your browser does not support the video tag.
+                  </video>
               }
+            </Col>
+            <Col sm={12} md={4}>
               <ListDirectoryFilesComponent
                 dir={'videos'}
                 actions={['playVideo', 'download']}
                 actionHandlers={{playVideo: selectedFileHandler}}
+                viewIn={'list'}
+                hasFixedHeight={400}
               />
             </Col>
           </Row>

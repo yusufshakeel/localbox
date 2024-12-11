@@ -27,8 +27,16 @@ export default function Audios() {
               <h1><FontAwesomeIcon icon={faMusic}/> Audios</h1>
             </Col>
           </Row>
-          <Row className="my-5">
+          <Row className="mt-5">
             <Col sm={12} md={8}>
+              <ListDirectoryFilesComponent
+                dir={'audios'}
+                actions={['playAudio', 'download']}
+                actionHandlers={{playAudio: selectedFileHandler}}
+                hasFixedHeight={400}
+              />
+            </Col>
+            <Col sm={12} md={4}>
               {
                 selectedFile?.length
                   ? (
@@ -39,11 +47,6 @@ export default function Audios() {
                   )
                   : ''
               }
-              <ListDirectoryFilesComponent
-                dir={'audios'}
-                actions={['playAudio', 'download']}
-                actionHandlers={{playAudio: selectedFileHandler}}
-              />
             </Col>
           </Row>
         </Container>

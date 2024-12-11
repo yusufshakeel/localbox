@@ -24,8 +24,8 @@ export default function Uploads() {
               <FileUploadComponent/>
             </Col>
           </Row>
-          <Row className="my-5">
-            <Col sm={12} md={8}>
+          <Row>
+            <Col sm={12} md={12}>
               <ListDirectoryFilesComponent
                 dir={'uploads'}
                 sort={'DESC'}

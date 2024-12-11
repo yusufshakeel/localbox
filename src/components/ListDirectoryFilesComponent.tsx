@@ -1,15 +1,17 @@
 import Image from 'next/image';
-import {Button, ButtonGroup, Form, InputGroup, Table} from 'react-bootstrap';
+import {Button, ButtonGroup, Card, Col, Form, InputGroup, Row, Table} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import showToastHelper from '@/utils/show-toast';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faXmark, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+import {faXmark, faMagnifyingGlass, faFile, faDownload, faPlay} from '@fortawesome/free-solid-svg-icons';
 
 export type PropType = {
   dir: string,
   sort?: 'ASC' | 'DESC',
   actions: string[]
   actionHandlers?: any
+  hasFixedHeight?: number
+  viewIn?: 'list' | 'icon'
 }
 
 export default function ListDirectoryFilesComponent(props: PropType) {
@@ -40,34 +42,78 @@ export default function ListDirectoryFilesComponent(props: PropType) {
   }, [files, filesFilter])
 
   const displayContent = () => {
-    return listOfFiles.map((file, index) => {
-      return (
-        <tr key={index}>
-          <td>
-            { props.actions.includes('viewImage')
+    return listOfFiles.map((file: string, index) => {
+      let fileName = file;
+
+      // remove timestamp part when file name is like 1733659240385-hello-world.txt
+      if(/^\d{10,}-.*$/gi.test(fileName)) {
+        fileName = fileName.replace(/^\d{10,}-/gi,'')
+      }
+      // remove timestamp part when file name is like 2024-12-08T12:01:42.922Z-hello-world.txt
+      else if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z-.*$/gi.test(fileName)) {
+        fileName = fileName.replace(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z-/gi,'')
+      }
+
+      const buttonGroup = (file: string) => {
+        return (
+          <ButtonGroup className={props.viewIn === 'list' ? 'float-end': ''}>
+            { props.actions.includes('playVideo')
+              && <Button variant="outline-primary" size="sm" onClick={() => props.actionHandlers['playVideo'](file)}>
+                <FontAwesomeIcon icon={faPlay}/> Play
+              </Button> }
+            { props.actions.includes('playAudio')
+              && <Button variant="outline-primary" size="sm" onClick={() => props.actionHandlers['playAudio'](file)}>
+                <FontAwesomeIcon icon={faPlay}/> Play
+              </Button> }
+            { props.actions.includes('download')
+              && <a className="btn btn-outline-primary btn-sm" href={`/${props.dir}/${encodeURIComponent(file)}`} download>
+                <FontAwesomeIcon icon={faDownload}/>
+              </a> }
+          </ButtonGroup>
+        );
+      };
+
+      if (props.viewIn === 'list') {
+        return (
+          <tr key={index}>
+            <td>
+              { props.actions.includes('viewImage')
                 && <Image
                   onClick={() => props.actionHandlers['viewImage'](file)}
-                  width={200}
-                  height={100}
-                  style={{width: '100px', cursor: 'pointer'}}
+                  width={60}
+                  height={60}
+                  style={{cursor: 'pointer'}}
                   src={`/${props.dir}/${encodeURIComponent(file)}`}
                   alt={file} />
-            }
-            &nbsp;
-            {file}
-            &nbsp;
-            <ButtonGroup className="float-end">
-              { props.actions.includes('download')
-                && <a className="btn btn-outline-primary btn-sm" href={`/${props.dir}/${encodeURIComponent(file)}`} download>Download</a> }
-              { props.actions.includes('playVideo')
-                && <Button variant="outline-primary" size="sm" onClick={() => props.actionHandlers['playVideo'](file)}>Play</Button> }
-              { props.actions.includes('playAudio')
-                  && <Button variant="outline-primary" size="sm" onClick={() => props.actionHandlers['playAudio'](file)}>Play</Button> }
-            </ButtonGroup>
-          </td>
-        </tr>
+              }
+              <span className="mb-2">{fileName}</span>
+              {buttonGroup(file)}
+            </td>
+          </tr>
+        );
+      }
+
+      return (
+        <Col key={index} xs={6} sm={6} md={3} lg={2}>
+          <Card className="mb-4 text-center">
+            <Card.Body>
+              { props.actions.includes('viewImage')
+                && <Image
+                  onClick={() => props.actionHandlers['viewImage'](file)}
+                  width={60}
+                  height={60}
+                  style={{cursor: 'pointer'}}
+                  src={`/${props.dir}/${encodeURIComponent(file)}`}
+                  alt={file} />
+              }
+              { !props.actions.includes('viewImage') && <FontAwesomeIcon size="3x" icon={faFile} className="mb-2"/> }
+              <span className="mb-2 d-block">{fileName}</span>
+              {buttonGroup(file)}
+            </Card.Body>
+          </Card>
+        </Col>
       );
-    })
+    });
   };
 
   return (
@@ -89,11 +135,14 @@ export default function ListDirectoryFilesComponent(props: PropType) {
                   <FontAwesomeIcon icon={faXmark}/>
                 </Button>
               </InputGroup>
-              <div style={{height: '300px', overflowY: 'scroll', border: '1px solid rgba(0, 0, 0, 0.175)'}}>
-                <Table responsive bordered hover>
-                  <tbody>{displayContent()}</tbody>
-                </Table>
-              </div>
+
+              <Row style={props.hasFixedHeight ? {maxHeight: `${props.hasFixedHeight ?? 300}px`, overflowY: 'scroll'} : {}}>
+                {
+                  props.viewIn === 'list'
+                    ? <Table responsive hover><tbody>{displayContent()}</tbody></Table>
+                    : displayContent()
+                }
+              </Row>
             </>
           )
           : <h3 className="text-center">Empty</h3>

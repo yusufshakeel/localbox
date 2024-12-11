@@ -19,7 +19,7 @@ export default function Images() {
             </Col>
           </Row>
           <Row className="my-5">
-            <Col sm={12} md={8}>
+            <Col sm={12} md={12}>
               <ListDirectoryFilesComponent dir={'documents'} actions={['download']}/>
             </Col>
           </Row>
