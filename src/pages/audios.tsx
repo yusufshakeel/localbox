@@ -34,18 +34,22 @@ export default function Audios() {
                 actions={['playAudio', 'download']}
                 actionHandlers={{playAudio: selectedFileHandler}}
                 hasFixedHeight={400}
+                viewIn={'list'}
               />
             </Col>
             <Col sm={12} md={4}>
               {
                 selectedFile?.length
                   ? (
-                    <audio className="mb-5" controls key={selectedFile}>
+                    <audio className="mb-5" controls key={selectedFile} autoPlay={true}>
                       <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
-                          Your browser does not support the audio tag.
+                      Your browser does not support the audio tag.
                     </audio>
                   )
-                  : ''
+                  : <audio className="mb-5" controls key={selectedFile}>
+                    <source src={''}/>
+                    Your browser does not support the audio tag.
+                  </audio>
               }
             </Col>
           </Row>

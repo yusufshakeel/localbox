@@ -32,7 +32,7 @@ export default function Videos() {
               {
                 selectedFile?.length
                   ? (
-                    <video className="mb-5" controls width="100%" key={selectedFile}>
+                    <video className="mb-5" controls width="100%" key={selectedFile} autoPlay={true}>
                       <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
                       Your browser does not support the video tag.
                     </video>

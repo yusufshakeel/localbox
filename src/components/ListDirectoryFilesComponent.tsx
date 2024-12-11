@@ -71,9 +71,10 @@ export default function ListDirectoryFilesComponent(props: PropType) {
             <td>
               { props.actions.includes('viewImage')
                 && <Image
+                  className="me-2"
                   onClick={() => props.actionHandlers['viewImage'](file)}
-                  width={60}
-                  height={60}
+                  width={200}
+                  height={200}
                   style={{cursor: 'pointer'}}
                   src={`/${props.dir}/${encodeURIComponent(file)}`}
                   alt={file} />

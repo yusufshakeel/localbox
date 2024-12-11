@@ -28,26 +28,28 @@ export default function Images() {
             </Col>
           </Row>
           <Row className="my-5">
-            <Col sm={12} md={8} className="mb-5">
+            <Col sm={12} md={6}>
+              <div className="img-thumbnail text-center" style={{width: '100%', minHeight: '300px'}}>
+                {
+                  selectedFile?.length
+                    ? (
+                      <img
+                        className="img-fluid ms-auto me-auto"
+                        src={`/images/${encodeURIComponent(selectedFile)}`}
+                        alt={selectedFile}/>
+                    )
+                    : ''
+                }
+              </div>
+            </Col>
+            <Col sm={12} md={6}>
               <ListDirectoryFilesComponent
                 dir={'images'}
                 actions={['viewImage', 'download']}
                 actionHandlers={{viewImage: selectedFileHandler}}
                 hasFixedHeight={400}
+                viewIn={'list'}
               />
-            </Col>
-            <Col sm={12} md={4} className="mb-5">
-              {
-                selectedFile?.length
-                  ? (
-                    <img
-                      className="img-fluid ms-auto me-auto"
-                      style={{maxHeight: '400px'}}
-                      src={`/images/${encodeURIComponent(selectedFile)}`}
-                      alt={selectedFile}/>
-                  )
-                  : ''
-              }
             </Col>
           </Row>
         </Container>
