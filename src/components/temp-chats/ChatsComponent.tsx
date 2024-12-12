@@ -1,8 +1,9 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {MessageType} from '@/effects/temp-chats/useChattingEffect';
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {getFilename} from '@/utils/filename';
+import useWindowEffect from '@/effects/useWindowEffect';
 
 export type PropType = {
   messages: MessageType[];
@@ -11,6 +12,8 @@ export type PropType = {
 
 export default function ChatsComponent(props: PropType) {
   const messagesEndRef = useRef(null);
+  const {viewportHeight} = useWindowEffect();
+  const [chatContentHeight, setChatContentHeight] = useState<number>(300);
 
   useEffect(() => {
     // Scroll to the bottom whenever messages change
@@ -21,8 +24,20 @@ export default function ChatsComponent(props: PropType) {
     }
   }, [props.messages]);
 
+  useEffect(() => {
+    // Ensure this runs only on the client
+    if (typeof window !== 'undefined') {
+      const body = document.body;
+      const paddingTop = parseFloat(window.getComputedStyle(body).paddingTop);
+      const chatHeader = document.getElementById('chat-header')?.offsetHeight ?? 0;
+      const chatInput = document.getElementById('chat-input')?.offsetHeight ?? 0;
+      const chatContent = viewportHeight - paddingTop - chatHeader - chatInput - 10;
+      setChatContentHeight(chatContent);
+    }
+  }, [viewportHeight]);
+
   return (
-    <div ref={messagesEndRef} style={{ padding: '10px', height: '300px', overflowY: 'scroll', borderRadius: '0'}}>
+    <div id="chat-content" ref={messagesEndRef} style={{ padding: '10px', height: `${chatContentHeight}px`, overflowY: 'scroll', borderRadius: '0'}}>
       {
         (props.messages || []).map((msg: MessageType, idx) => {
           const fileName = getFilename(msg.message);
@@ -45,7 +60,7 @@ export default function ChatsComponent(props: PropType) {
             }
             else if (['mp4'].includes(fileName.split('.')?.pop() ?? '')) {
               messagePreview = (
-                <video controls height="120px" key={msg.message}>
+                <video controls height="150px" key={msg.message}>
                   <source src={`/temp-chats/${encodeURIComponent(msg.message)}`}/>
                   Your browser does not support the video tag.
                 </video>

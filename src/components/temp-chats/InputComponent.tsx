@@ -67,7 +67,7 @@ export default function InputComponent(props: PropType) {
   };
 
   return (
-    <InputGroup>
+    <InputGroup id="chat-input">
       <Form.Control
         className="no-focus-border"
         as="textarea"

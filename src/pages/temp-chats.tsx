@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import Head from 'next/head';
 import BaseLayout from '@/layouts/BaseLayout';
-import {Container, Row, Col, Button, Card} from 'react-bootstrap';
+import {Container, Row, Col, Card, Dropdown} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
@@ -32,8 +32,8 @@ export default function TempChats() {
 
   const messagesAreaComponent = () => {
     return (
-      <Card>
-        <Card.Header>
+      <Card id="chat-container">
+        <Card.Header id="chat-header">
           <MenuBarComponent
             isLoggedIn={isLoggedIn}
             displayName={displayName}
@@ -62,12 +62,7 @@ export default function TempChats() {
       <BaseLayout>
         <Container>
           <Row>
-            <Col>
-              <h1><FontAwesomeIcon icon={faMessage}/> TempChats</h1>
-            </Col>
-          </Row>
-          <Row className="my-5">
-            <Col sm={12} md={8} lg={8}>
+            <Col sm={12} md={8} lg={8} className="mb-5">
               {
                 !isProfileCreated
                   ? <JoinChatComponent
@@ -76,25 +71,28 @@ export default function TempChats() {
                     joinChat={joinChat}/>
                   : messagesAreaComponent()
               }
-              {
-                isLoggedIn && (
-                  <div className="my-5">
-                    <Button variant="outline-danger"
-                      onClick={() => setShowDeleteAccountModal(true)}>Delete Account</Button>
-                  </div>
-                )
-              }
             </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div>
+            <Col sm={12} md={4} lg={4}>
+              <h1><FontAwesomeIcon icon={faMessage}/> TempChats</h1>
+              <div className="my-5">
                 <p><strong>Info</strong></p>
                 <p>Messages are automatically deleted
                   after {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS / 60000} minutes.</p>
                 <p>Files are automatically deleted
                   after {TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS / 60000} minutes.</p>
               </div>
+              {
+                isLoggedIn && (
+                  <Dropdown>
+                    <Dropdown.Toggle variant="light">Settings</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => setShowDeleteAccountModal(true)}>
+                        Delete Account
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                )
+              }
             </Col>
           </Row>
         </Container>
