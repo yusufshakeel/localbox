@@ -3,7 +3,7 @@ import {Button, ButtonGroup, Card, Col, Form, InputGroup, Row, Table} from 'reac
 import {useEffect, useState} from 'react';
 import showToastHelper from '@/utils/show-toast';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faXmark, faMagnifyingGlass, faFile, faDownload, faPlay} from '@fortawesome/free-solid-svg-icons';
+import {faXmark, faMagnifyingGlass, faFile, faDownload, faPlay, faImage} from '@fortawesome/free-solid-svg-icons';
 import {getFilename} from '@/utils/filename';
 
 export type PropType = {
@@ -56,6 +56,10 @@ export default function ListDirectoryFilesComponent(props: PropType) {
             { props.actions.includes('playAudio')
               && <Button variant="outline-primary" size="sm" onClick={() => props.actionHandlers['playAudio'](file)}>
                 <FontAwesomeIcon icon={faPlay}/> Play
+              </Button> }
+            { props.actions.includes('viewImage')
+              && <Button variant="outline-primary" size="sm" onClick={() => props.actionHandlers['viewImage'](file)}>
+                <FontAwesomeIcon icon={faImage}/> View
               </Button> }
             { props.actions.includes('download')
               && <a className="btn btn-outline-primary btn-sm" href={`/${props.dir}/${encodeURIComponent(file)}`} download>
