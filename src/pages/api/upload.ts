@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         storage: multer.diskStorage({
           destination: uploadsFolder,
           filename: (req, file, cb) => {
-            uploadedFileName = `${new Date().toISOString()}-${file.originalname.replace(/[^a-z0-9.]|\s+/gmi, '-').replace(/-{2,}/gmi,'-')}`
+            uploadedFileName = `${new Date().toISOString()}-${file.originalname.replace(/[^a-z0-9.]|\s+/gmi, '-').replace(/-{2,}/gmi,'-')}`;
             cb(null, uploadedFileName);
           }
         })

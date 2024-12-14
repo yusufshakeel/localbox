@@ -50,7 +50,7 @@ export default function ChatsComponent(props: PropType) {
               </div>
               : <span>{msg.message}</span>;
 
-          let messagePreview: any = ''
+          let messagePreview: any = '';
           if (msg.type === 'file') {
             if (['jpg', 'jpeg', 'png'].includes(fileName.split('.')?.pop() ?? '')) {
               messagePreview = (

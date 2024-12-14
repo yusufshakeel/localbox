@@ -17,13 +17,13 @@ export default function DeleteAccountModalComponent(props: PropType) {
   const closeModalHandler = () => {
     setDeleteAccountText(getCode());
     props.setShowModal(false);
-  }
+  };
 
   const deleteHandler = async () => {
     props.deleteAccount();
     closeModalHandler();
     showToastHelper({content: 'Account Deleted!', type: 'success', autoClose: 1000});
-  }
+  };
 
   return (
     <Modal show={props.showModal} onHide={closeModalHandler}>

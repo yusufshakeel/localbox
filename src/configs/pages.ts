@@ -18,4 +18,4 @@ export const pages = [
   {icon: faFile, title: 'Documents', link: '/documents'},
   {icon: faMessage, title: 'TempChats', link: '/temp-chats'},
   {icon: faCircleInfo, title: 'Info', link: '/info', hideOnHomePage: true}
-]
+];

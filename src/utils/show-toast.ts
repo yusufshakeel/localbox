@@ -35,7 +35,7 @@ export default function showToastHelper({
     draggable,
     progress,
     theme
-  }
+  };
 
   switch (type) {
   case 'success':
