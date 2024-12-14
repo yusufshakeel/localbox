@@ -13,7 +13,7 @@ type ConfigType = {
     theme?: 'light';
 };
 
-export default function showToastHelper({
+export default function showToast({
   content,
   type,
   position = 'top-center',

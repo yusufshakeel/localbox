@@ -3,7 +3,7 @@ import {Button, Form, InputGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPaperPlane, faPaperclip} from '@fortawesome/free-solid-svg-icons';
 import {MessageBodyType} from '@/effects/temp-chats/useChattingEffect';
-import showToastHelper from '@/utils/show-toast';
+import showToast from '@/utils/show-toast';
 
 export type PropType = {
   userId: string;
@@ -47,19 +47,19 @@ export default function InputComponent(props: PropType) {
             type: 'file'
           });
         } else {
-          showToastHelper({
+          showToast({
             content:'Failed to open file.',
             type: 'error'
           });
         }
       } catch (error: any) {
-        showToastHelper({
+        showToast({
           content: `Error uploading file: ${error.message}`,
           type: 'error'
         });
       }
     } catch (e: any) {
-      showToastHelper({
+      showToast({
         content:`Failed to open file. ${e.message}`,
         type: 'error'
       });
