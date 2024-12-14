@@ -5,9 +5,10 @@ export type HtmlHeadPropsType = {
 };
 
 export default function htmlHeadContentHelper(props: HtmlHeadPropsType) {
+  const title = props.title ? props.title + ' | ' + WEBSITE_NAME : WEBSITE_NAME;
   return (
     <>
-      <title>{props.title || WEBSITE_NAME}</title>
+      <title>{title}</title>
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
     </>
   );
