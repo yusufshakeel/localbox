@@ -1,4 +1,4 @@
-import showToastHelper from '@/utils/show-toast';
+import showToast from '@/utils/show-toast';
 import {Button, Form, InputGroup} from 'react-bootstrap';
 import {useEffect, useRef} from 'react';
 import useFileUploadEffect from '@/effects/useFileUploadEffect';
@@ -12,12 +12,12 @@ export default function FileUploadComponent() {
 
   useEffect(() => {
     if (error) {
-      showToastHelper({ type: 'error', content: error});
+      showToast({ type: 'error', content: error});
     } else if (file){
       if (inputRef.current) {
         inputRef.current.value = '';
       }
-      showToastHelper({ type: 'success', content: 'File uploaded', autoClose: 1000});
+      showToast({ type: 'success', content: 'File uploaded', autoClose: 1000});
     }
   }, [file, error]);
 

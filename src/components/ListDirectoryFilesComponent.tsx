@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import {Button, ButtonGroup, Card, Col, Form, InputGroup, Row, Table} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
-import showToastHelper from '@/utils/show-toast';
+import showToast from '@/utils/show-toast';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark, faMagnifyingGlass, faFile, faDownload, faPlay, faImage} from '@fortawesome/free-solid-svg-icons';
 import {getFilename} from '@/utils/filename';
@@ -27,7 +27,7 @@ export default function ListDirectoryFilesComponent(props: PropType) {
       setFiles(data.files);
       setListOfFiles(data.files);
     };
-    fetchFiles().catch(e => showToastHelper({content: e.message, type: 'error'}));
+    fetchFiles().catch(e => showToast({content: e.message, type: 'error'}));
   }, [props.dir, props.sort]);
 
   useEffect(() => {

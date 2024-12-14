@@ -1,6 +1,6 @@
 import {Button, Form, Modal} from 'react-bootstrap';
 import {useState} from 'react';
-import showToastHelper from '@/utils/show-toast';
+import showToast from '@/utils/show-toast';
 
 export type PropType = {
   showModal: boolean;
@@ -22,7 +22,7 @@ export default function DeleteAccountModalComponent(props: PropType) {
   const deleteHandler = async () => {
     props.deleteAccount();
     closeModalHandler();
-    showToastHelper({content: 'Account Deleted!', type: 'success', autoClose: 1000});
+    showToast({content: 'Account Deleted!', type: 'success', autoClose: 1000});
   };
 
   return (
