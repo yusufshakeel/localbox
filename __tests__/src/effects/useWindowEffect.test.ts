@@ -30,7 +30,6 @@ describe('useWindowEffect', () => {
     act(() => {
       // Update innerHeight dynamically
       Object.defineProperty(window, 'innerHeight', { value: 600, configurable: true });
-      
       window.dispatchEvent(new Event('resize'));
     });
 
