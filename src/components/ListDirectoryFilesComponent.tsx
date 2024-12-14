@@ -40,7 +40,7 @@ export default function ListDirectoryFilesComponent(props: PropType) {
     } else {
       setListOfFiles(files);
     }
-  }, [files, filesFilter])
+  }, [files, filesFilter]);
 
   const displayContent = () => {
     return listOfFiles.map((file: string, index) => {

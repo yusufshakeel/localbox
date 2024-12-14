@@ -55,7 +55,7 @@ const useUserAccountEffect = () => {
       [TEMP_CHATS_MESSAGES_USER_LOGGED_IN]: true
     });
     setIsLoggedIn(true);
-  }
+  };
 
   const deleteAccount = () => {
     setUserPreferences({
@@ -65,13 +65,13 @@ const useUserAccountEffect = () => {
     });
     setIsLoggedIn(false);
     setIsProfileCreated(false);
-  }
+  };
 
   const generateDeleteAccountCode = (): string => {
     const code = (Math.random()).toString().substring(2, 8);
     setDeleteAccountCode(code);
     return code;
-  }
+  };
 
   return {
     displayName,
@@ -85,7 +85,7 @@ const useUserAccountEffect = () => {
     deleteAccount,
     deleteAccountCode,
     generateDeleteAccountCode
-  }
+  };
 };
 
 export default useUserAccountEffect;

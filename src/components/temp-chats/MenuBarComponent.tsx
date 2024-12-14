@@ -26,7 +26,7 @@ export default function MenuBarComponent(props: PropType) {
             Log Out
           </Button>
         </>
-      )
+      );
     }
 
     return (

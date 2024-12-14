@@ -33,7 +33,7 @@ const useFileUploadEffect = (option: OptionType = {dir: 'uploads'}) => {
     file,
     error,
     handleFileUpload
-  }
+  };
 };
 
 export default useFileUploadEffect;

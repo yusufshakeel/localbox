@@ -39,12 +39,12 @@ const useUserPreferencesEffect = () => {
     } catch (e: any) {
       return {};
     }
-  }
+  };
 
   return {
     userPreferences: userPreferenceInLocalStorage,
     setUserPreferences
-  }
+  };
 };
 
 export default useUserPreferencesEffect;

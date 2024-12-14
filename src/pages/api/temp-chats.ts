@@ -18,7 +18,7 @@ if (!fs.existsSync(messagesFile)) {
 const cleanupExpiredMessages = () => {
   let messages;
   try {
-    messages = fs.readJSONSync(messagesFile)
+    messages = fs.readJSONSync(messagesFile);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: any) {
     messages = [];
@@ -69,7 +69,7 @@ export default function handler(req: any, res: any) {
       cleanupOlderFiles();
       let messages;
       try {
-        messages = fs.readJSONSync(messagesFile)
+        messages = fs.readJSONSync(messagesFile);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err: any) {
         messages = [];
