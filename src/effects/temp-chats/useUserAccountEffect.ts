@@ -5,7 +5,7 @@ import {
   TEMP_CHATS_MESSAGES_USER_ID,
   TEMP_CHATS_MESSAGES_USER_LOGGED_IN
 } from '@/configs/temp-chats';
-import {v4 as uuidV4} from 'uuid';
+import {getUUID} from '@/utils/uuid';
 
 const useUserAccountEffect = () => {
   const [displayName, setDisplayName] = useState('');
@@ -31,7 +31,7 @@ const useUserAccountEffect = () => {
 
   const joinChat = () => {
     if(displayName.trim()) {
-      const id = uuidV4();
+      const id = getUUID();
       setUserPreferences({
         [TEMP_CHATS_MESSAGES_USER_ID]: id,
         [TEMP_CHATS_MESSAGES_USER_DISPLAY_NAME]: displayName,

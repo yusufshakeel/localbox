@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import io from 'socket.io-client';
-import {v4 as uuidV4} from 'uuid';
+import {getUUID} from '@/utils/uuid';
 
 let socket: any;
 
@@ -39,7 +39,7 @@ const useChattingEffect = () => {
   }, []);
 
   const sendMessage = (messageBody: MessageBodyType): string => {
-    const messageId = uuidV4();
+    const messageId = getUUID();
     socket.emit('sendMessage', {
       id: messageId,
       timestamp: Date.now(),
