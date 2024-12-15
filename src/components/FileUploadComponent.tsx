@@ -25,12 +25,11 @@ export default function FileUploadComponent() {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) {
-      return;
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      await handleFileUpload(formData);
     }
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    await handleFileUpload(formData);
   };
 
   useEffect(() => {
@@ -52,12 +51,13 @@ export default function FileUploadComponent() {
         type="file"
         ref={inputRef}
         name="file"
+        data-testid="file-input"
         onChange={handleFileChange}
       />
-      <Button variant="primary" onClick={handleUpload}>
+      <Button variant="primary" data-testid="upload-btn" onClick={handleUpload}>
         <FontAwesomeIcon icon={faUpload}/> Upload
       </Button>
-      <Button variant="outline-danger" onClick={handleReset}>
+      <Button variant="outline-danger" data-testid="reset-btn" onClick={handleReset}>
         <FontAwesomeIcon icon={faXmark}/>
       </Button>
     </InputGroup>
