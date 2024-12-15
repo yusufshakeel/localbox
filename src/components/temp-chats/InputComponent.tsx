@@ -2,7 +2,7 @@ import {useRef, useState} from 'react';
 import {Button, Form, InputGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPaperPlane, faPaperclip} from '@fortawesome/free-solid-svg-icons';
-import {MessageBodyType} from '@/effects/temp-chats/useChattingEffect';
+import {MessageBodyType} from '@/hooks/temp-chats/useChattingEffect';
 import showToast from '@/utils/show-toast';
 
 export type PropType = {

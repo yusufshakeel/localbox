@@ -1,13 +1,13 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import Link from 'next/link';
 import { WEBSITE_NAME } from '@/constants';
-import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
 import {pages} from '@/configs/pages';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCloud} from '@fortawesome/free-solid-svg-icons';
+import {useAppContext} from '@/context/AppContext';
 
 export default function NavbarComponent() {
-  const {ip, port} = useServeIpAddressEffect();
+  const appContext = useAppContext();
 
   return (
     <Navbar expand="lg" bg="light" fixed="top">
@@ -31,7 +31,7 @@ export default function NavbarComponent() {
           </Nav>
           <Navbar.Text>
             <FontAwesomeIcon icon={faCloud}/>
-            <span className="ms-2">{ip}:{port}</span>
+            <span className="ms-2">{appContext.ip}:{appContext.port}</span>
           </Navbar.Text>
         </Navbar.Collapse>
       </Container>

@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import httpClient from '@/api-clients';
 
 export type OptionType = {
   dir?: string
@@ -8,19 +9,18 @@ const useFileUploadEffect = (option: OptionType = {dir: 'uploads'}) => {
   const [file, setFile] = useState('');
   const [error, setError] = useState('');
 
-  const handleFileUpload = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+  const handleFileUpload = async (formData: FormData) => {
     setError('');
     setFile('');
     try {
-      const response: any = await fetch(`/api/upload?dir=${option.dir}`, {
-        method: 'POST',
-        body: formData
-      });
-      const json = await response.json();
-      if (response.ok) {
-        setFile(json.uploadedFileName);
+      const response = await httpClient.post<any>(
+        `/api/upload`,
+        formData,
+        {dir: option.dir},
+        {'Content-Type': 'multipart/form-data'}
+      );
+      if(response.statusCode === 200) {
+        setFile(response.data.uploadedFileName);
       } else {
         setError('Failed to upload file');
       }
