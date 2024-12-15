@@ -2,12 +2,8 @@ import { HttpClient } from '@/api-clients';
 import { API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS } from '@/configs/api-client';
 
 describe('HttpClient', () => {
-  let httpClient: HttpClient;
   const fakeAxios = jest.fn();
-
-  beforeAll(() => {
-    httpClient = new HttpClient(fakeAxios);
-  });
+  const httpClient = HttpClient(fakeAxios);
 
   afterEach(() => {
     jest.clearAllMocks();
