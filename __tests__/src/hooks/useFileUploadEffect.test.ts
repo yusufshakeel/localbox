@@ -102,11 +102,11 @@ describe('useFileUploadEffect', () => {
 
     expect(result.current.file).toBe('uploaded-file.png');
     expect(result.current.error).toBe('');
-    expect(httpClient.post).toHaveBeenCalledWith(
-      '/api/upload',
-      formData,
-      { dir: 'images' },
-      { 'Content-Type': 'multipart/form-data' }
-    );
+    expect(httpClient.post).toHaveBeenCalledWith({
+      url: '/api/upload',
+      body: formData,
+      params: { dir: 'images' },
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
   });
 });
