@@ -15,11 +15,11 @@ export const HttpClient = (apiClient: any) => {
     }
   };
 
-  const get = async <T>(
-    url: string,
-    params?: any,
-    headers: any = {'Content-Type': 'application/json'}
-  ): Promise<ApiResponse<T>> => {
+  const get = async <T>({
+    url,
+    params,
+    headers = {'Content-Type': 'application/json'}
+  } : { url: string, params?: any, headers?: any }): Promise<ApiResponse<T>> => {
     return await apiHandler<T>(apiClient({
       url,
       method: 'GET',
@@ -29,12 +29,14 @@ export const HttpClient = (apiClient: any) => {
     }));
   };
 
-  const post = async <T>(
+  const post = async <T>({
+    url, body, params, headers = {'Content-Type': 'application/json'}
+  }: {
     url: string,
     body: any,
     params?: any,
-    headers: any = {'Content-Type': 'application/json'}
-  ): Promise<ApiResponse<T>> => {
+    headers?: any
+  }): Promise<ApiResponse<T>> => {
     return await apiHandler<T>(apiClient({
       url,
       method: 'POST',

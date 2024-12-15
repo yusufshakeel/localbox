@@ -16,11 +16,11 @@ describe('HttpClient', () => {
 
       fakeAxios.mockResolvedValue(mockResponse);
 
-      const response = await httpClient.get<typeof mockData>(
-        '/mock-endpoint',
-        {q: 'search'},
-        {'Content-Type': 'application/json'}
-      );
+      const response = await httpClient.get<typeof mockData>({
+        url: '/mock-endpoint',
+        params: {q: 'search'},
+        headers: {'Content-Type': 'application/json'}
+      });
 
       expect(fakeAxios).toHaveBeenCalledWith({
         url: '/mock-endpoint',
@@ -39,7 +39,7 @@ describe('HttpClient', () => {
       const mockError = new Error('Request failed');
       fakeAxios.mockRejectedValue(mockError);
 
-      const response = await httpClient.get('/mock-endpoint');
+      const response = await httpClient.get({ url: '/mock-endpoint' });
 
       expect(fakeAxios).toHaveBeenCalledWith({
         url: '/mock-endpoint',
@@ -62,7 +62,7 @@ describe('HttpClient', () => {
       };
       fakeAxios.mockResolvedValue(mockResponse);
 
-      const response = await httpClient.get('/non-existent-endpoint');
+      const response = await httpClient.get({ url: '/non-existent-endpoint' });
 
       expect(fakeAxios).toHaveBeenCalledWith({
         url: '/non-existent-endpoint',
@@ -79,17 +79,17 @@ describe('HttpClient', () => {
   });
 
   describe('Testing post', () => {
-    it('Should return data for a successful GET request', async () => {
+    it('Should return data for a successful POST request', async () => {
       const mockData = { key: 'value' };
       const mockResponse = { status: 200, data: mockData };
 
       fakeAxios.mockResolvedValue(mockResponse);
 
-      const response = await httpClient.post<typeof mockData>(
-        '/mock-endpoint',
-        {name: 'yusuf'},
-        {dir: 'uploads'}
-      );
+      const response = await httpClient.post<typeof mockData>({
+        url: '/mock-endpoint',
+        body: {name: 'yusuf'},
+        params: {dir: 'uploads'}
+      });
 
       expect(fakeAxios).toHaveBeenCalledWith({
         url: '/mock-endpoint',

@@ -13,12 +13,12 @@ const useFileUploadEffect = (option: OptionType = {dir: 'uploads'}) => {
     setError('');
     setFile('');
     try {
-      const response = await httpClient.post<any>(
-        `/api/upload`,
-        formData,
-        {dir: option.dir},
-        {'Content-Type': 'multipart/form-data'}
-      );
+      const response = await httpClient.post<any>({
+        url: `/api/upload`,
+        body: formData,
+        params: {dir: option.dir},
+        headers: {'Content-Type': 'multipart/form-data'}
+      });
       if(response.statusCode === 200) {
         setFile(response.data.uploadedFileName);
       } else {

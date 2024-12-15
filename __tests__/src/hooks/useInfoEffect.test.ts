@@ -37,7 +37,7 @@ describe('useInfoEffect', () => {
     await waitFor(() => expect(result.current.info).toEqual(mockData));
 
     // Ensure the API was called with the correct endpoint
-    expect(httpClient.get).toHaveBeenCalledWith('/api/info');
+    expect(httpClient.get).toHaveBeenCalledWith({ url: '/api/info' });
   });
 
   it('Should not set info if the API response status code is not 200', async () => {
@@ -52,6 +52,6 @@ describe('useInfoEffect', () => {
     await waitFor(() => expect(result.current.info).toBeUndefined());
 
     // Ensure the API was called with the correct endpoint
-    expect(httpClient.get).toHaveBeenCalledWith('/api/info');
+    expect(httpClient.get).toHaveBeenCalledWith({ url: '/api/info' });
   });
 });
