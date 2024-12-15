@@ -7,7 +7,7 @@ const useInfoEffect = () => {
 
   useEffect(() => {
     const fetchIp = async () => {
-      const response = await httpClient.get<InfoApiResponse>('/api/info');
+      const response = await httpClient.get<InfoApiResponse>({ url: '/api/info' });
       if (response.statusCode === 200) {
         setInfo(response.data);
       }

@@ -2,14 +2,8 @@ import {ApiResponse} from '@/types/api-responses';
 import axios from 'axios';
 import {API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS} from '@/configs/api-client';
 
-export class HttpClient {
-  private apiClient: any;
-
-  constructor(apiClient: any) {
-    this.apiClient = apiClient;
-  }
-
-  private apiHandler = async <T>(req: any) => {
+export const HttpClient = (apiClient: any) => {
+  const apiHandler = async <T>(req: any) => {
     try {
       const response = await req;
       if (response.status === 200) {
@@ -21,27 +15,29 @@ export class HttpClient {
     }
   };
 
-  public async get<T>(
-    url: string,
-    params?: any,
-    headers: any = {'Content-Type': 'application/json'}
-  ): Promise<ApiResponse<T>> {
-    return await this.apiHandler<T>(this.apiClient({
+  const get = async <T>({
+    url,
+    params,
+    headers = {'Content-Type': 'application/json'}
+  } : { url: string, params?: any, headers?: any }): Promise<ApiResponse<T>> => {
+    return await apiHandler<T>(apiClient({
       url,
       method: 'GET',
       params,
       headers,
       timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
     }));
-  }
+  };
 
-  public async post<T>(
+  const post = async <T>({
+    url, body, params, headers = {'Content-Type': 'application/json'}
+  }: {
     url: string,
     body: any,
     params?: any,
-    headers: any = {'Content-Type': 'application/json'}
-  ): Promise<ApiResponse<T>> {
-    return await this.apiHandler<T>(this.apiClient({
+    headers?: any
+  }): Promise<ApiResponse<T>> => {
+    return await apiHandler<T>(apiClient({
       url,
       method: 'POST',
       params,
@@ -49,8 +45,10 @@ export class HttpClient {
       headers,
       timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
     }));
-  }
-}
+  };
 
-const httpClient = new HttpClient(axios);
+  return {get, post};
+};
+
+const httpClient = HttpClient(axios);
 export default httpClient;

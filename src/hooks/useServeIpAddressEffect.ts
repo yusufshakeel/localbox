@@ -9,7 +9,7 @@ const useServeIpAddressEffect = () => {
 
   useEffect(() => {
     const fetchIp = async () => {
-      const response = await httpClient.get<IpApiResponse>('/api/ip');
+      const response = await httpClient.get<IpApiResponse>({ url: '/api/ip' });
       if (response.statusCode === 200) {
         setIp(response.data!.ip);
         if (typeof window !== 'undefined') {

@@ -34,7 +34,7 @@ describe('useServeIpAddressEffect', () => {
     expect(result.current.port).toEqual(mockPort);
     expect(result.current.localServerAddress).toEqual(`http://${mockIp}:${mockPort}`);
 
-    expect(httpClient.get).toHaveBeenCalledWith('/api/ip');
+    expect(httpClient.get).toHaveBeenCalledWith({ url: '/api/ip' });
   });
 
   it('Should handle missing port in window.location and set the localServerAddress correctly', async () => {
@@ -49,7 +49,7 @@ describe('useServeIpAddressEffect', () => {
     expect(result.current.port).toEqual('');
     expect(result.current.localServerAddress).toEqual(`http://${mockIp}`);
 
-    expect(httpClient.get).toHaveBeenCalledWith('/api/ip');
+    expect(httpClient.get).toHaveBeenCalledWith({ url: '/api/ip' });
   });
 
   it('Should not set ip if the API response is not 200', async () => {
@@ -64,6 +64,6 @@ describe('useServeIpAddressEffect', () => {
     expect(result.current.port).toEqual('');
     expect(result.current.localServerAddress).toEqual('');
 
-    expect(httpClient.get).toHaveBeenCalledWith('/api/ip');
+    expect(httpClient.get).toHaveBeenCalledWith({ url: '/api/ip' });
   });
 });
