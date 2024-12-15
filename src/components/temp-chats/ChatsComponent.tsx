@@ -4,6 +4,7 @@ import {faDownload} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {getFilename} from '@/utils/filename';
 import useWindowEffect from '@/hooks/useWindowEffect';
+import {formatDate} from '@/utils/date';
 
 export type PropType = {
   messages: MessageType[];
@@ -84,7 +85,7 @@ export default function ChatsComponent(props: PropType) {
                 <div className="mb-1">
                   <strong>{msg.displayName} </strong>
                   <span
-                    className="float-end ms-3"> {new Date(msg.timestamp).toLocaleString()}</span>
+                    className="float-end ms-3"> <small>{formatDate(msg.timestamp)}</small></span>
                 </div>
                 <div className="mb-1" style={{wordBreak: 'break-word', overflowWrap: 'break-word'}}>
                   {messagePreview}
