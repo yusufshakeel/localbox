@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
+import useServeIpAddressEffect from '@/hooks/useServeIpAddressEffect';
 import httpClient from '@/api-clients';
 import { IpApiResponse } from '@/types/api-responses';
 

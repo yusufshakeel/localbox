@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import useInfoEffect from '@/effects/useInfoEffect';
+import useInfoEffect from '@/hooks/useInfoEffect';
 import httpClient from '@/api-clients';
 import {InfoApiResponse} from '@/types/api-responses';
 

@@ -1,7 +1,7 @@
 import showToast from '@/utils/show-toast';
 import {Button, Form, InputGroup} from 'react-bootstrap';
 import {useEffect, useRef} from 'react';
-import useFileUploadEffect from '@/effects/useFileUploadEffect';
+import useFileUploadEffect from '@/hooks/useFileUploadEffect';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark, faUpload} from '@fortawesome/free-solid-svg-icons';
 

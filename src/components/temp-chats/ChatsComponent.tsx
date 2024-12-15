@@ -1,9 +1,9 @@
 import {useEffect, useRef, useState} from 'react';
-import {MessageType} from '@/effects/temp-chats/useChattingEffect';
+import {MessageType} from '@/hooks/temp-chats/useChattingEffect';
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {getFilename} from '@/utils/filename';
-import useWindowEffect from '@/effects/useWindowEffect';
+import useWindowEffect from '@/hooks/useWindowEffect';
 
 export type PropType = {
   messages: MessageType[];

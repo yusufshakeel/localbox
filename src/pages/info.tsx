@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
-import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
-import useInfoEffect from '@/effects/useInfoEffect';
+import useServeIpAddressEffect from '@/hooks/useServeIpAddressEffect';
+import useInfoEffect from '@/hooks/useInfoEffect';
 
 export default function Home() {
   const {ip, port, localServerAddress} = useServeIpAddressEffect();

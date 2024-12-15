@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import useWindowEffect from '@/effects/useWindowEffect';
+import useWindowEffect from '@/hooks/useWindowEffect';
 
 describe('useWindowEffect', () => {
   beforeEach(() => {

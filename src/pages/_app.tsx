@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify';
 import type { AppProps } from 'next/app';
 import {AppContext} from '@/context/AppContext';
-import useUserPreferencesEffect from '@/effects/useUserPreferencesEffect';
+import useUserPreferencesEffect from '@/hooks/useUserPreferencesEffect';
 
 export default function App({ Component, pageProps }: AppProps) {
   const {userPreferences, setUserPreferences} = useUserPreferencesEffect();

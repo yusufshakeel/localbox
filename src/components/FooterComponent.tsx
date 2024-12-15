@@ -1,6 +1,6 @@
 import {Container, Row, Col} from 'react-bootstrap';
 import {WEBSITE_NAME, YUSUF_SHAKEEL_WEBSITE_URL} from '@/constants';
-import useInfoEffect from '@/effects/useInfoEffect';
+import useInfoEffect from '@/hooks/useInfoEffect';
 
 export default function FooterComponent() {
   const {info} = useInfoEffect();

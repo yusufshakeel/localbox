@@ -1,7 +1,7 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import Link from 'next/link';
 import { WEBSITE_NAME } from '@/constants';
-import useServeIpAddressEffect from '@/effects/useServeIpAddressEffect';
+import useServeIpAddressEffect from '@/hooks/useServeIpAddressEffect';
 import {pages} from '@/configs/pages';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCloud} from '@fortawesome/free-solid-svg-icons';

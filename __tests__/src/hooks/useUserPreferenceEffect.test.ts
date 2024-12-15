@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import useUserPreferencesEffect from '@/effects/useUserPreferencesEffect';
+import useUserPreferencesEffect from '@/hooks/useUserPreferencesEffect';
 import { USER_PREFERENCE_LOCAL_STORAGE_KEY } from '@/configs/user-preference';
 import {localStorageMock} from '../../../__mocks__/localstorage-mock';
 
