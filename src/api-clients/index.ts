@@ -30,12 +30,13 @@ export const HttpClient = (apiClient: any) => {
   };
 
   const post = async <T>({
-    url, body, params, headers = {'Content-Type': 'application/json'}
+    url, body, params, onUploadProgress, headers = {'Content-Type': 'application/json'}
   }: {
     url: string,
     body: any,
     params?: any,
-    headers?: any
+    headers?: any,
+    onUploadProgress?: any
   }): Promise<ApiResponse<T>> => {
     return await apiHandler<T>(apiClient({
       url,
@@ -43,6 +44,7 @@ export const HttpClient = (apiClient: any) => {
       params,
       data: body,
       headers,
+      onUploadProgress: (progress: any) => onUploadProgress?.(progress),
       timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
     }));
   };

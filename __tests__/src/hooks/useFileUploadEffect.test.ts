@@ -106,7 +106,8 @@ describe('useFileUploadEffect', () => {
       url: '/api/upload',
       body: formData,
       params: { dir: 'images' },
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress: expect.any(Function)
     });
   });
 });
