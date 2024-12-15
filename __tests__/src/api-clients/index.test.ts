@@ -20,12 +20,17 @@ describe('HttpClient', () => {
 
       fakeAxios.mockResolvedValue(mockResponse);
 
-      const response = await httpClient.get<typeof mockData>('/mock-endpoint', {q: 'search'});
+      const response = await httpClient.get<typeof mockData>(
+        '/mock-endpoint',
+        {q: 'search'},
+        {'Content-Type': 'application/json'}
+      );
 
       expect(fakeAxios).toHaveBeenCalledWith({
         url: '/mock-endpoint',
         method: 'GET',
         params: {q: 'search'},
+        headers: { 'Content-Type': 'application/json' },
         timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
       });
       expect(response).toEqual({
@@ -44,6 +49,7 @@ describe('HttpClient', () => {
         url: '/mock-endpoint',
         method: 'GET',
         params: undefined,
+        headers: { 'Content-Type': 'application/json' },
         timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
       });
       expect(response).toEqual({
@@ -66,11 +72,40 @@ describe('HttpClient', () => {
         url: '/non-existent-endpoint',
         method: 'GET',
         params: undefined,
+        headers: { 'Content-Type': 'application/json' },
         timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
       });
       expect(response).toEqual({
         statusCode: 404,
         message: 'Failed to get response'
+      });
+    });
+  });
+
+  describe('Testing post', () => {
+    it('Should return data for a successful GET request', async () => {
+      const mockData = { key: 'value' };
+      const mockResponse = { status: 200, data: mockData };
+
+      fakeAxios.mockResolvedValue(mockResponse);
+
+      const response = await httpClient.post<typeof mockData>(
+        '/mock-endpoint',
+        {name: 'yusuf'},
+        {dir: 'uploads'}
+      );
+
+      expect(fakeAxios).toHaveBeenCalledWith({
+        url: '/mock-endpoint',
+        method: 'POST',
+        data: {name: 'yusuf'},
+        params: {dir: 'uploads'},
+        headers: { 'Content-Type': 'application/json' },
+        timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
+      });
+      expect(response).toEqual({
+        statusCode: 200,
+        data: mockData
       });
     });
   });
