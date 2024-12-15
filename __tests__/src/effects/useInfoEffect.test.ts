@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import useInfoEffect from '@/effects/useInfoEffect';
 import httpClient from '@/api-clients';
-import { InfoType } from '@/types/info-type';
+import {InfoApiResponse} from '@/types/api-responses';
 
 describe('useInfoEffect', () => {
   let getSpy: any;
@@ -16,7 +16,7 @@ describe('useInfoEffect', () => {
   });
   
   it('Should fetch and set info data on mount', async () => {
-    const mockData: InfoType = {
+    const mockData: InfoApiResponse = {
       name: 'localbox',
       version: '0.4.2',
       description: 'Turn your laptop or desktop into a personal local cloud to easily share files with other devices on the same Wi-Fi network.',

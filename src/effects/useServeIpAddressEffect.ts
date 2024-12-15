@@ -1,4 +1,6 @@
 import {useEffect, useState} from 'react';
+import httpClient from '@/api-clients';
+import {IpApiResponse} from '@/types/api-responses';
 
 const useServeIpAddressEffect = () => {
   const [ip, setIp] = useState<string>('');
@@ -7,23 +9,17 @@ const useServeIpAddressEffect = () => {
 
   useEffect(() => {
     const fetchIp = async () => {
-      const response = await fetch('/api/ip');
-      const data = await response.json();
-      setIp(data.ip);
-
-      if (typeof window !== 'undefined') {
-        const url = new URL(window.location.href);
-        setPort(url.port || 'Default Port (e.g., 80 for HTTP or 443 for HTTPS)');
-        if (url.port) {
-          setLocalServerAddress(`http://${ip}:${port}`);
-        } else {
-          setLocalServerAddress(`http://${ip}`);
+      const response = await httpClient.get<IpApiResponse>('/api/ip');
+      if (response.statusCode === 200) {
+        setIp(response.data!.ip);
+        if (typeof window !== 'undefined') {
+          const url = new URL(window.location.href);
+          setPort(url.port);
+          setLocalServerAddress(url.port? `http://${response.data!.ip}:${port}` : `http://${response.data!.ip}`);
         }
       }
     };
-    fetchIp().catch(() => {
-      setIp('');
-    });
+    fetchIp();
   }, [ip, port]);
 
   return {ip, port, localServerAddress};

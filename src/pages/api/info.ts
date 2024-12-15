@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import packageJson from '../../../package.json';
-import {InfoType} from '@/types/info-type';
+import {InfoApiResponse} from '@/types/api-responses';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<InfoType>) {
+export default function handler(req: NextApiRequest, res: NextApiResponse<InfoApiResponse>) {
   const { name, version, description, license, author, homepage, licensePage } = packageJson;
   res.status(200).json({ name, version, description, license, author, homepage, licensePage });
 }

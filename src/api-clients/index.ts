@@ -1,4 +1,4 @@
-import {ApiResponse} from '@/types/api';
+import {ApiResponse} from '@/types/api-responses';
 import axios from 'axios';
 import {API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS} from '@/configs/api-client';
 

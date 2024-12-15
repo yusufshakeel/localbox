@@ -1,13 +1,13 @@
 import {useEffect, useState} from 'react';
 import httpClient from '@/api-clients';
-import {InfoType} from '@/types/info-type';
+import {InfoApiResponse} from '@/types/api-responses';
 
 const useInfoEffect = () => {
-  const [info, setInfo] = useState<InfoType>();
+  const [info, setInfo] = useState<InfoApiResponse>();
 
   useEffect(() => {
     const fetchIp = async () => {
-      const response = await httpClient.get<InfoType>('/api/info');
+      const response = await httpClient.get<InfoApiResponse>('/api/info');
       if (response.statusCode === 200) {
         setInfo(response.data);
       }
