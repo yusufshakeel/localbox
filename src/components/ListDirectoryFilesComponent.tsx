@@ -5,6 +5,8 @@ import showToast from '@/utils/show-toast';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark, faMagnifyingGlass, faFile, faDownload, faPlay, faImage} from '@fortawesome/free-solid-svg-icons';
 import {getFilename} from '@/utils/filename';
+import httpClient from '@/api-clients';
+import {FilesApiResponse} from '@/types/api-responses';
 
 export type PropType = {
   dir: string,
@@ -17,15 +19,19 @@ export type PropType = {
 
 export default function ListDirectoryFilesComponent(props: PropType) {
   const [filesFilter, setFilesFilter] = useState('');
-  const [files, setFiles] = useState([]);
-  const [listOfFiles, setListOfFiles] = useState([]);
+  const [files, setFiles] = useState<string[]>([]);
+  const [listOfFiles, setListOfFiles] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchFiles = async () => {
-      const response = await fetch(`/api/files?dir=${props.dir}&sort=${props.sort}`);
-      const data = await response.json();
-      setFiles(data.files);
-      setListOfFiles(data.files);
+      const response = await httpClient.get<FilesApiResponse>({
+        url: '/api/files',
+        params: { dir: props.dir, sort: props.sort }
+      });
+      if (response.statusCode === 200) {
+        setFiles(response.data!.files);
+        setListOfFiles(response.data!.files);
+      }
     };
     fetchFiles().catch(e => showToast({content: e.message, type: 'error'}));
   }, [props.dir, props.sort]);
