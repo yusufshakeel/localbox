@@ -18,3 +18,13 @@ export type InfoApiResponse = {
 export type IpApiResponse = {
   ip: string;
 };
+
+export type FilesApiResponse = {
+  files: string[]
+}
+
+export type FileUploadApiResponse = {
+  message: string,
+  uploadedFileName: string,
+  error?: any
+}

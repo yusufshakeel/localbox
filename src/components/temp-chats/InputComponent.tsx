@@ -4,6 +4,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPaperPlane, faPaperclip} from '@fortawesome/free-solid-svg-icons';
 import {MessageBodyType} from '@/hooks/temp-chats/useChattingEffect';
 import showToast from '@/utils/show-toast';
+import httpClient from '@/api-clients';
+import {FileUploadApiResponse} from '@/types/api-responses';
 
 export type PropType = {
   userId: string;
@@ -33,17 +35,18 @@ export default function InputComponent(props: PropType) {
       formData.append('file', file);
 
       try {
-        const response = await fetch(`/api/upload?dir=temp-chats`, {
-          method: 'POST',
-          body: formData
+        const response = await httpClient.post<FileUploadApiResponse>({
+          url: '/api/upload',
+          params: { dir: 'temp-chats' },
+          body: formData,
+          headers: { 'Content-Type': 'multipart/form-data' }
         });
-        const json = await response.json();
 
-        if (response.ok) {
+        if (response.statusCode === 200) {
           props.sendMessage({
             userId: props.userId,
             displayName: props.displayName,
-            message: json.uploadedFileName,
+            message: response.data!.uploadedFileName,
             type: 'file'
           });
         } else {
