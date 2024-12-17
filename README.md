@@ -54,25 +54,27 @@ If the server IP is 192.168.0.151 and is running at port 3001 then type `http://
 
 ## Getting Started
 
-Clone this repository
+* Clone this repository
 
 ```shell
 git clone https://github.com/yusufshakeel/localbox.git
 ```
 
-Install dependencies
+* Install dependencies
 
 ```shell
 npm i
 ```
 
-Bootstrap
+* Bootstrap
 
 ```shell
 npm run bootstrap
 ```
 
-Run the local server
+Open
+
+* Run the local server
 
 ```bash
 npm run dev

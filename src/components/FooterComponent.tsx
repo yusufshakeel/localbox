@@ -15,7 +15,7 @@ export default function FooterComponent() {
             &nbsp;&nbsp;
             <ToggleThemeComponent/>
           </p>
-          <p>Created by <a className="ys-a-link" href={YUSUF_SHAKEEL_WEBSITE_URL}>Yusuf Shakeel</a></p>
+          <p>Build 🛠️ with love ❤️ and awesome tech 😊 by <a className="ys-a-link" href={YUSUF_SHAKEEL_WEBSITE_URL}>Yusuf Shakeel</a></p>
         </Col>
       </Row>
     </Container>
