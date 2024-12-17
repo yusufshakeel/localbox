@@ -47,7 +47,7 @@ export default function Videos() {
               <ListDirectoryFilesComponent
                 dir={'videos'}
                 actions={['playVideo', 'download']}
-                actionHandlers={{playVideo: selectedFileHandler}}
+                actionHandlers={{playVideo: selectedFileHandler, click: selectedFileHandler}}
                 viewIn={'list'}
                 hasFixedHeight={400}
               />

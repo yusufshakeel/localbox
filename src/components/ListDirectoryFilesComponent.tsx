@@ -77,14 +77,13 @@ export default function ListDirectoryFilesComponent(props: PropType) {
 
       if (props.viewIn === 'list') {
         return (
-          <tr key={index}>
+          <tr key={index} onClick={() => props.actionHandlers['click']?.(file)}>
             <td>
               { props.actions.includes('viewImage')
                 && <Image
                   className="me-2"
-                  onClick={() => props.actionHandlers['viewImage'](file)}
-                  width={200}
-                  height={200}
+                  width={100}
+                  height={100}
                   style={{cursor: 'pointer'}}
                   src={`/${props.dir}/${encodeURIComponent(file)}`}
                   alt={file} />

@@ -13,8 +13,6 @@ export default function FooterComponent() {
           <p>
             <a className="ys-a-link" href={info?.homepage}>{WEBSITE_NAME}</a>
             &nbsp;&nbsp;
-            <span>v{info?.version}</span>
-            &nbsp;&nbsp;
             <ToggleThemeComponent/>
           </p>
           <p>Created by <a className="ys-a-link" href={YUSUF_SHAKEEL_WEBSITE_URL}>Yusuf Shakeel</a></p>

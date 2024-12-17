@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {useEffect, useRef, useState} from 'react';
 import {MessageType} from '@/hooks/temp-chats/useChattingEffect';
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
@@ -55,8 +56,12 @@ export default function ChatsComponent(props: PropType) {
           if (msg.type === 'file') {
             if (['jpg', 'jpeg', 'png'].includes(fileName.split('.')?.pop() ?? '')) {
               messagePreview = (
-                <img src={`/temp-chats/${encodeURIComponent(msg.message)}`} className="img-fluid"
-                  style={{maxHeight: '200px'}}/>
+                <Image
+                  width={200}
+                  height={200}
+                  src={`/temp-chats/${encodeURIComponent(msg.message)}`}
+                  className="img-fluid"
+                  alt=""/>
               );
             }
             else if (['mp4'].includes(fileName.split('.')?.pop() ?? '')) {
