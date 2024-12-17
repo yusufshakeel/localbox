@@ -86,7 +86,7 @@ export default function InputComponent(props: PropType) {
         <FontAwesomeIcon icon={faPaperPlane}/> Send
       </Button>
       <Button
-        variant="outline-secondary"
+        variant="secondary"
         onClick={() => inputFile.current && inputFile.current.click()}
         style={{borderTopRightRadius: '0', borderBottomRightRadius: '0.3rem'}}>
         <FontAwesomeIcon icon={faPaperclip}/>

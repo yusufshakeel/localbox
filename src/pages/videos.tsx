@@ -7,6 +7,7 @@ import { faVideo } from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
+import {getFilename} from '@/utils/filename';
 
 export default function Videos() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
@@ -28,22 +29,26 @@ export default function Videos() {
             </Col>
           </Row>
           <Row className="my-5">
-            <Col sm={12} md={8}>
+            <Col sm={12} lg={8}>
               {
                 selectedFile?.length
                   ? (
-                    <video className="mb-5" controls width="100%" key={selectedFile} autoPlay={true}>
-                      <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
-                      Your browser does not support the video tag.
-                    </video>
+                    <div className="mb-5">
+                      <video controls width="100%" key={selectedFile}
+                        autoPlay={true}>
+                        <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
+                        Your browser does not support the video tag.
+                      </video>
+                      <p className="my-3">{getFilename(selectedFile)}</p>
+                    </div>
                   )
                   : <video className="mb-5" controls width="100%" key={selectedFile}>
-                    <source src=''/>
+                    <source src=""/>
                     Your browser does not support the video tag.
                   </video>
               }
             </Col>
-            <Col sm={12} md={4}>
+            <Col sm={12} lg={4}>
               <ListDirectoryFilesComponent
                 dir={'videos'}
                 actions={['playVideo', 'download']}

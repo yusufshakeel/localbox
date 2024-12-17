@@ -58,7 +58,7 @@ export default function FileUploadComponent() {
         <Button variant="primary" data-testid="upload-btn" onClick={handleUpload}>
           <FontAwesomeIcon icon={faUpload}/> Upload
         </Button>
-        <Button variant="outline-danger" data-testid="reset-btn" onClick={handleReset}>
+        <Button variant="secondary" data-testid="reset-btn" onClick={handleReset}>
           <FontAwesomeIcon icon={faXmark}/>
         </Button>
       </InputGroup>
