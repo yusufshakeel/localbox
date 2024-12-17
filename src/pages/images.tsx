@@ -3,11 +3,12 @@ import Image from 'next/image';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
+import {faDownload, faImage} from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 import {useState} from 'react';
+import {getFilename} from '@/utils/filename';
 
 export default function Images() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
@@ -29,23 +30,34 @@ export default function Images() {
             </Col>
           </Row>
           <Row className="my-5">
-            <Col sm={12} md={6}>
-              <div className="img-thumbnail text-center mb-5" style={{width: '100%', minHeight: '300px'}}>
+            <Col sm={12} lg={6} className="mb-5">
+              <div className="img-thumbnail text-center" style={{width: '100%', minHeight: '300px'}}>
                 {
-                  selectedFile?.length
-                    ? (
+                  selectedFile?.length && (
+                    <div>
                       <Image
                         width={300}
                         height={300}
                         className="img-fluid ms-auto me-auto"
                         src={`/images/${encodeURIComponent(selectedFile)}`}
                         alt={selectedFile}/>
-                    )
-                    : ''
+                      <p className="my-3">{getFilename(selectedFile)}</p>
+                    </div>
+                  )
+                }
+              </div>
+              <div>
+                {
+                  selectedFile?.length && (
+                    <a className="btn btn-outline-primary btn-sm"
+                      href={`/images/${encodeURIComponent(selectedFile)}`} download>
+                      Download <FontAwesomeIcon icon={faDownload}/>
+                    </a>
+                  )
                 }
               </div>
             </Col>
-            <Col sm={12} md={6}>
+            <Col sm={12} lg={6}>
               <ListDirectoryFilesComponent
                 dir={'images'}
                 actions={['viewImage', 'download']}

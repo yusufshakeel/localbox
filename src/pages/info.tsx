@@ -44,6 +44,10 @@ export default function Home() {
                     <td>{info?.version}</td>
                   </tr>
                   <tr>
+                    <td>Author</td>
+                    <td>{info?.author}</td>
+                  </tr>
+                  <tr>
                     <td>GitHub</td>
                     <td>
                       <a className="ys-a-link" href={info?.homepage}>{info?.homepage}</a>
@@ -51,9 +55,7 @@ export default function Home() {
                   </tr>
                   <tr>
                     <td>License</td>
-                    <td>
-                      <a className="ys-a-link" href={info?.licensePage}>{info?.licensePage}</a>
-                    </td>
+                    <td><a className="ys-a-link" href={info?.licensePage}>{info?.license}</a></td>
                   </tr>
                   <tr>
                     <td>Local Server IP</td>

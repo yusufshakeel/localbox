@@ -7,6 +7,7 @@ import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 import {useState} from 'react';
+import {getFilename} from '@/utils/filename';
 
 export default function Audios() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
@@ -28,7 +29,26 @@ export default function Audios() {
             </Col>
           </Row>
           <Row className="mt-5">
-            <Col sm={12} md={8}>
+            <Col sm={12} lg={12}>
+              {
+                selectedFile?.length
+                  ? (
+                    <div className="mb-5">
+                      <audio style={{width: '100%'}} controls key={selectedFile}
+                        autoPlay={true}>
+                        <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
+                        Your browser does not support the audio tag.
+                      </audio>
+                      <p className="my-3">{getFilename(selectedFile)}</p>
+                    </div>
+                  )
+                  : <audio className="mb-5" style={{width: '100%'}} controls key={selectedFile}>
+                    <source src={''}/>
+                    Your browser does not support the audio tag.
+                  </audio>
+              }
+            </Col>
+            <Col sm={12} lg={12}>
               <ListDirectoryFilesComponent
                 dir={'audios'}
                 actions={['playAudio', 'download']}
@@ -36,21 +56,6 @@ export default function Audios() {
                 hasFixedHeight={400}
                 viewIn={'list'}
               />
-            </Col>
-            <Col sm={12} md={4}>
-              {
-                selectedFile?.length
-                  ? (
-                    <audio className="mb-5" controls key={selectedFile} autoPlay={true}>
-                      <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
-                      Your browser does not support the audio tag.
-                    </audio>
-                  )
-                  : <audio className="mb-5" controls key={selectedFile}>
-                    <source src={''}/>
-                    Your browser does not support the audio tag.
-                  </audio>
-              }
             </Col>
           </Row>
         </Container>
