@@ -32,7 +32,7 @@ export default function Audios() {
               <ListDirectoryFilesComponent
                 dir={'audios'}
                 actions={['playAudio', 'download']}
-                actionHandlers={{playAudio: selectedFileHandler}}
+                actionHandlers={{playAudio: selectedFileHandler, click: selectedFileHandler}}
                 hasFixedHeight={400}
                 viewIn={'list'}
               />

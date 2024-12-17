@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,11 +30,13 @@ export default function Images() {
           </Row>
           <Row className="my-5">
             <Col sm={12} md={6}>
-              <div className="img-thumbnail text-center" style={{width: '100%', minHeight: '300px'}}>
+              <div className="img-thumbnail text-center mb-5" style={{width: '100%', minHeight: '300px'}}>
                 {
                   selectedFile?.length
                     ? (
-                      <img
+                      <Image
+                        width={300}
+                        height={300}
                         className="img-fluid ms-auto me-auto"
                         src={`/images/${encodeURIComponent(selectedFile)}`}
                         alt={selectedFile}/>
@@ -46,7 +49,7 @@ export default function Images() {
               <ListDirectoryFilesComponent
                 dir={'images'}
                 actions={['viewImage', 'download']}
-                actionHandlers={{viewImage: selectedFileHandler}}
+                actionHandlers={{viewImage: selectedFileHandler, click: selectedFileHandler}}
                 hasFixedHeight={400}
                 viewIn={'list'}
               />

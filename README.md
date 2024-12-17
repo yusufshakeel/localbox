@@ -12,7 +12,7 @@ Features:
 * Audio/Video player
 * Dark Mode
 
-![image](public/assets/img-v0.3.10.png)
+![image-v0.4.5.png](public/assets/image-v0.4.5.png)
 
 ## Table of Content
 
@@ -41,8 +41,6 @@ will be displayed. Clients (other users) can connect to that IP address via brow
 Make sure to add port number to the url.
 
 If the server IP is 192.168.0.151 and is running at port 3001 then type `http://192.168.0.151:3001` in the browser.
-
-![image](public/assets/server-clients.png)
 
 ## Minimum requirements
 

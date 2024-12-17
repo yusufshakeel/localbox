@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import BaseLayout from '@/layouts/BaseLayout';
 import {Container, Row, Col, Table} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,16 +32,12 @@ export default function Home() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Local Server IP</td>
-                    <td>{ip}</td>
+                    <td>Name</td>
+                    <td>{info?.name}</td>
                   </tr>
                   <tr>
-                    <td>Local Server Port</td>
-                    <td>{port}</td>
-                  </tr>
-                  <tr>
-                    <td>Local Server Address</td>
-                    <td><a className="ys-a-link" href={localServerAddress}>{localServerAddress}</a></td>
+                    <td>Description</td>
+                    <td>{info?.description}</td>
                   </tr>
                   <tr>
                     <td>Version</td>
@@ -56,6 +53,19 @@ export default function Home() {
                     <td>License</td>
                     <td>
                       <a className="ys-a-link" href={info?.licensePage}>{info?.licensePage}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Local Server IP</td>
+                    <td>{ip}</td>
+                  </tr>
+                  <tr>
+                    <td>Local Server Port</td>
+                    <td>{port}</td>
+                  </tr>
+                  <tr>
+                    <td>Local Server Address</td>
+                    <td><a className="ys-a-link" href={localServerAddress}>{localServerAddress}</a>
                     </td>
                   </tr>
                 </tbody>
@@ -86,7 +96,11 @@ export default function Home() {
                 A local IP address (like 192.168.0.151) will be displayed.
                 Clients (other users) can connect to that IP address via browsers.</p>
 
-              <img src="/assets/server-clients.png" className="img-fluid" style={{width: '500px'}} alt=""/>
+              <Image src="/assets/server-clients.png?v=1"
+                className="img-fluid my-3"
+                width={300}
+                height={300}
+                alt=""/>
 
               <h3>What is the server address?</h3>
               <p>{ip}</p>
