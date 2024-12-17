@@ -1,10 +1,16 @@
 # localbox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
-![Static Badge](https://img.shields.io/badge/version-v0.4.3-blue)
+![Static Badge](https://img.shields.io/badge/version-v0.4.5-blue)
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
+
+Features:
+* File upload and sharing
+* Temporary Chats (TempChats)
+* Audio/Video player
+* Dark Mode
 
 ![image](public/assets/img-v0.3.10.png)
 
@@ -94,6 +100,10 @@ File: `src/configs/temp-chats.ts`
 
 ## Folders
 
+### private
+
+This directory contains private files. Don't change anything here.
+
 ### public
 
 This directory contains files and folders that can be viewed in browser
@@ -105,23 +115,29 @@ This directory contains assets of the project. Don't change anything here.
 
 ### public/audios
 
-You can upload audio files in this folder and clients will be able to download them.
+Admin can upload audio files in this folder and clients will be able to download them.
 
 ### public/documents
 
-You can upload document files in this folder and clients will be able to download them.
+Admin can upload document files in this folder and clients will be able to download them.
 
 ### public/images
 
-You can upload image files in this folder and clients will be able to download them.
+Admin can upload image files in this folder and clients will be able to download them.
 
 ### public/uploads
 
-Any client can upload any files here.
+Anyone can upload any files here.
 
 ### public/videos
 
-You can upload video files in this folder and clients will be able to download them.
+Admin can upload video files in this folder and clients will be able to download them.
+
+### public/temp-chats
+
+This folder contains all the uploaded files from the TempChats.
+
+Note: All the uploaded files via TempChats are auto-deleted.
 
 ## License
 

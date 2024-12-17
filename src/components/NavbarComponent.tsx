@@ -10,7 +10,7 @@ export default function NavbarComponent() {
   const appContext = useAppContext();
 
   return (
-    <Navbar expand="lg" bg="light" fixed="top">
+    <Navbar expand="lg" bg={appContext.theme} fixed="top">
       <Container>
         <Navbar.Brand>
           <Nav.Link as={Link} href="/">{WEBSITE_NAME}</Nav.Link>

@@ -80,7 +80,7 @@ export default function ChatsComponent(props: PropType) {
             <div key={idx}
               style={{textAlign: msg.userId === props.currentUserId ? 'right' : 'left'}}>
               <div
-                className={`${msg.userId === props.currentUserId ? 'bg-light' : ''} card mb-3 p-2`}
+                className="card mb-3 p-2"
                 style={{display: 'inline-block'}}>
                 <div className="mb-1">
                   <strong>{msg.displayName} </strong>

@@ -7,17 +7,20 @@ import {AppContext} from '@/context/AppContext';
 import useUserPreferencesEffect from '@/hooks/useUserPreferencesEffect';
 import useInfoEffect from '@/hooks/useInfoEffect';
 import useServeIpAddressEffect from '@/hooks/useServeIpAddressEffect';
+import useThemeEffect from '@/hooks/useThemeEffect';
 
 export default function App({ Component, pageProps }: AppProps) {
   const {userPreferences, setUserPreferences} = useUserPreferencesEffect();
   const {info} = useInfoEffect();
   const {ip, port, localServerAddress} = useServeIpAddressEffect();
+  const {theme, toggleTheme} = useThemeEffect({userPreferences, setUserPreferences});
 
   return (
     <>
       <AppContext.Provider value={{
         userPreferences, setUserPreferences,
-        info, ip, port, localServerAddress
+        info, ip, port, localServerAddress,
+        theme, toggleTheme
       }}>
         <Component {...pageProps} />
         <ToastContainer/>
