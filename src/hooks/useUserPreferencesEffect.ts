@@ -13,13 +13,13 @@ const useUserPreferencesEffect = () => {
           USER_PREFERENCE_LOCAL_STORAGE_KEY,
           JSON.stringify({ updatedAt: Date.now() })
         );
-        setUserPreferenceInLocalStorage({});
+        setUserPreferenceInLocalStorage(() => ({}));
       } else {
-        setUserPreferenceInLocalStorage(preferences);
+        setUserPreferenceInLocalStorage(() => preferences);
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e: any) {
-      setUserPreferenceInLocalStorage({});
+      setUserPreferenceInLocalStorage(() => ({}));
     }
   }, []);
 
@@ -34,7 +34,7 @@ const useUserPreferencesEffect = () => {
         USER_PREFERENCE_LOCAL_STORAGE_KEY,
         JSON.stringify(dataToUpdate)
       );
-      setUserPreferenceInLocalStorage(dataToUpdate);
+      setUserPreferenceInLocalStorage(() => dataToUpdate);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e: any) {
       return {};

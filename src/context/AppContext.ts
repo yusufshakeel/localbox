@@ -1,7 +1,10 @@
 import {createContext, useContext} from 'react';
 import {InfoApiResponse} from '@/types/api-responses';
+import {WEBSITE_THEME_LIGHT} from '@/constants';
 
 export interface AppContextProps {
+  theme: string,
+  toggleTheme: () => void,
   userPreferences: any,
   setUserPreferences: (data: any) => void,
   info: InfoApiResponse | undefined,
@@ -11,6 +14,8 @@ export interface AppContextProps {
 }
 
 const DefaultAppContext = {
+  theme: WEBSITE_THEME_LIGHT,
+  toggleTheme: () => {},
   userPreferences: {},
   // eslint-disable-next-line
   setUserPreferences: (data: any) => {},
