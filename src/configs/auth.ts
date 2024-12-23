@@ -10,3 +10,5 @@ export const AUTH_FILENAME = 'auth.json';
 
 // Set the path for the auth JSON file
 export const AUTH_FILE_PATH = `private/${AUTH_FILENAME}`;
+
+export const AUTH_USERNAME_MAX_LENGTH = 20;

@@ -5,14 +5,20 @@ export type ApiResponse<T> = {
   statusCode: number;
 };
 
+export interface AuthBaseResponse {
+  accessToken?: string;
+  refreshToken?: string;
+  message?: string;
+}
+
 export type InfoApiResponse = {
-  name: string,
-  version: string,
-  description: string,
-  license: string,
-  author: string,
-  homepage: string,
-  licensePage: string
+  name: string;
+  version: string;
+  description: string;
+  license: string;
+  author: string;
+  homepage: string;
+  licensePage: string;
 };
 
 export type IpApiResponse = {
@@ -20,11 +26,11 @@ export type IpApiResponse = {
 };
 
 export type FilesApiResponse = {
-  files: string[]
+  files: string[];
 }
 
 export type FileUploadApiResponse = {
-  message: string,
-  uploadedFileName: string,
-  error?: any
+  message: string;
+  uploadedFileName: string;
+  error?: any;
 }

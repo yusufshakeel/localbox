@@ -1,14 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import * as cookie from 'cookie';
 import fs from 'fs-extra';
 import path from 'path';
 import {generateAccessToken, generateRefreshToken} from '@/services/jwt-service';
-import {AUTH_FILE_PATH, REFRESH_TOKEN_TTL_IN_MILLISECONDS} from '@/configs/auth';
+import {AUTH_FILE_PATH} from '@/configs/auth';
 import passwordService from '@/services/password-service';
+import {AuthBaseResponse} from '@/types/api-responses';
+import {AuthPayload} from '@/types/auth-payload';
 
 const authFile = path.join(process.cwd(), AUTH_FILE_PATH);
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<AuthBaseResponse>
+) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
@@ -27,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (accounts[accountType]?.[username]
     && passwordService.isValidPassword(password, accounts[accountType][username]['password'])
   ) {
-    const payload = {
+    const payload: AuthPayload = {
       username,
       accountType
     };
@@ -36,16 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
-    // Set cookies
-    res.setHeader(
-      'Set-Cookie',
-      cookie.serialize('refresh_token', refreshToken, {
-        httpOnly: true,
-        maxAge: REFRESH_TOKEN_TTL_IN_MILLISECONDS / 1000
-      })
-    );
-
-    return res.status(200).json({ accessToken });
+    return res.status(200).json({ accessToken, refreshToken });
   }
 
   return res.status(401).json({ message: 'Invalid credentials' });
