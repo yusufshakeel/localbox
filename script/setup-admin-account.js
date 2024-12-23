@@ -1,6 +1,7 @@
 'use strict';
 import { read } from 'read';
 import fs from 'fs';
+import fsExtra from 'fs-extra';
 import path from 'path';
 import bcrypt from 'bcrypt';
 
@@ -22,17 +23,39 @@ async function setupAdminAccount() {
     console.log('Password mismatch.\nExiting...');
     process.exit(1);
   }
-  const dataToWrite = {
-    admins: {
-      admin: {
-        username: 'admin',
-        password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
-        createdAt: new Date().toISOString()
-      }
-    },
-    users: {}
-  };
-  fs.writeFileSync(authFile, JSON.stringify(dataToWrite), 'utf8');
+
+  let existingFileContent = {};
+  if (fs.existsSync(authFile)) {
+    try {
+      existingFileContent = fsExtra.readJSONSync(authFile);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      // do nothing...
+    }
+  }
+  const dataToWrite = existingFileContent?.admins
+    ? {
+      admins: {
+        ...existingFileContent.admins,
+        admin: {
+          username: 'admin',
+          password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
+          createdAt: new Date().toISOString()
+        }
+      },
+      users: existingFileContent?.users || {}
+    }
+    : {
+      admins: {
+        admin: {
+          username: 'admin',
+          password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
+          createdAt: new Date().toISOString()
+        }
+      },
+      users: existingFileContent?.users || {}
+    };
+  fsExtra.writeJSONSync(authFile, dataToWrite, 'utf8');
   // eslint-disable-next-line
   console.log('Done!');
 }
