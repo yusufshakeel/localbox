@@ -36,7 +36,7 @@ const useLogInEffect = () => {
           }),
           { secure: false, expires: new Date(Date.now() + ACCESS_TOKEN_TTL_IN_MILLISECONDS)}
         );
-        await useRouter.push('/admins');
+        await useRouter.push('/profile');
         setResponse(response.data);
       } else {
         setError('Invalid credentials');

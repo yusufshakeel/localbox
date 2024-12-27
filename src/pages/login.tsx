@@ -18,7 +18,7 @@ function LoginPage() {
 
   useEffect(() => {
     if(error) {
-      showToast({content: error, type: 'error'});
+      showToast({content: error, type: 'error', autoClose: 1000});
     }
   }, [error]);
 

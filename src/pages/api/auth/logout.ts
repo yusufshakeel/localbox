@@ -1,9 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import Cookies from 'js-cookie';
-import {AuthBaseResponse} from '@/types/api-responses';
+import {verifyToken} from '@/services/jwt-service';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<AuthBaseResponse>) {
-  Cookies.set('refresh_token', '', { secure: false, expires: new Date(0) });
-  Cookies.set('access_token', '', { secure: false, expires: new Date(0) });
-  return res.status(200).json({ message: 'Logged out' });
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
+  if (!req.body.accessToken) {
+    return res.status(200).json({ isValid: false, message: 'Access token is missing' });
+  }
+  return res.status(200).json({ message: 'Logged out', isValid: !!verifyToken(req.body.accessToken) });
 }
