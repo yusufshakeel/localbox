@@ -7,7 +7,7 @@ import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 
-export default function Images() {
+export default function DocumentsPage() {
   return (
     <>
       <Head>{htmlHeadContentHelper({title:WEBSITE_NAME})}</Head>

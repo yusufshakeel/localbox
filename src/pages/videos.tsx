@@ -9,7 +9,7 @@ import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 import {getFilename} from '@/utils/filename';
 
-export default function Videos() {
+export default function VideosPage() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
 
   const selectedFileHandler = (file: string) => {

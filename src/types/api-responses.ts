@@ -9,6 +9,8 @@ export interface AuthBaseResponse {
   accessToken?: string;
   refreshToken?: string;
   message?: string;
+  username?: string;
+  accountType?: string;
 }
 
 export type InfoApiResponse = {

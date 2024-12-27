@@ -36,7 +36,7 @@ export default async function handler(
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
-    return res.status(200).json({ accessToken, refreshToken });
+    return res.status(200).json({ accessToken, refreshToken, username, accountType });
   }
 
   return res.status(401).json({ message: 'Invalid credentials' });

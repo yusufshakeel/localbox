@@ -8,7 +8,7 @@ import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 
-export default function Uploads() {
+export default function UploadsPage() {
   return (
     <>
       <Head>{htmlHeadContentHelper({title:WEBSITE_NAME})}</Head>

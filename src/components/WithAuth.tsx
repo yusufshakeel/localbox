@@ -4,7 +4,7 @@ import useRouter from 'next/router';
 import LoadingComponent from '@/components/LoadingComponent';
 import httpClient from '@/api-clients';
 
-export default function WithAdminAuth(WrappedComponent: any) {
+export default function WithAuth(WrappedComponent: any) {
   return function AuthProtected(props: any) {
     const [isLoading, setIsLoading] = useState(true);
 
@@ -18,13 +18,13 @@ export default function WithAdminAuth(WrappedComponent: any) {
             headers: {'Content-Type': 'application/json'}
           });
           if(response.statusCode === 200 && response.data.isValid) {
-            await useRouter.push('/admins');
+            await useRouter.push('/profile');
           } else {
-            await useRouter.push('/admins/login');
+            await useRouter.push('/login');
           }
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error: any) {
-          await useRouter.push('/admins/login');
+          await useRouter.push('/login');
         } finally {
           setIsLoading(false);
         }

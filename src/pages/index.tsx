@@ -7,7 +7,7 @@ import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import {pages} from '@/configs/pages';
 
-export default function Home() {
+export default function HomePage() {
 
   const getItems = () => {
     return pages.reduce((acc: any, item, index) => {

@@ -9,7 +9,7 @@ import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponen
 import {useState} from 'react';
 import {getFilename} from '@/utils/filename';
 
-export default function Audios() {
+export default function AudiosPage() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
 
   const selectedFileHandler = (file: string) => {

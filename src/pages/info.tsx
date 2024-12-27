@@ -8,7 +8,7 @@ import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import {useAppContext} from '@/context/AppContext';
 
-export default function Home() {
+export default function InfoPage() {
   const {ip, port, localServerAddress, info} = useAppContext();
   
   return (

@@ -10,7 +10,7 @@ import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponen
 import {useState} from 'react';
 import {getFilename} from '@/utils/filename';
 
-export default function Images() {
+export default function ImagesPage() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
 
   const selectedFileHandler = (file: string) => {

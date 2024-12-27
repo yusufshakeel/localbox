@@ -7,7 +7,8 @@ import {
   faMessage,
   faMusic,
   faUpload,
-  faVideo
+  faVideo,
+  faUser
 } from '@fortawesome/free-solid-svg-icons';
 
 export const pages = [
@@ -18,5 +19,6 @@ export const pages = [
   {icon: faVideo, title: 'Videos', link: '/videos'},
   {icon: faFile, title: 'Documents', link: '/documents'},
   {icon: faMessage, title: 'TempChats', link: '/temp-chats'},
-  {icon: faCircleInfo, title: 'Info', link: '/info', hideOnHomePage: true}
+  {icon: faCircleInfo, title: 'Info', link: '/info', hideOnHomePage: true},
+  {icon: faUser, title: 'Profile', link: '/profile', hideOnHomePage: true}
 ];

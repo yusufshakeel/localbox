@@ -28,6 +28,14 @@ const useLogInEffect = () => {
           response.data.refreshToken || '',
           { secure: false, expires: new Date(Date.now() + REFRESH_TOKEN_TTL_IN_MILLISECONDS)}
         );
+        Cookies.set(
+          'account_details',
+          JSON.stringify({
+            username: response.data.username,
+            accountType: response.data.accountType
+          }),
+          { secure: false, expires: new Date(Date.now() + ACCESS_TOKEN_TTL_IN_MILLISECONDS)}
+        );
         await useRouter.push('/admins');
         setResponse(response.data);
       } else {

@@ -15,7 +15,7 @@ import MenuBarComponent from '@/components/temp-chats/MenuBarComponent';
 import InputComponent from '@/components/temp-chats/InputComponent';
 import DeleteAccountModalComponent from '@/components/temp-chats/DeleteAccountModalComponent';
 
-export default function TempChats() {
+export default function TempChatsPage() {
   const {messages, sendMessage} = useChattingEffect();
   const {
     displayName,

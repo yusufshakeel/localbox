@@ -8,11 +8,12 @@ import {AUTH_USERNAME_MAX_LENGTH} from '@/configs/auth';
 import useLogInEffect from '@/hooks/auth/useLogInEffect';
 import {AccountType} from '@/types/account-type';
 import showToast from '@/utils/show-toast';
-import WithAdminAuth from '@/components/WithAdminAuth';
+import WithAuth from '@/components/WithAuth';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [accountType, setAccountType] = useState<AccountType>(AccountType.user);
   const {error, handleLogin} = useLogInEffect();
 
   useEffect(() => {
@@ -26,7 +27,7 @@ function LoginPage() {
     if (!username || !password) {
       return;
     }
-    await handleLogin({username, password, accountType: AccountType.admin});
+    await handleLogin({username, password, accountType});
   };
 
   return (
@@ -39,7 +40,7 @@ function LoginPage() {
               <div className="text-center">
                 <Card className="d-inline-block shadow-sm">
                   <Card.Body>
-                    <h3><code>admin portal</code></h3>
+                    <h3>Log In</h3>
                     <Form onSubmit={loginHandler}>
                       <Form.Group className="mb-3">
                         <Form.Control
@@ -63,7 +64,14 @@ function LoginPage() {
                           required
                         />
                       </Form.Group>
-                      <Button variant="primary" type="submit">Log In</Button>
+                      <Form.Group className="mb-3">
+                        <Form.Select defaultValue={AccountType.user}
+                          onChange={(e) => setAccountType(e.target.value as AccountType)}>
+                          <option value={AccountType.user}>User</option>
+                          <option value={AccountType.admin}>Admin</option>
+                        </Form.Select>
+                      </Form.Group>
+                      <Button className="mt-3" variant="primary" type="submit">Log In</Button>
                     </Form>
                   </Card.Body>
                 </Card>
@@ -76,4 +84,4 @@ function LoginPage() {
   );
 }
 
-export default WithAdminAuth(LoginPage);
+export default WithAuth(LoginPage);
