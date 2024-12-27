@@ -10,10 +10,12 @@ import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import WithAuth from '@/components/WithAuth';
 import {AuthPayload} from '@/types/auth-payload';
 import useLogoutEffect from '@/hooks/auth/useLogoutEffect';
+import showToast from '@/utils/show-toast';
+import useRouter from 'next/router';
 
 function ProfilePage() {
   const [accountDetails, setAccountDetails] = useState<AuthPayload>();
-  const {handleLogout} = useLogoutEffect();
+  const {handleLogout, error, response} = useLogoutEffect();
 
   useEffect(() => {
     try {
@@ -26,6 +28,19 @@ function ProfilePage() {
       // do nothing
     }
   }, []);
+
+  useEffect(() => {
+    const handleApiErrorAndResponse = async () => {
+      if (error) {
+        showToast({ content: error, type: 'error', autoClose: 1000 });
+      }
+      if (response?.message) {
+        showToast({ content: response.message, type: 'success', autoClose: 2000 });
+        await useRouter.push('/');
+      }
+    };
+    handleApiErrorAndResponse();
+  }, [error, response]);
 
   const logoutHandler = () => {
     handleLogout();

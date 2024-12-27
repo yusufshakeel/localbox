@@ -9,7 +9,7 @@ export const HttpClient = (apiClient: any) => {
       if (response.status === 200) {
         return { statusCode: 200, data: response.data as T };
       }
-      return { statusCode: response.status, message: 'Failed to get response' };
+      return { statusCode: response.status, message: response.message || 'Failed to get response' };
     } catch (error: any) {
       return { statusCode: 500, error, message: error.message };
     }
