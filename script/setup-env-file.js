@@ -15,7 +15,11 @@ function setupEnvFile() {
   if (fs.existsSync(envFile)) {
     // eslint-disable-next-line
     console.log('Found an .env file.\nSkipping .env file creation.\nYou have to manually update it.');
+    return;
   }
+
+  // eslint-disable-next-line
+  console.log('Creating .env file.');
 
   const template = fs.readFileSync(envExampleFile).toString();
   const dataToWrite = template.replace(
@@ -23,6 +27,9 @@ function setupEnvFile() {
     createHash('sha256').update(`${Math.random()}:${Date.now()}`).digest('hex')
   );
   fs.writeFileSync(envFile, dataToWrite, 'utf8');
+
+  // eslint-disable-next-line
+  console.log('Created .env file.');
 }
 
 setupEnvFile();

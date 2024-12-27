@@ -6,7 +6,7 @@ export const REFRESH_TOKEN_TTL_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 export const PASSWORD_SALT_ROUND = 10;
 
 // Set the JSON file name for the auth
-export const AUTH_FILENAME = 'auth.json';
+export const AUTH_FILENAME = 'auth';
 
 // Set the path for the auth JSON file
 export const AUTH_FILE_PATH = `private/${AUTH_FILENAME}`;

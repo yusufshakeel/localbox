@@ -26,7 +26,7 @@ function LoginPage() {
     if (!username || !password) {
       return;
     }
-    await handleLogin({username, password, accountType: AccountType.admins});
+    await handleLogin({username, password, accountType: AccountType.admin});
   };
 
   return (

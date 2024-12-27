@@ -1,13 +1,32 @@
 'use strict';
 import { read } from 'read';
-import fs from 'fs';
-import fsExtra from 'fs-extra';
-import path from 'path';
 import bcrypt from 'bcrypt';
+import {minivium, SchemaRegistry} from 'minivium';
+import path from 'path';
 
-const authFile = path.join(process.cwd(), './private/auth.json');
+const db = minivium({
+  dataDir: path.join(process.cwd(), 'private/db'),
+  schemaRegistry: new SchemaRegistry({
+    collections: [
+      {
+        name: 'auth',
+        columns: [
+          { name: 'id', isUnique: true },
+          { name: 'username', isRequired: true, isUnique: true },
+          { name: 'password', isRequired: true },
+          { name: 'accountType', isRequired: true },
+          { name: 'accountStatus', isRequired: true },
+          { name: 'createdAt', isRequired: true },
+          { name: 'updatedAt', isRequired: true }
+        ]
+      }
+    ]
+  })
+});
 
 async function setupAdminAccount() {
+  db.init();
+
   const password = await read({
     prompt: 'Creating your admin account.\nUsername: admin\nSet Password: ',
     silent: true,
@@ -24,40 +43,41 @@ async function setupAdminAccount() {
     process.exit(1);
   }
 
-  let existingFileContent = {};
-  if (fs.existsSync(authFile)) {
-    try {
-      existingFileContent = fsExtra.readJSONSync(authFile);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      // do nothing...
-    }
+  const data = {
+    username: 'admin',
+    accountType: 'admin',
+    accountStatus: 'active',
+    password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+  };
+  const where = {
+    username: 'admin',
+    accountType: 'admin',
+    accountStatus: 'active'
+  };
+
+  const adminAccount = db.query.select('auth', { where });
+  if (adminAccount.length) {
+    db.query.update(
+      'auth',
+      {
+        ...data,
+        updatedAt: new Date().toISOString()
+      },
+      { where }
+    );
+  } else {
+    db.query.insert(
+      'auth',
+      {
+        ...data,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }
+    );
   }
-  const dataToWrite = existingFileContent?.admins
-    ? {
-      admins: {
-        ...existingFileContent.admins,
-        admin: {
-          username: 'admin',
-          password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
-          createdAt: new Date().toISOString()
-        }
-      },
-      users: existingFileContent?.users || {}
-    }
-    : {
-      admins: {
-        admin: {
-          username: 'admin',
-          password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
-          createdAt: new Date().toISOString()
-        }
-      },
-      users: existingFileContent?.users || {}
-    };
-  fsExtra.writeJSONSync(authFile, dataToWrite, 'utf8');
+
   // eslint-disable-next-line
-  console.log('Done!');
+  console.log('Created admin account.');
 }
 
 setupAdminAccount();

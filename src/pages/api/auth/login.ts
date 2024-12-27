@@ -1,13 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs-extra';
-import path from 'path';
 import {generateAccessToken, generateRefreshToken} from '@/services/jwt-service';
-import {AUTH_FILE_PATH} from '@/configs/auth';
 import passwordService from '@/services/password-service';
 import {AuthBaseResponse} from '@/types/api-responses';
 import {AuthPayload} from '@/types/auth-payload';
-
-const authFile = path.join(process.cwd(), AUTH_FILE_PATH);
+import {db} from '@/configs/database/auth';
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,19 +14,19 @@ export default async function handler(
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  let accounts: any = {};
-  try {
-    accounts = fs.readJSONSync(authFile);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (err: any) {
-    // do nothing
-  }
-
   const { username, password, accountType } = req.body;
+  const account = db.query.select(
+    'auth',
+    {
+      where: {
+        username,
+        accountType,
+        accountStatus: 'active'
+      }
+    }
+  );
 
-  if (accounts[accountType]?.[username]
-    && passwordService.isValidPassword(password, accounts[accountType][username]['password'])
-  ) {
+  if (account.length === 1 && passwordService.isValidPassword(password, account[0]['password'])) {
     const payload: AuthPayload = {
       username,
       accountType

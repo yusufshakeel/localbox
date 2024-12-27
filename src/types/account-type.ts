@@ -1,4 +1,4 @@
 export enum AccountType {
-  admins = 'admins',
-  users = 'users',
+  admin = 'admin',
+  user = 'user',
 }
