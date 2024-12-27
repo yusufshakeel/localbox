@@ -17,9 +17,7 @@ export default function WithAuth(WrappedComponent: any) {
             body: { accessToken: Cookies.get('access_token') as string },
             headers: {'Content-Type': 'application/json'}
           });
-          if(response.statusCode === 200 && response.data.isValid) {
-            await useRouter.push('/profile');
-          } else {
+          if(response.statusCode === 200 && !response.data.isValid) {
             await useRouter.push('/login');
           }
           // eslint-disable-next-line @typescript-eslint/no-unused-vars

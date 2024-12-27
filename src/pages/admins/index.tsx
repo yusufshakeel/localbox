@@ -4,6 +4,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import WithAuth from '@/components/WithAuth';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSliders} from '@fortawesome/free-solid-svg-icons';
 
 function Admin() {
   return (
@@ -12,8 +14,8 @@ function Admin() {
       <BaseLayout>
         <Container>
           <Row>
-            <Col className="text-center">
-              <h1>Logged in</h1>
+            <Col>
+              <h1><FontAwesomeIcon icon={faSliders}/> Admin Dashboard</h1>
             </Col>
           </Row>
         </Container>

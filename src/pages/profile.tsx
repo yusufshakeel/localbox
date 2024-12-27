@@ -12,6 +12,7 @@ import {AuthPayload} from '@/types/auth-payload';
 import useLogoutEffect from '@/hooks/auth/useLogoutEffect';
 import showToast from '@/utils/show-toast';
 import useRouter from 'next/router';
+import Link from 'next/link';
 
 function ProfilePage() {
   const [accountDetails, setAccountDetails] = useState<AuthPayload>();
@@ -35,7 +36,7 @@ function ProfilePage() {
         showToast({ content: error, type: 'error', autoClose: 1000 });
       }
       if (response?.message) {
-        showToast({ content: response.message, type: 'success', autoClose: 2000 });
+        showToast({ content: response.message, type: 'success', autoClose: 1000 });
         await useRouter.push('/');
       }
     };
@@ -77,6 +78,7 @@ function ProfilePage() {
                 </tbody>
               </Table>
               <Button variant="secondary" onClick={logoutHandler}>Log Out</Button>
+              <Link href="/admins" className="btn btn-primary float-end">Admin Dashboard</Link>
             </Col>
           </Row>
         </Container>
