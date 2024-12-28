@@ -58,7 +58,7 @@ function ProfilePage() {
             </Col>
           </Row>
           <Row className="mb-5">
-            <Col sm={12} md={6}>
+            <Col sm={12} md={12} lg={6}>
               <Table responsive bordered>
                 <thead>
                   <tr>
@@ -67,6 +67,10 @@ function ProfilePage() {
                   </tr>
                 </thead>
                 <tbody>
+                  <tr>
+                    <td>Id</td>
+                    <td>{accountDetails?.id}</td>
+                  </tr>
                   <tr>
                     <td>Username</td>
                     <td>{accountDetails?.username}</td>

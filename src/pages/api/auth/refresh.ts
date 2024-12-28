@@ -2,9 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Cookies from 'js-cookie';
 import {generateAccessToken, verifyToken} from '@/services/jwt-service';
 import {AuthPayload} from '@/types/auth-payload';
-import {AuthBaseResponse} from '@/types/api-responses';
+import {AuthBaseResponse, AuthRefreshApiResponse} from '@/types/api-responses';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<AuthBaseResponse>) {
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<AuthBaseResponse | AuthRefreshApiResponse>
+) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);

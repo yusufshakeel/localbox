@@ -14,8 +14,11 @@ export default function WithAuth(WrappedComponent: any) {
           setIsLoading(true);
           const response = await httpClient.post<any>({
             url: `/api/auth/verify`,
-            body: { accessToken: Cookies.get('access_token') as string },
-            headers: {'Content-Type': 'application/json'}
+            body: {},
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${Cookies.get('access_token') as string}`
+            }
           });
           if(response.statusCode === 200 && !response.data.isValid) {
             await useRouter.push('/login');

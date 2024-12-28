@@ -3,7 +3,7 @@ import useRouter from 'next/router';
 import Cookies from 'js-cookie';
 import httpClient from '@/api-clients';
 import {LoginPayload} from '@/types/login-payload';
-import {AuthBaseResponse} from '@/types/api-responses';
+import {AuthBaseResponse, AuthLoginApiResponse} from '@/types/api-responses';
 import {ACCESS_TOKEN_TTL_IN_MILLISECONDS, REFRESH_TOKEN_TTL_IN_MILLISECONDS} from '@/configs/auth';
 
 const useLogInEffect = () => {
@@ -12,12 +12,12 @@ const useLogInEffect = () => {
 
   const handleLogin = async ({ username, password, accountType}: LoginPayload) => {
     try {
-      const response = await httpClient.post<any>({
+      const response = await httpClient.post<AuthLoginApiResponse>({
         url: `/api/auth/login`,
         body: { username, password, accountType},
         headers: {'Content-Type': 'application/json'}
       });
-      if(response.statusCode === 200) {
+      if(response.statusCode === 200 && response.data) {
         Cookies.set(
           'access_token',
           response.data.accessToken || '',
@@ -31,6 +31,7 @@ const useLogInEffect = () => {
         Cookies.set(
           'account_details',
           JSON.stringify({
+            id: response.data.id,
             username: response.data.username,
             accountType: response.data.accountType
           }),

@@ -16,6 +16,7 @@ const db = minivium({
           { name: 'password', isRequired: true },
           { name: 'accountType', isRequired: true },
           { name: 'accountStatus', isRequired: true },
+          { name: 'rbac', isRequired: true },
           { name: 'createdAt', isRequired: true },
           { name: 'updatedAt', isRequired: true }
         ]
@@ -47,7 +48,11 @@ async function setupAdminAccount() {
     username: 'admin',
     accountType: 'admin',
     accountStatus: 'active',
-    password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+    password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
+    rbac: {
+      role: 'admin',
+      permissions: ['create:*', 'view:*', 'update:*', 'delete:*']
+    }
   };
   const where = {
     username: 'admin',

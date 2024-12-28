@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {generateAccessToken, generateRefreshToken} from '@/services/jwt-service';
 import passwordService from '@/services/password-service';
-import {AuthBaseResponse} from '@/types/api-responses';
+import {AuthBaseResponse, AuthLoginApiResponse} from '@/types/api-responses';
 import {AuthPayload} from '@/types/auth-payload';
 import {db} from '@/configs/database/auth';
+import {AccountRBAC} from '@/types/account-rbac';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<AuthBaseResponse>
+  res: NextApiResponse<AuthLoginApiResponse | AuthBaseResponse>
 ) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -27,16 +28,20 @@ export default async function handler(
   );
 
   if (account.length === 1 && passwordService.isValidPassword(password, account[0]['password'])) {
+    const id = account[0]['id'] as string;
+    const rbac = account[0]['rbac'] as AccountRBAC;
     const payload: AuthPayload = {
+      id,
       username,
-      accountType
+      accountType,
+      rbac
     };
 
     // Generate tokens
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
-    return res.status(200).json({ accessToken, refreshToken, username, accountType });
+    return res.status(200).json({ accessToken, refreshToken, id, username, accountType });
   }
 
   return res.status(401).json({ message: 'Invalid credentials' });

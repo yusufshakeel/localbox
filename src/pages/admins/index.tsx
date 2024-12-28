@@ -1,11 +1,13 @@
 import Head from 'next/head';
 import BaseLayout from '@/layouts/BaseLayout';
-import { Container, Row, Col } from 'react-bootstrap';
+import {Container, Row, Col, Tabs, Tab} from 'react-bootstrap';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import WithAuth from '@/components/WithAuth';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSliders} from '@fortawesome/free-solid-svg-icons';
+import CreateUserModalComponent from '@/components/admin/CreateUserModalComponent';
+import ListUsersComponent from '@/components/admin/ListUsersComponent';
 
 function Admin() {
   return (
@@ -16,6 +18,29 @@ function Admin() {
           <Row>
             <Col>
               <h1><FontAwesomeIcon icon={faSliders}/> Admin Dashboard</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Tabs
+                defaultActiveKey="users"
+              >
+                <Tab eventKey="users" title="Users">
+                  <Row>
+                    <Col className="my-3">
+                      <h3>Users <div className="float-end"><CreateUserModalComponent/></div></h3>
+                      <ListUsersComponent/>
+                    </Col>
+                  </Row>
+                </Tab>
+                <Tab eventKey="pages" title="Pages">
+                  <Row>
+                    <Col className="my-3">
+                      <h3>Pages</h3>
+                    </Col>
+                  </Row>
+                </Tab>
+              </Tabs>
             </Col>
           </Row>
         </Container>

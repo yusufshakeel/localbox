@@ -11,7 +11,11 @@ export const HttpClient = (apiClient: any) => {
       }
       return { statusCode: response.status, message: response.message || 'Failed to get response' };
     } catch (error: any) {
-      return { statusCode: 500, error, message: error.message };
+      return {
+        statusCode: error.status,
+        error,
+        message: error.response?.data?.message
+      };
     }
   };
 

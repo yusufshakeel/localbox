@@ -36,7 +36,16 @@ describe('HttpClient', () => {
     });
 
     it('Should return an error response for a failed GET request', async () => {
-      const mockError = new Error('Request failed');
+      class FakeError extends Error {
+        private status: number;
+        private response: { data: { message: string } };
+        constructor() {
+          super();
+          this.status = 500;
+          this.response = { data: {message: 'Request failed'} };
+        }
+      }
+      const mockError = new FakeError();
       fakeAxios.mockRejectedValue(mockError);
 
       const response = await httpClient.get({ url: '/mock-endpoint' });
@@ -51,7 +60,7 @@ describe('HttpClient', () => {
       expect(response).toEqual({
         statusCode: 500,
         error: mockError,
-        message: mockError.message
+        message: 'Request failed'
       });
     });
 

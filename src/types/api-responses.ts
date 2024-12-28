@@ -6,11 +6,19 @@ export type ApiResponse<T> = {
 };
 
 export interface AuthBaseResponse {
-  accessToken?: string;
-  refreshToken?: string;
   message?: string;
-  username?: string;
-  accountType?: string;
+}
+
+export interface AuthLoginApiResponse extends AuthBaseResponse {
+  id: string;
+  username: string;
+  accountType: string;
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface AuthRefreshApiResponse extends AuthBaseResponse {
+  accessToken: string;
 }
 
 export type InfoApiResponse = {

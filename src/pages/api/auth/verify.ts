@@ -9,8 +9,8 @@ export default function handler(
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-  if (!req.body.accessToken) {
+  if (!req.headers.authorization) {
     return res.status(200).json({ isValid: false, message: 'Access token is missing' });
   }
-  return res.status(200).json({ isValid: !!verifyToken(req.body.accessToken) });
+  return res.status(200).json({ isValid: !!verifyToken(req.headers.authorization.split('Bearer ')[1]) });
 }

@@ -15,8 +15,9 @@ const schemaRegistry = new SchemaRegistry({
         { name: 'password', isRequired: true },
         { name: 'accountType', isRequired: true },
         { name: 'accountStatus', isRequired: true },
+        { name: 'rbac', isRequired: true },
         { name: 'createdAt', isRequired: true },
-        { name: 'updatedAt', isRequired: true }
+        { name: 'updatedAt' }
       ]
     }
   ]
