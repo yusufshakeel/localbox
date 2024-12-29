@@ -3,12 +3,24 @@ import multer from 'multer';
 import path from 'path';
 import { promisify } from 'util';
 import fs from 'fs';
+import {verifyAuthorizationBearerToken} from '@/services/jwt-service';
+import {AccountType} from '@/types/account-type';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
+      const verifyAuthToken = verifyAuthorizationBearerToken(req);
+      if (verifyAuthToken.statusCode !== 200) {
+        return res.status(verifyAuthToken.statusCode).json({ message: verifyAuthToken.message });
+      }
+      const {payload} = verifyAuthToken;
+
       const dir = req.query.dir || 'uploads';
-      const allowedFolders = ['uploads', 'temp-chats'];
+      const allowedBaseFolders = ['uploads', 'temp-chats'];
+      const allowedFolders = payload.accountType === AccountType.admin
+        ? [...allowedBaseFolders, 'videos', 'audios', 'images', 'documents']
+        : allowedBaseFolders;
+
       if (!allowedFolders.includes(dir as string || '')) {
         return res.status(400).json({ error: 'Bad request', message: 'Invalid dir' });
       }

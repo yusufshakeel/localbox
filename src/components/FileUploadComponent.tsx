@@ -5,9 +5,14 @@ import useFileUploadEffect from '@/hooks/useFileUploadEffect';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark, faUpload} from '@fortawesome/free-solid-svg-icons';
 
-export default function FileUploadComponent() {
+type PropType = {
+  accept: string,
+  dir?: string
+};
+
+export default function FileUploadComponent(props: PropType) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir: 'uploads' });
+  const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir: props.dir || 'uploads' });
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +59,7 @@ export default function FileUploadComponent() {
           name="file"
           data-testid="file-input"
           onChange={handleFileChange}
+          accept={props.accept}
         />
         <Button variant="primary" data-testid="upload-btn" onClick={handleUpload}>
           <FontAwesomeIcon icon={faUpload}/> Upload

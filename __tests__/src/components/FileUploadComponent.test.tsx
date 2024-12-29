@@ -26,14 +26,14 @@ describe('FileUploadComponent', () => {
   });
 
   it('Renders the component', () => {
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent accept="*" />);
     expect(screen.getByTestId('upload-btn')).toBeInTheDocument();
     expect(screen.getByTestId('reset-btn')).toBeInTheDocument();
     expect(screen.getByTestId('file-input')).toBeInTheDocument();
   });
 
   it('Allows the user to select a file', () => {
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent accept="*" />);
     const fileInput: any = screen.getByTestId('file-input');
 
     const testFile = new File(['test content'], 'testFile.txt', { type: 'text/plain' });
@@ -44,7 +44,7 @@ describe('FileUploadComponent', () => {
   });
 
   it('Calls handleFileUpload when the upload button is clicked', async () => {
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent accept="*" />);
     const fileInput: any = screen.getByTestId('file-input');
     const uploadButton: any = screen.getByTestId('upload-btn');
 
@@ -58,7 +58,7 @@ describe('FileUploadComponent', () => {
   });
 
   it('Resets the file input when the reset button is clicked', () => {
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent accept="*" />);
     const fileInput: any = screen.getByTestId('file-input');
     const resetButton: any = screen.getByTestId('reset-btn');
 
@@ -76,7 +76,7 @@ describe('FileUploadComponent', () => {
       handleFileUpload: mockHandleFileUpload
     });
 
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent accept="*" />);
     await waitFor(() => {
       expect(showToast).toHaveBeenCalledWith({
         type: 'success',
@@ -93,7 +93,7 @@ describe('FileUploadComponent', () => {
       handleFileUpload: mockHandleFileUpload
     });
 
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent accept="*" />);
     await waitFor(() => {
       expect(showToast).toHaveBeenCalledWith({
         type: 'error',

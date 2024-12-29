@@ -7,6 +7,7 @@ import {faXmark, faMagnifyingGlass, faFile, faDownload, faPlay, faImage} from '@
 import {getFilename} from '@/utils/filename';
 import httpClient from '@/api-clients';
 import {FilesApiResponse} from '@/types/api-responses';
+import Cookie from 'js-cookie';
 
 export type PropType = {
   dir: string,
@@ -26,7 +27,11 @@ export default function ListDirectoryFilesComponent(props: PropType) {
     const fetchFiles = async () => {
       const response = await httpClient.get<FilesApiResponse>({
         url: '/api/files',
-        params: { dir: props.dir, sort: props.sort }
+        params: { dir: props.dir, sort: props.sort },
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${Cookie.get('access_token')}`
+        }
       });
       if (response.statusCode === 200) {
         setFiles(response.data!.files);

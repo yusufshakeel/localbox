@@ -1,8 +1,15 @@
 import { renderHook, act } from '@testing-library/react';
 import useFileUploadEffect, { OptionType } from '@/hooks/useFileUploadEffect';
 import httpClient from '@/api-clients';
+import Cookies from 'js-cookie';
 
 jest.mock('../../../src/api-clients'); // Mocking httpClient
+
+jest.mock('js-cookie', () => ({
+  get: jest.fn((key) => `mocked value for ${key}`),
+  set: jest.fn((key, value) => `Set ${key} to ${value}`),
+  remove: jest.fn((key) => `Removed ${key}`)
+}));
 
 describe('useFileUploadEffect', () => {
   let postSpy: any;
@@ -106,7 +113,10 @@ describe('useFileUploadEffect', () => {
       url: '/api/upload',
       body: formData,
       params: { dir: 'images' },
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        authorization: 'Bearer mocked value for access_token'
+      },
       onUploadProgress: expect.any(Function)
     });
   });

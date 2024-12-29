@@ -1,9 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
+import {verifyAuthorizationBearerToken} from '@/services/jwt-service';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    const verifyAuthToken = verifyAuthorizationBearerToken(req);
+    if (verifyAuthToken.statusCode !== 200) {
+      return res.status(verifyAuthToken.statusCode).json({ message: verifyAuthToken.message });
+    }
+
     const allowedFolders = ['uploads', 'audios', 'videos', 'images', 'documents'];
     if (!allowedFolders.includes(req.query?.dir as string || '')) {
       return res.status(400).json({ error: 'Bad request', message: 'Invalid dir' });

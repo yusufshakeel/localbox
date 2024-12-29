@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {verifyToken} from '@/services/jwt-service';
+import {verifyAuthorizationBearerToken} from '@/services/jwt-service';
 import {db} from '@/configs/database/auth';
 import bcrypt from 'bcrypt';
 import {getISOStringDate} from '@/utils/date';
+import {AUTH_FILENAME} from '@/configs/auth';
 
 const postHandler = (req: any, res: any) => {
   const { username, password } = req.body;
@@ -13,12 +14,12 @@ const postHandler = (req: any, res: any) => {
     return res.status(400).json({ message: 'Password is required' });
   }
 
-  const usernameAlreadyExists = db.query.select('auth', { where: { username } });
+  const usernameAlreadyExists = db.query.select(AUTH_FILENAME, { where: { username } });
   if (usernameAlreadyExists.length > 0) {
     return res.status(400).json({ message: 'Username is taken' });
   }
 
-  const userId = db.query.insert('auth', {
+  const userId = db.query.insert(AUTH_FILENAME, {
     username,
     accountType: 'user',
     accountStatus: 'active',
@@ -30,7 +31,7 @@ const postHandler = (req: any, res: any) => {
     createdAt: getISOStringDate()
   });
 
-  return res.status(200).json({ message: 'User created successfully.', userId });
+  return res.status(201).json({ message: 'User created successfully.', userId });
 };
 
 const getHandler = (req: any, res: any) => {
@@ -44,7 +45,7 @@ const getHandler = (req: any, res: any) => {
     where['accountStatus'] = req.query.accountStatus;
   }
   const users = db.query.select(
-    'auth',
+    AUTH_FILENAME,
     {
       where,
       attributes: ['id', 'username', 'accountType', 'accountStatus', 'rbac', 'createdAt', 'updatedAt']
@@ -63,12 +64,12 @@ export default function handler(
   }
 
   try {
-    if (!req.headers.authorization?.split('Bearer ')[1]) {
-      return res.status(400).json({ message: 'Access token is missing' });
+    const verifyAuthToken = verifyAuthorizationBearerToken(req);
+    if (verifyAuthToken.statusCode !== 200) {
+      return res.status(verifyAuthToken.statusCode).json({ message: verifyAuthToken.message });
     }
-    const accessToken: any = verifyToken(req.headers.authorization.split('Bearer ')[1]);
 
-    if (!accessToken || accessToken.rbac.role !== 'admin') {
+    if (verifyAuthToken.payload.rbac.role !== 'admin') {
       return res.status(400).json({ message: 'Invalid access token' });
     }
 

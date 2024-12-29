@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import httpClient from '@/api-clients';
 import useUploadProgressEffect from '@/hooks/useUploadProgressEffect';
+import Cookies from 'js-cookie';
 
 export type OptionType = {
   dir?: string
@@ -20,7 +21,10 @@ const useFileUploadEffect = (option: OptionType = {dir: 'uploads'}) => {
         url: `/api/upload`,
         body: formData,
         params: {dir: option.dir},
-        headers: {'Content-Type': 'multipart/form-data'},
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          authorization: `Bearer ${Cookies.get('access_token')}`
+        },
         onUploadProgress
       });
       if(response.statusCode === 200) {

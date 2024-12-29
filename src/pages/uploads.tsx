@@ -7,8 +7,9 @@ import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
+import WithAuth from '@/components/WithAuth';
 
-export default function UploadsPage() {
+function UploadsPage() {
   return (
     <>
       <Head>{htmlHeadContentHelper({title:WEBSITE_NAME})}</Head>
@@ -21,7 +22,7 @@ export default function UploadsPage() {
           </Row>
           <Row className="my-5">
             <Col sm={12} lg={8}>
-              <FileUploadComponent/>
+              <FileUploadComponent accept="*"/>
             </Col>
           </Row>
           <Row>
@@ -38,3 +39,5 @@ export default function UploadsPage() {
     </>
   );
 }
+
+export default WithAuth(UploadsPage);

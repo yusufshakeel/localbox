@@ -8,9 +8,13 @@ import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 import {useState} from 'react';
 import {getFilename} from '@/utils/filename';
+import WithAuth from '@/components/WithAuth';
+import FileUploadComponent from '@/components/FileUploadComponent';
+import {AccountType} from '@/types/account-type';
 
-export default function AudiosPage() {
+function AudiosPage(props: any) {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
+  const { authAccountDetails } = props;
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -26,6 +30,17 @@ export default function AudiosPage() {
           <Row>
             <Col>
               <h1><FontAwesomeIcon icon={faMusic}/> Audios</h1>
+            </Col>
+          </Row>
+          <Row className="my-5">
+            <Col sm={12} lg={8}>
+              {
+                authAccountDetails.accountType === AccountType.admin &&
+                <FileUploadComponent
+                  accept="audio/*"
+                  dir="audios"
+                />
+              }
             </Col>
           </Row>
           <Row className="mt-5">
@@ -63,3 +78,5 @@ export default function AudiosPage() {
     </>
   );
 }
+
+export default WithAuth(AudiosPage);

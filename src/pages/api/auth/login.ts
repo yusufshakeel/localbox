@@ -5,6 +5,7 @@ import {AuthBaseResponse, AuthLoginApiResponse} from '@/types/api-responses';
 import {AuthPayload} from '@/types/auth-payload';
 import {db} from '@/configs/database/auth';
 import {AccountRBAC} from '@/types/account-rbac';
+import {AUTH_FILENAME} from '@/configs/auth';
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,7 +18,7 @@ export default async function handler(
 
   const { username, password, accountType } = req.body;
   const account = db.query.select(
-    'auth',
+    AUTH_FILENAME,
     {
       where: {
         username,

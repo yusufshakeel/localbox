@@ -22,3 +22,5 @@ export const pages = [
   {icon: faCircleInfo, title: 'Info', link: '/info', hideOnHomePage: true},
   {icon: faUser, title: 'Profile', link: '/profile', hideOnHomePage: true}
 ];
+
+export const PAGE_PERMISSIONS_FILENAME = 'page_permissions';

@@ -8,9 +8,13 @@ import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 import {getFilename} from '@/utils/filename';
+import WithAuth from '@/components/WithAuth';
+import {AccountType} from '@/types/account-type';
+import FileUploadComponent from '@/components/FileUploadComponent';
 
-export default function VideosPage() {
+function VideosPage(props: any) {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
+  const { authAccountDetails } = props;
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -26,6 +30,17 @@ export default function VideosPage() {
           <Row>
             <Col>
               <h1><FontAwesomeIcon icon={faVideo}/> Videos</h1>
+            </Col>
+          </Row>
+          <Row className="my-5">
+            <Col sm={12} lg={8}>
+              {
+                authAccountDetails.accountType === AccountType.admin &&
+                <FileUploadComponent
+                  accept="video/*"
+                  dir="videos"
+                />
+              }
             </Col>
           </Row>
           <Row className="my-5">
@@ -63,3 +78,5 @@ export default function VideosPage() {
     </>
   );
 }
+
+export default WithAuth(VideosPage);

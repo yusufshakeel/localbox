@@ -9,9 +9,13 @@ import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 import {useState} from 'react';
 import {getFilename} from '@/utils/filename';
+import WithAuth from '@/components/WithAuth';
+import {AccountType} from '@/types/account-type';
+import FileUploadComponent from '@/components/FileUploadComponent';
 
-export default function ImagesPage() {
+function ImagesPage(props: any) {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
+  const { authAccountDetails } = props;
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -27,6 +31,17 @@ export default function ImagesPage() {
           <Row>
             <Col>
               <h1><FontAwesomeIcon icon={faImage}/> Images</h1>
+            </Col>
+          </Row>
+          <Row className="my-5">
+            <Col sm={12} lg={8}>
+              {
+                authAccountDetails.accountType === AccountType.admin &&
+                <FileUploadComponent
+                  accept="image/*"
+                  dir="images"
+                />
+              }
             </Col>
           </Row>
           <Row className="my-5">
@@ -72,3 +87,5 @@ export default function ImagesPage() {
     </>
   );
 }
+
+export default WithAuth(ImagesPage);

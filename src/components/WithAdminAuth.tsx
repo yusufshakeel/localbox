@@ -3,9 +3,10 @@ import {useEffect, useState} from 'react';
 import useRouter from 'next/router';
 import LoadingComponent from '@/components/LoadingComponent';
 import httpClient from '@/api-clients';
+import {AccountType} from '@/types/account-type';
 import {AuthPayload} from '@/types/auth-payload';
 
-export default function WithAuth(WrappedComponent: any) {
+export default function WithAdminAuth(WrappedComponent: any) {
   return function AuthProtected(props: any) {
     const [isLoading, setIsLoading] = useState(true);
     const [authAccountDetails, setAuthAccountDetails] = useState<AuthPayload>();
@@ -14,7 +15,7 @@ export default function WithAuth(WrappedComponent: any) {
       const validateJWT = async () => {
         try {
           setIsLoading(true);
-          const response = await httpClient.post<any>({
+          const response: any = await httpClient.post<any>({
             url: `/api/auth/verify`,
             body: {},
             headers: {
@@ -22,8 +23,9 @@ export default function WithAuth(WrappedComponent: any) {
               authorization: `Bearer ${Cookies.get('access_token') as string}`
             }
           });
-          if(response.statusCode !== 200) {
-            await useRouter.push('/login');
+          if(response.statusCode !== 200
+            || (response.statusCode === 200 && response.data.accountType !== AccountType.admin)) {
+            await useRouter.push('/profile');
           }
           setAuthAccountDetails({
             id: response.data.id,

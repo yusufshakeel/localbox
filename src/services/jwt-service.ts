@@ -29,3 +29,16 @@ export const verifyToken = (token: any) => {
     return null;
   }
 };
+
+export const verifyAuthorizationBearerToken = (req: any) => {
+  if (!req.headers?.authorization) {
+    return { statusCode: 400, message: 'Authorization token is missing' };
+  }
+
+  const payload: any = verifyToken(req.headers.authorization.split('Bearer ')[1]);
+  if (!payload) {
+    return { statusCode: 400, message: 'Invalid access token' };
+  }
+
+  return { statusCode: 200, payload };
+};

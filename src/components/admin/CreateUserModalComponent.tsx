@@ -23,7 +23,7 @@ export default function CreateUserModalComponent() {
         authorization: `Bearer ${Cookies.get('access_token')}`
       }
     });
-    if (response.statusCode === 200 && response.data?.userId) {
+    if (response.statusCode === 201 && response.data?.userId) {
       showToast({ content: 'Account created successfully.', type: 'success', autoClose: 1000 });
       setUsername('');
       setPassword('');

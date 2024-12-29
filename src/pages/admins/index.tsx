@@ -3,11 +3,11 @@ import BaseLayout from '@/layouts/BaseLayout';
 import {Container, Row, Col, Tabs, Tab} from 'react-bootstrap';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
-import WithAuth from '@/components/WithAuth';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSliders} from '@fortawesome/free-solid-svg-icons';
 import CreateUserModalComponent from '@/components/admin/CreateUserModalComponent';
 import ListUsersComponent from '@/components/admin/ListUsersComponent';
+import WithAdminAuth from '@/components/WithAdminAuth';
 
 function Admin() {
   return (
@@ -49,4 +49,4 @@ function Admin() {
   );
 }
 
-export default WithAuth(Admin);
+export default WithAdminAuth(Admin);

@@ -13,8 +13,11 @@ const useLogoutEffect = () => {
       setResponse(null);
       const response = await httpClient.post<any>({
         url: `/api/auth/logout`,
-        body: { accessToken: Cookies.get('access_token') as string },
-        headers: {'Content-Type': 'application/json'}
+        body: {},
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${Cookies.get('access_token') as string}`
+        }
       });
       if(response.statusCode === 200) {
         Cookies.set('access_token', '', { secure: false, expires: new Date(0) });

@@ -6,8 +6,8 @@ export const HttpClient = (apiClient: any) => {
   const apiHandler = async <T>(req: any) => {
     try {
       const response = await req;
-      if (response.status === 200) {
-        return { statusCode: 200, data: response.data as T };
+      if (response.status >= 200 && response.status < 300) {
+        return { statusCode: response.status, data: response.data as T };
       }
       return { statusCode: response.status, message: response.message || 'Failed to get response' };
     } catch (error: any) {

@@ -1,34 +1,21 @@
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import Head from 'next/head';
-import Cookies from 'js-cookie';
 import BaseLayout from '@/layouts/BaseLayout';
-import {Container, Row, Col, Table, Button} from 'react-bootstrap';
+import {Container, Row, Col, Table, Button, Badge} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {WEBSITE_NAME} from '@/constants';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import WithAuth from '@/components/WithAuth';
-import {AuthPayload} from '@/types/auth-payload';
 import useLogoutEffect from '@/hooks/auth/useLogoutEffect';
 import showToast from '@/utils/show-toast';
 import useRouter from 'next/router';
 import Link from 'next/link';
+import {AccountType} from '@/types/account-type';
 
-function ProfilePage() {
-  const [accountDetails, setAccountDetails] = useState<AuthPayload>();
+function ProfilePage(props: any) {
   const {handleLogout, error, response} = useLogoutEffect();
-
-  useEffect(() => {
-    try {
-      const accountDetails = JSON.parse(Cookies.get('account_details') || '');
-      if (accountDetails) {
-        setAccountDetails(accountDetails);
-      }
-      // eslint-disable-next-line
-    } catch (err: any) {
-      // do nothing
-    }
-  }, []);
+  const { authAccountDetails } = props;
 
   useEffect(() => {
     const handleApiErrorAndResponse = async () => {
@@ -58,7 +45,7 @@ function ProfilePage() {
             </Col>
           </Row>
           <Row className="mb-5">
-            <Col sm={12} md={12} lg={6}>
+            <Col sm={12} md={12} lg={8}>
               <Table responsive bordered>
                 <thead>
                   <tr>
@@ -69,20 +56,32 @@ function ProfilePage() {
                 <tbody>
                   <tr>
                     <td>Id</td>
-                    <td>{accountDetails?.id}</td>
+                    <td>{authAccountDetails.id}</td>
                   </tr>
                   <tr>
                     <td>Username</td>
-                    <td>{accountDetails?.username}</td>
+                    <td>{authAccountDetails.username}</td>
                   </tr>
                   <tr>
                     <td>Account Type</td>
-                    <td>{accountDetails?.accountType}</td>
+                    <td>{authAccountDetails.accountType}</td>
+                  </tr>
+                  <tr>
+                    <td>Permissions</td>
+                    <td>
+                      {
+                        authAccountDetails.rbac.permissions
+                          .map((p: string) => <Badge key={p} bg="secondary" className="me-2">{p}</Badge>)
+                      }
+                    </td>
                   </tr>
                 </tbody>
               </Table>
               <Button variant="secondary" onClick={logoutHandler}>Log Out</Button>
-              <Link href="/admins" className="btn btn-primary float-end">Admin Dashboard</Link>
+              {
+                authAccountDetails.accountType === AccountType.admin &&
+                <Link href="/admins" className="btn btn-primary float-end">Admin Dashboard</Link>
+              }
             </Col>
           </Row>
         </Container>
