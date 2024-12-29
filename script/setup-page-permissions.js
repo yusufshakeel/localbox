@@ -12,7 +12,7 @@ const db = minivium({
         name: collectionName,
         columns: [
           { name: 'id', isUnique: true },
-          { name: 'pageUrl', isRequired: true, isUnique: true },
+          { name: 'pageId', isRequired: true, isUnique: true },
           { name: 'permissions', isRequired: true },
           { name: 'pageType', isRequired: true },
           { name: 'createdAt', isRequired: true },
@@ -29,17 +29,17 @@ async function setupPagePermissions() {
   const createdAt = new Date().toISOString();
 
   const data = [
-    { pageUrl: 'uploads', permissions: ['uploads:view', 'uploads:upload-file'], pageType: 'default', createdAt },
-    { pageUrl: 'images', permissions: ['images:view'], pageType: 'default', createdAt },
-    { pageUrl: 'audios', permissions: ['audios:view'], pageType: 'default', createdAt },
-    { pageUrl: 'videos', permissions: ['videos:view'], pageType: 'default', createdAt },
-    { pageUrl: 'documents', permissions: ['documents:view'], pageType: 'default', createdAt },
-    { pageUrl: 'temp-chats', permissions: ['temp-chats:use'], pageType: 'default', createdAt },
-    { pageUrl: 'profile', permissions: ['profile:use'], pageType: 'default', createdAt }
+    { pageId: 'uploads', permissions: ['uploads:view', 'uploads:upload-file'], pageType: 'default', createdAt },
+    { pageId: 'images', permissions: ['images:view'], pageType: 'default', createdAt },
+    { pageId: 'audios', permissions: ['audios:view'], pageType: 'default', createdAt },
+    { pageId: 'videos', permissions: ['videos:view'], pageType: 'default', createdAt },
+    { pageId: 'documents', permissions: ['documents:view'], pageType: 'default', createdAt },
+    { pageId: 'temp-chats', permissions: ['temp-chats:*'], pageType: 'default', createdAt },
+    { pageId: 'profile', permissions: ['profile:*'], pageType: 'default', createdAt }
   ];
 
   data.forEach(d => {
-    const where = { where: { pageUrl: d.pageUrl } };
+    const where = { where: { pageId: d.pageId } };
     if (db.query.select(collectionName, where).length) {
       db.query.update(collectionName, { ...d, updatedAt: new Date().toISOString() }, where);
     } else {

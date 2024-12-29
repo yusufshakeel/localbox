@@ -2,6 +2,7 @@ import {Table} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import httpClient from '@/api-clients';
 import Cookies from 'js-cookie';
+import EditUserModalComponent from '@/components/admin/EditUserModalComponent';
 
 export default function ListUsersComponent() {
   const [users, setUsers] = useState([]);
@@ -26,11 +27,12 @@ export default function ListUsersComponent() {
     return users.map((user: any) => {
       return (
         <tr key={user.id}>
-          <td>{user.id}</td>
           <td>{user.username}</td>
           <td>{user.accountStatus}</td>
           <td>{user.updatedAt}</td>
-          <td></td>
+          <td>
+            <EditUserModalComponent userId={user.id} />
+          </td>
         </tr>
       );
     });
@@ -41,7 +43,6 @@ export default function ListUsersComponent() {
       <Table responsive bordered hover>
         <thead>
           <tr>
-            <th>Id</th>
             <th>Username</th>
             <th>Account Status</th>
             <th>Updated At</th>

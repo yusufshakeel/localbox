@@ -44,46 +44,49 @@ function ProfilePage(props: any) {
               <h1><FontAwesomeIcon icon={faUser}/> Profile</h1>
             </Col>
           </Row>
-          <Row className="mb-5">
-            <Col sm={12} md={12} lg={8}>
-              <Table responsive bordered>
-                <thead>
-                  <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Id</td>
-                    <td>{authAccountDetails.id}</td>
-                  </tr>
-                  <tr>
-                    <td>Username</td>
-                    <td>{authAccountDetails.username}</td>
-                  </tr>
-                  <tr>
-                    <td>Account Type</td>
-                    <td>{authAccountDetails.accountType}</td>
-                  </tr>
-                  <tr>
-                    <td>Permissions</td>
-                    <td>
-                      {
-                        authAccountDetails.rbac.permissions
-                          .map((p: string) => <Badge key={p} bg="secondary" className="me-2">{p}</Badge>)
-                      }
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-              <Button variant="secondary" onClick={logoutHandler}>Log Out</Button>
-              {
-                authAccountDetails.accountType === AccountType.admin &&
-                <Link href="/admins" className="btn btn-primary float-end">Admin Dashboard</Link>
-              }
-            </Col>
-          </Row>
+          {
+            authAccountDetails &&
+            <Row className="mb-5">
+              <Col sm={12} md={12} lg={8}>
+                <Table responsive bordered>
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Id</td>
+                      <td>{authAccountDetails.id}</td>
+                    </tr>
+                    <tr>
+                      <td>Username</td>
+                      <td>{authAccountDetails.username}</td>
+                    </tr>
+                    <tr>
+                      <td>Account Type</td>
+                      <td>{authAccountDetails.accountType}</td>
+                    </tr>
+                    <tr>
+                      <td>Permissions</td>
+                      <td>
+                        {
+                          authAccountDetails.rbac.permissions
+                            .map((p: string) => <Badge key={p} bg="secondary" className="me-2">{p}</Badge>)
+                        }
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Button variant="secondary" onClick={logoutHandler}>Log Out</Button>
+                {
+                  authAccountDetails.accountType === AccountType.admin &&
+                  <Link href="/admins" className="btn btn-primary float-end">Admin Dashboard</Link>
+                }
+              </Col>
+            </Row>
+          }
         </Container>
       </BaseLayout>
     </>

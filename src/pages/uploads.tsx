@@ -8,6 +8,7 @@ import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 import WithAuth from '@/components/WithAuth';
+import {defaultPages} from '@/configs/pages';
 
 function UploadsPage() {
   return (
@@ -40,4 +41,4 @@ function UploadsPage() {
   );
 }
 
-export default WithAuth(UploadsPage);
+export default WithAuth(UploadsPage, defaultPages.uploads.id);

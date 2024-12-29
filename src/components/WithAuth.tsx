@@ -5,7 +5,7 @@ import LoadingComponent from '@/components/LoadingComponent';
 import httpClient from '@/api-clients';
 import {AuthPayload} from '@/types/auth-payload';
 
-export default function WithAuth(WrappedComponent: any) {
+export default function WithAuth(WrappedComponent: any, pageId?: string) {
   return function AuthProtected(props: any) {
     const [isLoading, setIsLoading] = useState(true);
     const [authAccountDetails, setAuthAccountDetails] = useState<AuthPayload>();
@@ -14,7 +14,22 @@ export default function WithAuth(WrappedComponent: any) {
       const validateJWT = async () => {
         try {
           setIsLoading(true);
-          const response = await httpClient.post<any>({
+
+          if (pageId) {
+            const pagePermissionsApiResponse = await httpClient.get<any>({
+              url: `/api/rbac/page-permissions`,
+              params: {pageId},
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${Cookies.get('access_token') as string}`
+              }
+            });
+            if(!pagePermissionsApiResponse.data?.hasPermissions) {
+              await useRouter.push('/profile');
+            }
+          }
+
+          const verifyApiResponse = await httpClient.post<any>({
             url: `/api/auth/verify`,
             body: {},
             headers: {
@@ -22,14 +37,15 @@ export default function WithAuth(WrappedComponent: any) {
               authorization: `Bearer ${Cookies.get('access_token') as string}`
             }
           });
-          if(response.statusCode !== 200) {
+          if(verifyApiResponse.statusCode !== 200) {
             await useRouter.push('/login');
           }
+
           setAuthAccountDetails({
-            id: response.data.id,
-            username: response.data.username,
-            accountType: response.data.accountType,
-            rbac: response.data.rbac
+            id: verifyApiResponse.data.id,
+            username: verifyApiResponse.data.username,
+            accountType: verifyApiResponse.data.accountType,
+            rbac: verifyApiResponse.data.rbac
           });
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error: any) {

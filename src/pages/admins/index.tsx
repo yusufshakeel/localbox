@@ -8,6 +8,7 @@ import {faSliders} from '@fortawesome/free-solid-svg-icons';
 import CreateUserModalComponent from '@/components/admin/CreateUserModalComponent';
 import ListUsersComponent from '@/components/admin/ListUsersComponent';
 import WithAdminAuth from '@/components/WithAdminAuth';
+import ListPagesComponent from '@/components/admin/ListPagesComponent';
 
 function Admin() {
   return (
@@ -33,10 +34,11 @@ function Admin() {
                     </Col>
                   </Row>
                 </Tab>
-                <Tab eventKey="pages" title="Pages">
+                <Tab eventKey="page-permissions" title="Page Permissions">
                   <Row>
                     <Col className="my-3">
-                      <h3>Pages</h3>
+                      <h3>Page Permissions</h3>
+                      <ListPagesComponent/>
                     </Col>
                   </Row>
                 </Tab>

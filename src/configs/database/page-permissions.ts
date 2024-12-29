@@ -11,7 +11,7 @@ const schemaRegistry = new SchemaRegistry({
       name: PAGE_PERMISSIONS_FILENAME,
       columns: [
         { name: 'id', isUnique: true },
-        { name: 'pageUrl', isRequired: true, isUnique: true },
+        { name: 'pageId', isRequired: true, isUnique: true },
         { name: 'permissions', isRequired: true },
         { name: 'pageType', isRequired: true },
         { name: 'createdAt', isRequired: true },
