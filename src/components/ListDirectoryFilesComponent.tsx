@@ -28,7 +28,7 @@ export default function ListDirectoryFilesComponent(props: PropType) {
         url: '/api/files',
         params: { dir: props.dir, sort: props.sort }
       });
-      if (response.statusCode === 200) {
+      if (response.statusCode === 200 && response.data!.files) {
         setFiles(response.data!.files);
         setListOfFiles(response.data!.files);
       }

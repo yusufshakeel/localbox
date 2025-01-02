@@ -42,7 +42,7 @@ export default function InputComponent(props: PropType) {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
 
-        if (response.statusCode === 200) {
+        if (response.statusCode === 200 && response.data!.uploadedFileName) {
           props.sendMessage({
             userId: props.userId,
             displayName: props.displayName,

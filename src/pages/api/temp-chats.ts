@@ -7,43 +7,44 @@ import {
 } from '@/configs/temp-chats';
 import {Op} from 'minivium';
 import {db} from '@/configs/database/temp-chat-messages';
+import {PublicFolder, PublicFolders} from '@/configs/folders';
 
 // Remove expired messages
-const cleanupExpiredMessages = () => {
+const cleanupExpiredMessages = async () => {
   const now = Date.now();
-  db.query.delete(TEMP_CHATS_MESSAGES_FILENAME, {
+  await db.query.deleteAsync(TEMP_CHATS_MESSAGES_FILENAME, {
     where: { timestamp: { [Op.lt]: now - TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS } }
   });
 };
 
 // Remove older files
-const cleanupOlderFiles = () => {
+const cleanupOlderFiles = async () => {
   try {
-    const tempChatsDir = path.join(process.cwd(), 'public', 'temp-chats');
+    const tempChatsDir = path.join(process.cwd(), PublicFolder, PublicFolders.tempChats);
 
     const now = Date.now();
 
     // Read all files in the directory
-    const files = fs.readdirSync(tempChatsDir);
+    const files = await fs.readdir(tempChatsDir);
 
     // Filter files starting with the prefix and delete them
-    files.forEach((file) => {
+    for (const file of files) {
       const filePath = path.join(tempChatsDir, file as string);
-      const stats = fs.statSync(filePath);
+      const stats = await fs.stat(filePath);
       if (now - new Date(stats.birthtime).getTime() > TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS) {
-        fs.unlinkSync(filePath);
+        await fs.unlink(filePath);
         // eslint-disable-next-line
-        console.log('Deleted file:', { file, filePath, birthtime: new Date(stats.birthtime) });
+        console.log('[temp-chats][cleanupOlderFiles] Deleted file:', { file, filePath, birthtime: new Date(stats.birthtime) });
       }
-    });
+    }
   } catch (err: any) {
     // eslint-disable-next-line
     console.log(`Failed to delete file: ${err}`);
   }
 };
 
-export default function handler(req: any, res: any) {
-  db.init();
+export default async function handler(req: any, res: any) {
+  await db.initAsync();
 
   if (!res.socket.server.io) {
     const io = new Server(res.socket.server, {
@@ -52,13 +53,14 @@ export default function handler(req: any, res: any) {
 
     res.socket.server.io = io;
 
-    io.on('connection', (socket) => {
+    io.on('connection', async (socket) => {
       // Send existing messages to the newly connected client
-      cleanupExpiredMessages();
-      cleanupOlderFiles();
+      await cleanupExpiredMessages();
+      cleanupOlderFiles(); // fire and forget
+
       let messages;
       try {
-        messages = db.query.select(TEMP_CHATS_MESSAGES_FILENAME);
+        messages = await db.query.selectAsync(TEMP_CHATS_MESSAGES_FILENAME);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err: any) {
         messages = [];
@@ -66,10 +68,10 @@ export default function handler(req: any, res: any) {
       socket.emit('initialMessages', messages);
 
       // Handle new messages
-      socket.on('sendMessage', (data) => {
+      socket.on('sendMessage', async (data) => {
         const now = Date.now();
         const newMessage = { ...data, timestamp: now };
-        db.query.insert(TEMP_CHATS_MESSAGES_FILENAME, { ...data, timestamp: now });
+        await db.query.insertAsync(TEMP_CHATS_MESSAGES_FILENAME, { ...data, timestamp: now });
 
         // Broadcast the message to all clients
         io.emit('newMessage', newMessage);
