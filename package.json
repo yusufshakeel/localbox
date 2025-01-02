@@ -1,10 +1,12 @@
 {
   "name": "localbox",
-  "version": "0.4.5",
+  "version": "0.5.0",
   "description": "Turn your laptop or desktop into a personal local cloud to easily share files with other devices on the same Wi-Fi network.",
   "private": true,
   "scripts": {
-    "bootstrap": "mkdirp private public/uploads public/temp-chats public/videos public/audios public/images public/documents",
+    "create:directories:public": "mkdirp public/uploads public/temp-chats public/videos public/audios public/images public/documents",
+    "create:directories:private": "mkdirp private/db",
+    "bootstrap": "npm run create:directories:private && npm run create:directories:public",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -36,6 +38,7 @@
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "fs-extra": "^11.2.0",
+    "minivium": "^0.2.4",
     "multer": "^1.4.5-lts.1",
     "next": "15.0.3",
     "react": "^18.3.1",
@@ -60,7 +63,6 @@
     "eslint-config-next": "15.0.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

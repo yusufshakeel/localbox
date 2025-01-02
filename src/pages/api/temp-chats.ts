@@ -3,30 +3,17 @@ import fs from 'fs-extra';
 import path from 'path';
 import {
   TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS,
-  TEMP_CHATS_MESSAGES_FILE_PATH
+  TEMP_CHATS_MESSAGES_FILENAME
 } from '@/configs/temp-chats';
-
-const messagesFile = path.join(process.cwd(), TEMP_CHATS_MESSAGES_FILE_PATH);
-
-// Ensure the messages file exists
-fs.ensureFileSync(messagesFile);
-if (!fs.existsSync(messagesFile)) {
-  fs.writeJSONSync(messagesFile, []);
-}
+import {Op} from 'minivium';
+import {db} from '@/configs/database/temp-chat-messages';
 
 // Remove expired messages
 const cleanupExpiredMessages = () => {
-  let messages;
-  try {
-    messages = fs.readJSONSync(messagesFile);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (err: any) {
-    messages = [];
-  }
   const now = Date.now();
-  const filteredMessages =
-      messages.filter((msg: any) => now - msg.timestamp <= TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS);
-  fs.writeJSONSync(messagesFile, filteredMessages);
+  db.query.delete(TEMP_CHATS_MESSAGES_FILENAME, {
+    where: { timestamp: { [Op.lt]: now - TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS } }
+  });
 };
 
 // Remove older files
@@ -56,6 +43,8 @@ const cleanupOlderFiles = () => {
 };
 
 export default function handler(req: any, res: any) {
+  db.init();
+
   if (!res.socket.server.io) {
     const io = new Server(res.socket.server, {
       path: '/api/temp-chats' // Custom Socket.IO path
@@ -69,7 +58,7 @@ export default function handler(req: any, res: any) {
       cleanupOlderFiles();
       let messages;
       try {
-        messages = fs.readJSONSync(messagesFile);
+        messages = db.query.select(TEMP_CHATS_MESSAGES_FILENAME);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err: any) {
         messages = [];
@@ -80,9 +69,7 @@ export default function handler(req: any, res: any) {
       socket.on('sendMessage', (data) => {
         const now = Date.now();
         const newMessage = { ...data, timestamp: now };
-        const messages = fs.readJSONSync(messagesFile);
-        messages.push(newMessage);
-        fs.writeJSONSync(messagesFile, messages);
+        db.query.insert(TEMP_CHATS_MESSAGES_FILENAME, { ...data, timestamp: now });
 
         // Broadcast the message to all clients
         io.emit('newMessage', newMessage);
