@@ -3,7 +3,20 @@ import { API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS } from '@/configs/api-client
 
 describe('HttpClient', () => {
   const fakeAxios = jest.fn();
-  const httpClient = HttpClient(fakeAxios);
+  const httpClient = new HttpClient(fakeAxios);
+  class FakeError extends Error {
+    private status: number;
+    private response: { data: { message: string } };
+    constructor() {
+      super();
+      this.status = 500;
+      this.response = {
+        data: {
+          message: 'Something went wrong'
+        }
+      };
+    }
+  }
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -36,7 +49,7 @@ describe('HttpClient', () => {
     });
 
     it('Should return an error response for a failed GET request', async () => {
-      const mockError = new Error('Request failed');
+      const mockError = new FakeError();
       fakeAxios.mockRejectedValue(mockError);
 
       const response = await httpClient.get({ url: '/mock-endpoint' });
@@ -51,14 +64,15 @@ describe('HttpClient', () => {
       expect(response).toEqual({
         statusCode: 500,
         error: mockError,
-        message: mockError.message
+        message: 'Something went wrong'
       });
     });
 
     it('Should handle non-200 status codes gracefully', async () => {
       const mockResponse = {
         status: 404,
-        data: null
+        data: null,
+        message: 'Something went wrong'
       };
       fakeAxios.mockResolvedValue(mockResponse);
 
@@ -73,7 +87,7 @@ describe('HttpClient', () => {
       });
       expect(response).toEqual({
         statusCode: 404,
-        message: 'Failed to get response'
+        message: 'Something went wrong'
       });
     });
   });
