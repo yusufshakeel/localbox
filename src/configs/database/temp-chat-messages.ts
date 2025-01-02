@@ -1,3 +1,4 @@
+// ================ DO NOT CHANGE THE FOLLOWING ====================
 import {minivium, SchemaRegistry} from 'minivium';
 import {TEMP_CHATS_MESSAGES_FILENAME} from '@/configs/temp-chats';
 import path from 'path';
