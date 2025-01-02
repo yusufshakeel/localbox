@@ -58,6 +58,64 @@ export class HttpClient {
       timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
     }));
   };
+
+  public async patch<T>({
+    url, body, params, onUploadProgress, headers = {'Content-Type': 'application/json'}
+  }: {
+    url: string,
+    body: any,
+    params?: any,
+    headers?: any,
+    onUploadProgress?: any
+  }): Promise<ApiResponse<T>> {
+    return await this.apiHandler<T>(this.apiClient({
+      url,
+      method: 'PATCH',
+      params,
+      data: body,
+      headers,
+      onUploadProgress: (progress: any) => onUploadProgress?.(progress),
+      timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
+    }));
+  };
+
+  public async put<T>({
+    url, body, params, onUploadProgress, headers = {'Content-Type': 'application/json'}
+  }: {
+    url: string,
+    body: any,
+    params?: any,
+    headers?: any,
+    onUploadProgress?: any
+  }): Promise<ApiResponse<T>> {
+    return await this.apiHandler<T>(this.apiClient({
+      url,
+      method: 'PUT',
+      params,
+      data: body,
+      headers,
+      onUploadProgress: (progress: any) => onUploadProgress?.(progress),
+      timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
+    }));
+  };
+
+  public async delete<T>({
+    url, body, params, headers = {'Content-Type': 'application/json'}
+  }: {
+    url: string,
+    body: any,
+    params?: any,
+    headers?: any,
+  }): Promise<ApiResponse<T>> {
+    return await this.apiHandler<T>(this.apiClient({
+      url,
+      method: 'DELETE',
+      params,
+      data: body,
+      headers,
+      timeout: API_CLIENT_REQUEST_TIMEOUT_IN_MILLISECONDS
+    }));
+  };
 }
 
 const httpClient = new HttpClient(axios);
