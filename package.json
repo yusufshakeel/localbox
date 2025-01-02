@@ -13,6 +13,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "precommit": "npm run lint && npm run test && npm run build",
+    "all": "npm run bootstrap && npm run precommit",
     "test": "jest",
     "test:watch": "jest --watch"
   },
