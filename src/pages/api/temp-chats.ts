@@ -7,6 +7,7 @@ import {
 } from '@/configs/temp-chats';
 import {Op} from 'minivium';
 import {db} from '@/configs/database/temp-chat-messages';
+import {PublicFolder, PublicFolders} from '@/configs/folders';
 
 // Remove expired messages
 const cleanupExpiredMessages = () => {
@@ -19,7 +20,7 @@ const cleanupExpiredMessages = () => {
 // Remove older files
 const cleanupOlderFiles = () => {
   try {
-    const tempChatsDir = path.join(process.cwd(), 'public', 'temp-chats');
+    const tempChatsDir = path.join(process.cwd(), PublicFolder, PublicFolders.tempChats);
 
     const now = Date.now();
 

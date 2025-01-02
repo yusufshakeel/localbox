@@ -20,7 +20,9 @@ export type IpApiResponse = {
 };
 
 export type FilesApiResponse = {
-  files: string[]
+  files?: string[],
+  error?: any,
+  message?: string,
 }
 
 export type FileUploadApiResponse = {

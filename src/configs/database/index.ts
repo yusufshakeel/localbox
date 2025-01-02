@@ -1,2 +1,4 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
-export const DATABASE_DIR = 'private/db';
+import {PrivateFolder, PrivateFolders} from '@/configs/folders';
+
+export const DATABASE_DIR = `${PrivateFolder}/${PrivateFolders.db}`;
