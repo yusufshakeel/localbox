@@ -2,9 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import multer from 'multer';
 import path from 'path';
 import { promisify } from 'util';
-import fs from 'fs';
+import {FileUploadApiResponse} from '@/types/api-responses';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<FileUploadApiResponse>
+) {
   if (req.method === 'POST') {
     try {
       const dir = req.query.dir || 'uploads';
@@ -13,11 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ error: 'Bad request', message: 'Invalid dir' });
       }
 
-      // Create the uploads folder if it doesn't exist
       const uploadsFolder = path.join(process.cwd(), `public/${dir}`);
-      if (!fs.existsSync(uploadsFolder)) {
-        fs.mkdirSync(uploadsFolder, { recursive: true });
-      }
 
       let uploadedFileName = '';
 

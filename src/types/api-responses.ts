@@ -24,7 +24,7 @@ export type FilesApiResponse = {
 }
 
 export type FileUploadApiResponse = {
-  message: string,
-  uploadedFileName: string,
+  uploadedFileName?: string,
+  message?: string,
   error?: any
 }
