@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { promisify } from 'util';
 import {FileUploadApiResponse} from '@/types/api-responses';
+import {PublicFolders} from '@/configs/folders';
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,9 +11,9 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      const dir = req.query.dir || 'uploads';
-      const allowedFolders = ['uploads', 'temp-chats'];
-      if (!allowedFolders.includes(dir as string || '')) {
+      const dir = req.query.dir || PublicFolders.uploads;
+      const allowedFolders = [PublicFolders.uploads, PublicFolders.tempChats];
+      if (!allowedFolders.includes(dir as PublicFolders || '')) {
         return res.status(400).json({ error: 'Bad request', message: 'Invalid dir' });
       }
 

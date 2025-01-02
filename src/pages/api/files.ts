@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs';
+import { readdir } from 'fs/promises';
 import path from 'path';
 import {FilesApiResponse} from '@/types/api-responses';
 import {PublicFolders} from '@/configs/folders';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<FilesApiResponse>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<FilesApiResponse>) {
   try {
     const allowedFolders = [
       PublicFolders.uploads,
@@ -18,7 +18,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<FilesA
     }
 
     const folderPath = path.join(process.cwd(), `public/${req.query.dir}`); // Replace with your folder path
-    const files = fs.readdirSync(folderPath); // Get the list of files
+    const files = await readdir(folderPath); // Get the list of files
     const filteredFiles = req.query.sort === 'DESC'
       ? files.filter(f => f[0] !== '.').sort((a, b) => b.localeCompare(a))
       : files.filter(f => f[0] !== '.').sort((a, b) => a.localeCompare(b));
