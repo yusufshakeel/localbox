@@ -91,7 +91,7 @@ export default function EditUserModalComponent({ userId }: { userId: string}) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>Edit</Button>
+      <Button className="mx-2" variant="primary" onClick={handleShow}>Edit</Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

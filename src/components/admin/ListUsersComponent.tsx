@@ -3,6 +3,8 @@ import {useEffect, useState} from 'react';
 import httpClient from '@/api-clients';
 import Cookies from 'js-cookie';
 import EditUserModalComponent from '@/components/admin/EditUserModalComponent';
+import EditUserPagePermissionsModalComponent
+  from '@/components/admin/EditUserPagePermissionsModalComponent';
 
 export default function ListUsersComponent() {
   const [users, setUsers] = useState([]);
@@ -32,6 +34,7 @@ export default function ListUsersComponent() {
           <td>{user.updatedAt}</td>
           <td>
             <EditUserModalComponent userId={user.id} />
+            <EditUserPagePermissionsModalComponent userId={user.id} />
           </td>
         </tr>
       );

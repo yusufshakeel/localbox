@@ -31,8 +31,8 @@ const postHandler = (req: any, res: any) => {
 
 const getHandler = (req: any, res: any) => {
   const where: any = {};
-  if (req.query.pageUrl) {
-    where['pageUrl'] = req.query.pageUrl;
+  if (req.query.pageId) {
+    where['pageId'] = req.query.pageId;
   }
   const pagePermissions = db.query.select(PAGE_PERMISSIONS_FILENAME, { where });
   return res.status(200).json({ pagePermissions });
