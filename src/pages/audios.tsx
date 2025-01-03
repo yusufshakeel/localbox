@@ -2,6 +2,7 @@ import BaseLayout from '@/layouts/BaseLayout';
 import {useState} from 'react';
 import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
 import {getFilename} from '@/utils/filename';
+import {PublicFolders} from '@/configs/folders';
 
 export default function Audios() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
@@ -14,28 +15,32 @@ export default function Audios() {
   
   return (
     <BaseLayout pageTitle={'Audios'}>
-      {
-        selectedFile?.length
-          ? (
-            <div className="mb-5">
-              <audio style={{width: '100%'}} controls key={selectedFile}
-                autoPlay={true}>
-                <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
-                Your browser does not support the audio tag.
-              </audio>
-              <p className="my-5 text-center truncate">{getFilename(selectedFile).substring(0, 30)}</p>
-            </div>
-          )
-          : <audio className="mb-5" style={{width: '100%'}} controls key={selectedFile}>
-            <source src={''}/>
-            Your browser does not support the audio tag.
-          </audio>
-      }
-      <ListDirectoryFiles
-        dir='audios'
-        selectedFileHandler={selectedFileHandler}
-        selectedFileHandlerText='Play'
-      />
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 lg:col-span-5 mb-10">
+          {
+            selectedFile?.length
+              ? (
+                <div className="mb-5">
+                  <audio style={{width: '100%'}} controls key={selectedFile}
+                    autoPlay={true}>
+                    <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
+                    Your browser does not support the audio tag.
+                  </audio>
+                  <p
+                    className="my-5 text-center truncate">{getFilename(selectedFile).substring(0, 30)}</p>
+                </div>
+              )
+              : <div className="aspect-video rounded-xl bg-muted/50"/>
+          }
+        </div>
+        <div className="col-span-12 lg:col-span-7 mb-10">
+          <ListDirectoryFiles
+            dir={PublicFolders.audios}
+            selectedFileHandler={selectedFileHandler}
+            selectedFileHandlerText='Play'
+          />
+        </div>
+      </div>
     </BaseLayout>
   );
 }

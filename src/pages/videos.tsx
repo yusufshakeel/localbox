@@ -3,6 +3,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import BaseLayout from '@/layouts/BaseLayout';
 import {getFilename} from '@/utils/filename';
 import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
+import {PublicFolders} from '@/configs/folders';
 
 export default function Videos() {
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
@@ -37,7 +38,7 @@ export default function Videos() {
 
         <div className="col-span-12 lg:col-span-7 mb-10">
           <ListDirectoryFiles
-            dir="videos"
+            dir={PublicFolders.videos}
             selectedFileHandler={selectedFileHandler}
             selectedFileHandlerText='Play'
           />

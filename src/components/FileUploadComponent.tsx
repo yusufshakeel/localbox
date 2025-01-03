@@ -1,9 +1,8 @@
 import showToast from '@/utils/show-toast';
-import {Button, Form, InputGroup} from 'react-bootstrap';
 import {useEffect, useRef, useState} from 'react';
 import useFileUploadEffect from '@/hooks/useFileUploadEffect';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faXmark, faUpload} from '@fortawesome/free-solid-svg-icons';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export default function FileUploadComponent() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -35,7 +34,7 @@ export default function FileUploadComponent() {
   useEffect(() => {
     if (error) {
       showToast({ type: 'error', content: error});
-    } else if (file){
+    } else if (file) {
       if (inputRef.current) {
         inputRef.current.value = '';
       }
@@ -46,23 +45,21 @@ export default function FileUploadComponent() {
 
   return (
     <div>
-      <InputGroup>
-        <Form.Control
-          className="no-focus-border"
-          type="file"
-          ref={inputRef}
-          name="file"
-          data-testid="file-input"
-          onChange={handleFileChange}
-        />
-        <Button variant="primary" data-testid="upload-btn" onClick={handleUpload}>
-          <FontAwesomeIcon icon={faUpload}/> Upload
+      <Input className="mb-3"
+        type="file"
+        ref={inputRef}
+        name="file"
+        data-testid="file-input"
+        onChange={handleFileChange} />
+      <div>
+        <Button variant="default" className="mr-3" data-testid="upload-btn" onClick={handleUpload}>
+          Upload
         </Button>
-        <Button variant="secondary" data-testid="reset-btn" onClick={handleReset}>
-          <FontAwesomeIcon icon={faXmark}/>
+        <Button variant="secondary" className="mr-3" data-testid="reset-btn" onClick={handleReset}>
+          Reset
         </Button>
-      </InputGroup>
-      {selectedFile && <span>Uploaded: {progress}%</span>}
+        {selectedFile && <span className="mr-3">Uploaded: {progress}%</span>}
+      </div>
     </div>
   );
 }

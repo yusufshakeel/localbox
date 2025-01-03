@@ -13,6 +13,8 @@ import {
   DropdownMenuItem, DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import {handleDownload} from '@/utils/download';
+import {PublicFolders} from '@/configs/folders';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -38,8 +40,20 @@ const columns: ColumnDef<FileInfo>[] = [
       );
     },
     cell: ({ row }) => {
-      const filename: string = row.getValue('filename');
-      return <div className="font-medium">{getFilename(filename)}</div>;
+      const { dir, filename, selectedFileHandler } = row.original;
+      const onClickHandler = () => {
+        const allowedFolders = [
+          PublicFolders.images,
+          PublicFolders.videos,
+          PublicFolders.audios
+        ];
+        if (allowedFolders.includes(dir as PublicFolders)) {
+          selectedFileHandler?.(filename);
+        }
+      };
+      return <div className="font-medium" onClick={onClickHandler}>
+        {getFilename(filename)}
+      </div>;
     }
   },
   {
@@ -47,13 +61,6 @@ const columns: ColumnDef<FileInfo>[] = [
     header: () => <div className="font-bold">Actions</div>,
     cell: ({ row }) => {
       const { dir, filename, selectedFileHandlerText, selectedFileHandler } = row.original;
-
-      const handleDownload = () => {
-        const link = document.createElement('a');
-        link.href = dir;
-        link.download = filename;
-        link.click();
-      };
 
       return (
         <DropdownMenu>
@@ -74,7 +81,7 @@ const columns: ColumnDef<FileInfo>[] = [
                 </>
               )
             }
-            <DropdownMenuItem onClick={handleDownload}>
+            <DropdownMenuItem onClick={() => handleDownload(dir, filename)}>
               Download
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -88,7 +95,9 @@ export type PropType = {
   dir: string,
   sort?: 'ASC' | 'DESC',
   selectedFileHandler?: (filename: string) => void,
-  selectedFileHandlerText?: string
+  selectedFileHandlerText?: string,
+  fetchAgain?: boolean,
+  setFetchAgain?: (_: boolean) => void,
 }
 
 export default function ListDirectoryFiles(props: PropType) {
@@ -111,12 +120,11 @@ export default function ListDirectoryFiles(props: PropType) {
         }));
       }
     };
-    fetchFiles().catch(e => showToast({content: e.message, type: 'error'}));
+    fetchFiles()
+      .catch(e => showToast({content: e.message, type: 'error'}));
   }, [props.dir, props.sort]);
 
   return (
-    <div className="container mx-auto">
-      <DataTable columns={columns} data={files}/>
-    </div>
+    <DataTable columns={columns} data={files}/>
   );
 }
