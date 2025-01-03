@@ -1,7 +1,7 @@
 import {useRef, useState} from 'react';
-import {Button, Form, InputGroup} from 'react-bootstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPaperPlane, faPaperclip} from '@fortawesome/free-solid-svg-icons';
+import {Send, Paperclip} from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import {MessageBodyType} from '@/hooks/temp-chats/useChattingEffect';
 import showToast from '@/utils/show-toast';
 import httpClient from '@/api-clients';
@@ -70,26 +70,25 @@ export default function InputComponent(props: PropType) {
   };
 
   return (
-    <InputGroup id="chat-input">
-      <Form.Control
-        className="no-focus-border"
-        as="textarea"
+    <div id="chat-input">
+      <Textarea
+        className="mb-5"
         rows={3}
-        style={{resize: 'none', borderTopLeftRadius: '0', borderBottomLeftRadius: '0.3rem'}}
+        style={{resize: 'none'}}
         placeholder="Enter message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <Button
-        variant="primary"
+      <Button className="me-3"
+        variant="default"
         onClick={sendHandler}>
-        <FontAwesomeIcon icon={faPaperPlane}/> Send
+        <Send/> Send
       </Button>
-      <Button
+      <Button className="me-3"
         variant="secondary"
         onClick={() => inputFile.current && inputFile.current.click()}
         style={{borderTopRightRadius: '0', borderBottomRightRadius: '0.3rem'}}>
-        <FontAwesomeIcon icon={faPaperclip}/>
+        <Paperclip/>
       </Button>
       <input type='file'
         id='openFileButtonInputField'
@@ -99,6 +98,6 @@ export default function InputComponent(props: PropType) {
           (event.target as HTMLInputElement).value = '';
         }}
         style={{display: 'none'}}/>
-    </InputGroup>
+    </div>
   );
 }

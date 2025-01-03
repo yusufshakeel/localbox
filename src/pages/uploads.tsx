@@ -13,6 +13,7 @@ export default function Uploads() {
         <div className="col-span-12 lg:col-span-7 mb-10">
           <ListDirectoryFiles
             dir={PublicFolders.uploads}
+            sort={'DESC'}
           />
         </div>
       </div>

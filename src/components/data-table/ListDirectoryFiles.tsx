@@ -122,7 +122,7 @@ export default function ListDirectoryFiles(props: PropType) {
     };
     fetchFiles()
       .catch(e => showToast({content: e.message, type: 'error'}));
-  }, [props.dir, props.sort]);
+  }, [props.dir, props.selectedFileHandler, props.selectedFileHandlerText, props.sort]);
 
   return (
     <DataTable columns={columns} data={files}/>
