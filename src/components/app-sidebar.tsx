@@ -14,7 +14,7 @@ import {useAppContext} from '@/context/AppContext';
 import {WEBSITE_NAME} from '@/constants';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const {ip, port, info} = useAppContext();
+  const {ip, port} = useAppContext();
 
   return (
     <Sidebar collapsible="icon" {...props}>
