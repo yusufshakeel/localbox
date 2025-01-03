@@ -1,16 +1,12 @@
 import {useState} from 'react';
-import Head from 'next/head';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 import BaseLayout from '@/layouts/BaseLayout';
-import { Container, Row, Col } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideo } from '@fortawesome/free-solid-svg-icons';
-import {WEBSITE_NAME} from '@/constants';
-import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
-import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
 import {getFilename} from '@/utils/filename';
+import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
+import {PublicFolders} from '@/configs/folders';
 
 export default function Videos() {
-  const [selectedFile, setSelectedFile] = useState<string|null>(null);
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -19,47 +15,35 @@ export default function Videos() {
   };
 
   return (
-    <>
-      <Head>{htmlHeadContentHelper({title: WEBSITE_NAME})}</Head>
-      <BaseLayout>
-        <Container>
-          <Row>
-            <Col>
-              <h1><FontAwesomeIcon icon={faVideo}/> Videos</h1>
-            </Col>
-          </Row>
-          <Row className="my-5">
-            <Col sm={12} lg={8}>
-              {
-                selectedFile?.length
-                  ? (
-                    <div className="mb-5">
-                      <video controls width="100%" key={selectedFile}
-                        autoPlay={true}>
-                        <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
-                        Your browser does not support the video tag.
-                      </video>
-                      <p className="my-3">{getFilename(selectedFile)}</p>
-                    </div>
-                  )
-                  : <video className="mb-5" controls width="100%" key={selectedFile}>
-                    <source src=""/>
-                    Your browser does not support the video tag.
-                  </video>
-              }
-            </Col>
-            <Col sm={12} lg={4}>
-              <ListDirectoryFilesComponent
-                dir={'videos'}
-                actions={['playVideo', 'download']}
-                actionHandlers={{playVideo: selectedFileHandler, click: selectedFileHandler}}
-                viewIn={'list'}
-                hasFixedHeight={400}
-              />
-            </Col>
-          </Row>
-        </Container>
-      </BaseLayout>
-    </>
+    <BaseLayout pageTitle={'Videos'}>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 lg:col-span-5 mb-10">
+          <AspectRatio ratio={16 / 9}>
+            {
+              selectedFile?.length
+                ? (
+                  <>
+                    <video controls key={selectedFile}
+                      autoPlay={true}>
+                      <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
+                      Your browser does not support the video tag.
+                    </video>
+                    <p className="my-3 text-center">{getFilename(selectedFile).substring(0, 30)}</p>
+                  </>
+                )
+                : <div className="aspect-video rounded-xl bg-muted/50"/>
+            }
+          </AspectRatio>
+        </div>
+
+        <div className="col-span-12 lg:col-span-7 mb-10">
+          <ListDirectoryFiles
+            dir={PublicFolders.videos}
+            selectedFileHandler={selectedFileHandler}
+            selectedFileHandlerText='Play'
+          />
+        </div>
+      </div>
+    </BaseLayout>
   );
 }

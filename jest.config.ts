@@ -9,7 +9,7 @@ import nextJest from 'next/jest';
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
   dir: './'
-})
+});
 
 const config: Config = {
   // All imported modules in your tests should be mocked automatically
@@ -34,9 +34,12 @@ const config: Config = {
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/*',
+    '/src/components/ui/*',
+    '/src/components/app-sidebar.tsx',
+    '/src/components/theme-provider.tsx'
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',

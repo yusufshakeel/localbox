@@ -1,22 +1,13 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
-import {
-  faFile,
-  faHome,
-  faImage,
-  faCircleInfo,
-  faMessage,
-  faMusic,
-  faUpload,
-  faVideo
-} from '@fortawesome/free-solid-svg-icons';
+import {Home, Upload, Image, Music, Video, File, MessageCircle, Info} from 'lucide-react';
 
-export const pages = [
-  {icon: faHome, title: 'Home', link: '/', hideOnHomePage: true},
-  {icon: faUpload, title: 'Uploads', link: '/uploads'},
-  {icon: faImage, title: 'Images', link: '/images'},
-  {icon: faMusic, title: 'Audios', link: '/audios'},
-  {icon: faVideo, title: 'Videos', link: '/videos'},
-  {icon: faFile, title: 'Documents', link: '/documents'},
-  {icon: faMessage, title: 'TempChats', link: '/temp-chats'},
-  {icon: faCircleInfo, title: 'Info', link: '/info', hideOnHomePage: true}
+export const PAGES = [
+  {icon: Home, title: 'Home', link: '/'},
+  {icon: Upload, title: 'Uploads', link: '/uploads'},
+  {icon: Image, title: 'Images', link: '/images'},
+  {icon: Music, title: 'Audios', link: '/audios'},
+  {icon: Video, title: 'Videos', link: '/videos'},
+  {icon: File, title: 'Documents', link: '/documents'},
+  {icon: MessageCircle, title: 'TempChats', link: '/temp-chats'},
+  {icon: Info, title: 'Info', link: '/info'}
 ];

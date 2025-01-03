@@ -1,4 +1,12 @@
-import {Button, Card, Form} from 'react-bootstrap';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {TEMP_CHATS_MESSAGES_USER_DISPLAY_NAME_MAX_LENGTH} from '@/configs/temp-chats';
 
 export type PropType = {
@@ -9,26 +17,27 @@ export type PropType = {
 
 export default function JoinChatComponent(props: PropType) {
   return (
-    <div className="text-center">
-      <Card className="d-inline-block shadow-sm">
-        <Card.Body>
-          <h3>Join Chat</h3>
-          <Form.Group className="mb-3" controlId="userDisplayName">
-            <Form.Control
-              className="no-focus-border"
-              type="text"
-              maxLength={TEMP_CHATS_MESSAGES_USER_DISPLAY_NAME_MAX_LENGTH}
-              placeholder="Set your display name"
-              value={props.displayName}
-              onChange={(e) => props.setDisplayName(e.target.value.trim())}
-            />
-            <Form.Text className="text-muted">
-              This cannot be changed later.
-            </Form.Text>
-          </Form.Group>
-          <Button variant="primary" onClick={props.joinChat}>Join</Button>
-        </Card.Body>
-      </Card>
-    </div>
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>Join Chat</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <Input placeholder="Set your display name"
+                value={props.displayName}
+                onChange={(e) => props.setDisplayName(e.target.value.trim())}
+                maxLength={TEMP_CHATS_MESSAGES_USER_DISPLAY_NAME_MAX_LENGTH}
+              />
+              <p><small>This cannot be changed later.</small></p>
+            </div>
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button variant="default" onClick={props.joinChat}>Join</Button>
+      </CardFooter>
+    </Card>
   );
 }

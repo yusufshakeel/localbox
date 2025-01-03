@@ -1,7 +1,7 @@
 # localbox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
-![Static Badge](https://img.shields.io/badge/version-v0.5.1-blue)
+![Static Badge](https://img.shields.io/badge/version-v0.6.2-blue)
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
@@ -12,7 +12,7 @@ Features:
 * Audio/Video player
 * Dark Mode
 
-![image-v0.4.5.png](public/assets/image-v0.4.5.png)
+![image-v0.6.0.png](public/assets/image-v0.6.0.png)
 
 ## Table of Content
 

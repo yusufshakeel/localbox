@@ -1,14 +1,11 @@
-import Head from 'next/head';
 import Image from 'next/image';
 import BaseLayout from '@/layouts/BaseLayout';
-import { Container, Row, Col } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faDownload, faImage} from '@fortawesome/free-solid-svg-icons';
-import {WEBSITE_NAME} from '@/constants';
-import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
-import ListDirectoryFilesComponent from '@/components/ListDirectoryFilesComponent';
+import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
 import {useState} from 'react';
 import {getFilename} from '@/utils/filename';
+import {Button} from '@/components/ui/button';
+import {handleDownload} from '@/utils/download';
+import {PublicFolders} from '@/configs/folders';
 
 export default function Images() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
@@ -20,55 +17,39 @@ export default function Images() {
   };
   
   return (
-    <>
-      <Head>{htmlHeadContentHelper({title:WEBSITE_NAME})}</Head>
-      <BaseLayout>
-        <Container>
-          <Row>
-            <Col>
-              <h1><FontAwesomeIcon icon={faImage}/> Images</h1>
-            </Col>
-          </Row>
-          <Row className="my-5">
-            <Col sm={12} lg={6} className="mb-5">
-              <div className="img-thumbnail text-center" style={{width: '100%', minHeight: '300px'}}>
-                {
-                  selectedFile?.length && (
-                    <div>
-                      <Image
-                        width={300}
-                        height={300}
-                        className="img-fluid ms-auto me-auto"
-                        src={`/images/${encodeURIComponent(selectedFile)}`}
-                        alt={selectedFile}/>
-                      <p className="my-3">{getFilename(selectedFile)}</p>
-                    </div>
-                  )
-                }
-              </div>
-              <div>
-                {
-                  selectedFile?.length && (
-                    <a className="btn btn-outline-primary btn-sm"
-                      href={`/images/${encodeURIComponent(selectedFile)}`} download>
-                      Download <FontAwesomeIcon icon={faDownload}/>
-                    </a>
-                  )
-                }
-              </div>
-            </Col>
-            <Col sm={12} lg={6}>
-              <ListDirectoryFilesComponent
-                dir={'images'}
-                actions={['viewImage', 'download']}
-                actionHandlers={{viewImage: selectedFileHandler, click: selectedFileHandler}}
-                hasFixedHeight={400}
-                viewIn={'list'}
-              />
-            </Col>
-          </Row>
-        </Container>
-      </BaseLayout>
-    </>
+    <BaseLayout pageTitle={'Images'}>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 lg:col-span-5 mb-10">
+          {
+            selectedFile?.length
+              ? (
+                <div>
+                  <Image
+                    width={300}
+                    height={300}
+                    className="img-fluid ms-auto me-auto"
+                    src={`/images/${encodeURIComponent(selectedFile)}`}
+                    alt={selectedFile}/>
+                  <p className="my-3 text-center">{getFilename(selectedFile).substring(0, 30)}</p>
+                  <p className="my-3 text-center">
+                    <Button variant="secondary"
+                      onClick={() => handleDownload('images', selectedFile)}>
+                      Download
+                    </Button>
+                  </p>
+                </div>
+              )
+              : <div className="aspect-video rounded-xl bg-muted/50"/>
+          }
+        </div>
+        <div className="col-span-12 lg:col-span-7 mb-10">
+          <ListDirectoryFiles
+            dir={PublicFolders.images}
+            selectedFileHandler={selectedFileHandler}
+            selectedFileHandlerText='View'
+          />
+        </div>
+      </div>
+    </BaseLayout>
   );
 }

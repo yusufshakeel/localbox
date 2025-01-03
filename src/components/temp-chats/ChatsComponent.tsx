@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import {useEffect, useRef, useState} from 'react';
 import {MessageType} from '@/hooks/temp-chats/useChattingEffect';
-import {faDownload} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {getFilename} from '@/utils/filename';
 import useWindowEffect from '@/hooks/useWindowEffect';
 import {formatDate} from '@/utils/date';
@@ -33,21 +31,24 @@ export default function ChatsComponent(props: PropType) {
       const paddingTop = parseFloat(window.getComputedStyle(body).paddingTop);
       const chatHeader = document.getElementById('chat-header')?.offsetHeight ?? 0;
       const chatInput = document.getElementById('chat-input')?.offsetHeight ?? 0;
-      const chatContent = viewportHeight - paddingTop - chatHeader - chatInput - 10;
+      const chatContent = viewportHeight - paddingTop - chatHeader - chatInput - 200;
       setChatContentHeight(chatContent);
     }
   }, [viewportHeight]);
 
   return (
-    <div id="chat-content" ref={messagesEndRef} style={{ padding: '10px', height: `${chatContentHeight}px`, overflowY: 'scroll', borderRadius: '0'}}>
+    <div
+      ref={messagesEndRef}
+      className="border"
+      style={{ padding: '10px', height: `${chatContentHeight}px`, overflowY: 'scroll' }}>
       {
         (props.messages || []).map((msg: MessageType, idx) => {
           const fileName = getFilename(msg.message);
           const message =
             msg.type === 'file'
               ? <div>
-                <a className="ys-a-link" href={`/temp-chats/${encodeURIComponent(msg.message)}`} download>
-                  {fileName} <FontAwesomeIcon icon={faDownload}/>
+                <a className="ys-a-link text-blue-700 font-bold" href={`/temp-chats/${encodeURIComponent(msg.message)}`} download>
+                  {fileName}
                 </a>
               </div>
               : <span>{msg.message}</span>;
@@ -85,7 +86,7 @@ export default function ChatsComponent(props: PropType) {
             <div key={idx}
               style={{textAlign: msg.userId === props.currentUserId ? 'right' : 'left'}}>
               <div
-                className="card mb-3 p-2"
+                className="border mb-3 p-2 rounded-md"
                 style={{display: 'inline-block'}}>
                 <div className="mb-1">
                   <strong>{msg.displayName} </strong>

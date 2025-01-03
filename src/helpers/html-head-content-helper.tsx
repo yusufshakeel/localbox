@@ -4,7 +4,7 @@ export type HtmlHeadPropsType = {
     title?: string;
 };
 
-export default function htmlHeadContentHelper(props: HtmlHeadPropsType) {
+export default function htmlHeadContentHelper(props: HtmlHeadPropsType = {}) {
   const title = props.title ? props.title + ' | ' + WEBSITE_NAME : WEBSITE_NAME;
   return (
     <>
