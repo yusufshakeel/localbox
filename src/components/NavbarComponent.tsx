@@ -1,7 +1,7 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import Link from 'next/link';
 import { WEBSITE_NAME } from '@/constants';
-import {pages} from '@/configs/pages';
+import {PAGES} from '@/configs/pages';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCloud} from '@fortawesome/free-solid-svg-icons';
 import {useAppContext} from '@/context/AppContext';
@@ -19,7 +19,7 @@ export default function NavbarComponent() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {
-              pages.map((page, index) => {
+              PAGES.map((page, index) => {
                 return (
                   <Nav.Link key={index} as={Link} href={page.link} className="me-4">
                     <FontAwesomeIcon icon={page.icon}/>
