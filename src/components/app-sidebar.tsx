@@ -28,7 +28,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-bold">{WEBSITE_NAME}</span>
-                  <span className="">{info?.version && `v${info.version}`}</span>
                 </div>
               </Link>
             </SidebarMenuButton>
