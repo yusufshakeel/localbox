@@ -11,3 +11,5 @@ export const formatDate = (timestamp: number): string => {
 
   return new Date(timestamp).toLocaleString('en-GB', options).replace(',', '');
 };
+
+export const getISOStringDate = () => new Date().toISOString();

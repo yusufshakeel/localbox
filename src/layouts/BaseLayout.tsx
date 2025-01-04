@@ -15,17 +15,24 @@ import {Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbPage} from '@/comp
 import Head from 'next/head';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import Link from 'next/link';
+import {SetAppSidebar} from '@/components/setup-app-sidebar';
 
-export default function BaseLayout(
-  { children, pageTitle }: { children: React.ReactNode, pageTitle: string }
-) {
+export default function BaseLayout({
+  children,
+  pageTitle,
+  isSetupPage
+}: { children: React.ReactNode, pageTitle: string, isSetupPage?: boolean }) {
   const { setTheme } = useTheme();
 
   return (
     <>
       <Head>{htmlHeadContentHelper({ title: pageTitle })}</Head>
       <SidebarProvider>
-        <AppSidebar />
+        {
+          isSetupPage
+            ? <SetAppSidebar/>
+            : <AppSidebar />
+        }
         <SidebarInset>
           <div className="sticky top-0 bg-background z-10 shadow">
             <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">

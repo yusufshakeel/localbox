@@ -1,5 +1,8 @@
 import BaseLayout from '@/layouts/BaseLayout';
 import {WEBSITE_NAME} from '@/constants';
+import fs from 'fs';
+import path from 'path';
+import {LOCALBOX_SETUP_LOCK_FILENAME} from '@/configs';
 
 export default function Home() {
   return (
@@ -12,4 +15,16 @@ export default function Home() {
       </div>
     </BaseLayout>
   );
+}
+
+export function getServerSideProps() {
+  const filePath = path.join(process.cwd(), 'private', LOCALBOX_SETUP_LOCK_FILENAME);
+  if (!fs.existsSync(filePath)) {
+    return {
+      redirect: {
+        destination: '/setup'
+      }
+    };
+  }
+  return { props: {} };
 }
