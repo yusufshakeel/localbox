@@ -12,7 +12,7 @@ export function setupEnvFile() {
   const lines = fileContent.split('\n');
 
   let isAuthSecretSet = false;
-  const authSecret = `AUTH_SECRET=${crypto.randomBytes(64).toString('base64')}`;
+  const authSecret = `AUTH_SECRET=${crypto.randomBytes(32).toString('base64')}`;
 
   const updatedFileContent = lines.filter(l => l.length).map(line => {
     const [key, value] = line.split('=');

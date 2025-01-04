@@ -7,28 +7,31 @@ import useUserPreferencesEffect from '@/hooks/useUserPreferencesEffect';
 import useInfoEffect from '@/hooks/useInfoEffect';
 import useServeIpAddressEffect from '@/hooks/useServeIpAddressEffect';
 import { ThemeProvider } from '@/components/theme-provider';
+import { SessionProvider } from 'next-auth/react';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const {userPreferences, setUserPreferences} = useUserPreferencesEffect();
   const {info} = useInfoEffect();
   const {ip, port, localServerAddress} = useServeIpAddressEffect();
 
   return (
     <>
-      <AppContext.Provider value={{
-        userPreferences, setUserPreferences,
-        info, ip, port, localServerAddress
-      }}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Component {...pageProps} />
-          <ToastContainer/>
-        </ThemeProvider>
-      </AppContext.Provider>
+      <SessionProvider session={session}>
+        <AppContext.Provider value={{
+          userPreferences, setUserPreferences,
+          info, ip, port, localServerAddress
+        }}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Component {...pageProps} />
+            <ToastContainer/>
+          </ThemeProvider>
+        </AppContext.Provider>
+      </SessionProvider>
     </>
   );
 }
