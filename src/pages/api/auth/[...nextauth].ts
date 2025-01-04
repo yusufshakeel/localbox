@@ -107,6 +107,9 @@ export const authOptions = {
     // The maximum age of the NextAuth.js issued JWT in seconds.
     // Defaults to `session.maxAge`.
     maxAge: 15 * 60 // 15 min
+  },
+  pages: {
+    signIn: '/login'
   }
 };
 
