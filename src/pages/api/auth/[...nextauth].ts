@@ -92,7 +92,7 @@ export const authOptions = {
     strategy: 'jwt' as any,
 
     // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 24 * 60 * 60, // 1 day
+    maxAge: 15 * 60, // 15 min
 
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
@@ -106,7 +106,7 @@ export const authOptions = {
   jwt: {
     // The maximum age of the NextAuth.js issued JWT in seconds.
     // Defaults to `session.maxAge`.
-    maxAge: 24 * 60 * 60 // 1 day
+    maxAge: 15 * 60 // 15 min
   }
 };
 
