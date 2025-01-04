@@ -8,23 +8,25 @@ const dataDir = path.join(process.cwd(), DATABASE_DIR);
 const schemaRegistry = new SchemaRegistry({
   collections: [
     {
-      name: DB_COLLECTIONS.TempChatsMessages,
+      name: DB_COLLECTIONS.Users,
       columns: [
         { name: 'id', isUnique: true },
-        { name: 'userId', isRequired: true },
+        { name: 'username', isRequired: true },
         { name: 'displayName', isRequired: true },
-        { name: 'message', isRequired: true },
+        { name: 'password', isRequired: true },
+        { name: 'status', isRequired: true },
         { name: 'type', isRequired: true },
-        { name: 'timestamp', isRequired: true }
+        { name: 'createdAt', isRequired: true },
+        { name: 'updatedAt' }
       ]
     }
   ]
 });
 
-export const tempChatMessagesConfig = {
+const config = {
   dataDir,
   schemaRegistry
 };
 
-export const db = minivium(tempChatMessagesConfig);
-export const TempChatsMessagesCollectionName = DB_COLLECTIONS.TempChatsMessages;
+export const db = minivium(config);
+export const UsersCollectionName = DB_COLLECTIONS.Users;

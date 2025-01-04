@@ -1,0 +1,1 @@
+export const PASSWORD_SALT_ROUND = 12;

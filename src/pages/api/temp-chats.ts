@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS } from '@/configs/temp-chats';
 import {Op} from 'minivium';
-import {db, TempChatsMessagesCollectionName} from '@/configs/database/temp-chat-messages';
+import {db, TempChatsMessagesCollectionName} from '@/configs/database/temp-chats-messages';
 import {PublicFolder, PublicFolders} from '@/configs/folders';
 
 // Remove expired messages
@@ -41,8 +41,6 @@ const cleanupOlderFiles = async () => {
 };
 
 export default async function handler(req: any, res: any) {
-  await db.initAsync();
-
   if (!res.socket.server.io) {
     const io = new Server(res.socket.server, {
       path: '/api/temp-chats' // Custom Socket.IO path
