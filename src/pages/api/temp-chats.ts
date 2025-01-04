@@ -1,18 +1,15 @@
 import { Server } from 'socket.io';
 import fs from 'fs-extra';
 import path from 'path';
-import {
-  TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS,
-  TEMP_CHATS_MESSAGES_FILENAME
-} from '@/configs/temp-chats';
+import { TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS } from '@/configs/temp-chats';
 import {Op} from 'minivium';
-import {db} from '@/configs/database/temp-chat-messages';
+import {db, TempChatsMessagesCollectionName} from '@/configs/database/temp-chat-messages';
 import {PublicFolder, PublicFolders} from '@/configs/folders';
 
 // Remove expired messages
 const cleanupExpiredMessages = async () => {
   const now = Date.now();
-  await db.query.deleteAsync(TEMP_CHATS_MESSAGES_FILENAME, {
+  await db.query.deleteAsync(TempChatsMessagesCollectionName, {
     where: { timestamp: { [Op.lt]: now - TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS } }
   });
 };
@@ -60,7 +57,7 @@ export default async function handler(req: any, res: any) {
 
       let messages;
       try {
-        messages = await db.query.selectAsync(TEMP_CHATS_MESSAGES_FILENAME);
+        messages = await db.query.selectAsync(TempChatsMessagesCollectionName);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err: any) {
         messages = [];
@@ -71,7 +68,7 @@ export default async function handler(req: any, res: any) {
       socket.on('sendMessage', async (data) => {
         const now = Date.now();
         const newMessage = { ...data, timestamp: now };
-        await db.query.insertAsync(TEMP_CHATS_MESSAGES_FILENAME, { ...data, timestamp: now });
+        await db.query.insertAsync(TempChatsMessagesCollectionName, { ...data, timestamp: now });
 
         // Broadcast the message to all clients
         io.emit('newMessage', newMessage);
