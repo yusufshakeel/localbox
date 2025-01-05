@@ -3,19 +3,10 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/c
 import {useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
 import {handleSignOut} from '@/services/auth-service';
+import {WithAuth} from '@/components/with-auth';
 
-export default function ProfilePage() {
+function ProfilePage() {
   const {data: session} = useSession() as any;
-
-  if (!session) {
-    return (
-      <BaseLayout pageTitle={'Profile'}>
-        <div className="grid gap-4">
-          <p>You are logged out!</p>
-        </div>
-      </BaseLayout>
-    );
-  }
 
   const { user } = session;
 
@@ -67,3 +58,5 @@ export default function ProfilePage() {
     </BaseLayout>
   );
 }
+
+export default WithAuth(ProfilePage);

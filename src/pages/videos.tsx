@@ -4,8 +4,9 @@ import BaseLayout from '@/layouts/BaseLayout';
 import {getFilename} from '@/utils/filename';
 import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
+import {WithAuth} from '@/components/with-auth';
 
-export default function Videos() {
+function Videos() {
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
   const selectedFileHandler = (file: string) => {
@@ -47,3 +48,5 @@ export default function Videos() {
     </BaseLayout>
   );
 }
+
+export default WithAuth(Videos);

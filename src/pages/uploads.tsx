@@ -2,8 +2,9 @@ import BaseLayout from '@/layouts/BaseLayout';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
+import {WithAuth} from '@/components/with-auth';
 
-export default function Uploads() {
+function Uploads() {
   return (
     <BaseLayout pageTitle={'Uploads'}>
       <div className="grid grid-cols-12 gap-4">
@@ -20,3 +21,5 @@ export default function Uploads() {
     </BaseLayout>
   );
 }
+
+export default WithAuth(Uploads);

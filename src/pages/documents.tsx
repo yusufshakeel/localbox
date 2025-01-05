@@ -1,8 +1,9 @@
 import BaseLayout from '@/layouts/BaseLayout';
 import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
+import {WithAuth} from '@/components/with-auth';
 
-export default function Documents() {
+function Documents() {
   return (
     <BaseLayout pageTitle={'Documents'}>
       <div className="grid grid-cols-12 gap-4">
@@ -15,3 +16,5 @@ export default function Documents() {
     </BaseLayout>
   );
 }
+
+export default WithAuth(Documents);
