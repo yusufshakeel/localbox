@@ -3,8 +3,9 @@ import {useState} from 'react';
 import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
 import {getFilename} from '@/utils/filename';
 import {PublicFolders} from '@/configs/folders';
+import {WithAuth} from '@/components/with-auth';
 
-export default function Audios() {
+function Audios() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
 
   const selectedFileHandler = (file: string) => {
@@ -44,3 +45,5 @@ export default function Audios() {
     </BaseLayout>
   );
 }
+
+export default WithAuth(Audios);

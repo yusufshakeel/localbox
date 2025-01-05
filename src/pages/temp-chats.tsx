@@ -7,8 +7,9 @@ import useUserAccountEffect from '@/hooks/temp-chats/useUserAccountEffect';
 import MenuBarComponent from '@/components/temp-chats/MenuBarComponent';
 import InputComponent from '@/components/temp-chats/InputComponent';
 import DeleteAccountModalComponent from '@/components/temp-chats/DeleteAccountModalComponent';
+import {WithAuth} from '@/components/with-auth';
 
-export default function TempChats() {
+function TempChats() {
   const {messages, sendMessage} = useChattingEffect();
   const {
     displayName,
@@ -77,3 +78,5 @@ export default function TempChats() {
     </BaseLayout>
   );
 }
+
+export default WithAuth(TempChats);

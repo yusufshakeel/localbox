@@ -6,8 +6,9 @@ import {getFilename} from '@/utils/filename';
 import {Button} from '@/components/ui/button';
 import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
+import {WithAuth} from '@/components/with-auth';
 
-export default function Images() {
+function Images() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
 
   const selectedFileHandler = (file: string) => {
@@ -53,3 +54,5 @@ export default function Images() {
     </BaseLayout>
   );
 }
+
+export default WithAuth(Images);

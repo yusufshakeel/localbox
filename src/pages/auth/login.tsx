@@ -19,9 +19,10 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType
 } from 'next';
-import {getCsrfToken} from 'next-auth/react';
+import {getCsrfToken, useSession} from 'next-auth/react';
 import {AlertError} from '@/components/alerts';
 import {handleCredentialsSignIn} from '@/services/auth-service';
+import LoadingSpinner from '@/components/loading';
 
 export const loginFormSchema = z.object({
   username: z.string({ required_error: 'Username is required' })
@@ -33,10 +34,17 @@ export const loginFormSchema = z.object({
 export default function LogInPage({
   csrfToken
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { status } = useSession();
   const router = useRouter();
   const { error } = router.query;
 
   const [globalError, setGlobalError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/'); // Redirect to home if logged in
+    }
+  }, [status, router]);
 
   useEffect(() => {
     if (typeof error === 'string') {
@@ -62,6 +70,10 @@ export default function LogInPage({
     } catch (error: any) {
       setGlobalError(error.message);
     }
+  }
+
+  if (status === 'loading') {
+    return <LoadingSpinner/>;
   }
 
   return (
