@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import { useRouter } from 'next/router';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -14,13 +15,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import BaseLayout from '@/layouts/BaseLayout';
-import {signIn} from 'next-auth/react';
-import {TriangleIcon} from 'lucide-react';
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType
 } from 'next';
-import { getCsrfToken } from 'next-auth/react';
+import {getCsrfToken} from 'next-auth/react';
+import {AlertError} from '@/components/alerts';
+import {handleCredentialsSignIn} from '@/services/auth-service';
 
 export const loginFormSchema = z.object({
   username: z.string({ required_error: 'Username is required' })
@@ -32,9 +33,21 @@ export const loginFormSchema = z.object({
 export default function LogInPage({
   csrfToken
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [globalError, setGlobalError] = useState<string>('');
-  
-  // 1. Define the form.
+  const router = useRouter();
+  const { error } = router.query;
+
+  const [globalError, setGlobalError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof error === 'string') {
+      if (error === 'CredentialsSignin') {
+        setGlobalError('Invalid Credentials');
+      } else {
+        setGlobalError('Something went wrong');
+      }
+    }
+  }, [error]);
+
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -43,21 +56,11 @@ export default function LogInPage({
     }
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    const {username, password} = values;
     try {
-      await signIn('credentials', { username, password, redirectTo: '/' });
+      await handleCredentialsSignIn(values);
     } catch (error: any) {
-      switch (error.type) {
-      case 'CredentialsSignin':
-        setGlobalError('Invalid credentials');
-        break;
-      default:
-        setGlobalError('Something went wrong');
-      }
+      setGlobalError(error.message);
     }
   }
 
@@ -67,20 +70,11 @@ export default function LogInPage({
         <div className="w-full max-w-sm">
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-center">Log In</CardTitle>
+              <CardTitle className="text-2xl text-center">Log in to your account</CardTitle>
             </CardHeader>
             <CardContent>
               {
-                globalError && (
-                  <div
-                    className="flex w-full items-center p-4 mb-4 gap-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                    role="alert"
-                  >
-                    <TriangleIcon className="h-4 w-4 text-red-500"/>
-                    <span className="sr-only">Error</span>
-                    <div>{globalError}</div>
-                  </div>
-                )
+                globalError && <AlertError message={globalError}/>
               }
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
