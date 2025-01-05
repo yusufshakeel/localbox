@@ -16,6 +16,7 @@ const schemaRegistry = new SchemaRegistry({
         { name: 'password', isRequired: true },
         { name: 'status', isRequired: true },
         { name: 'type', isRequired: true },
+        { name: 'permissions', isRequired: true },
         { name: 'createdAt', isRequired: true },
         { name: 'updatedAt' }
       ]

@@ -10,7 +10,8 @@ export function setupAdminAccount() {
     displayName: 'Admin',
     password: passwordService.hashPassword(plainTextPassword),
     status: UserStatus.active,
-    type: UserType.admin
+    type: UserType.admin,
+    permissions: ['admin']
   };
   const where = { where: { username: adminUser.username } };
   if (Users.query.select(UsersCollectionName, where).length) {

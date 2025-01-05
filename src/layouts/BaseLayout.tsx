@@ -1,5 +1,5 @@
 import React from 'react';
-import {Home, Moon, Sun} from 'lucide-react';
+import {Home, Moon, Sun, User} from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +16,7 @@ import Head from 'next/head';
 import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import Link from 'next/link';
 import {SetAppSidebar} from '@/components/setup-app-sidebar';
+import {useSession} from 'next-auth/react';
 
 export default function BaseLayout({
   children,
@@ -23,6 +24,7 @@ export default function BaseLayout({
   isSetupPage
 }: { children: React.ReactNode, pageTitle: string, isSetupPage?: boolean }) {
   const { setTheme } = useTheme();
+  const {data: session} = useSession() as any;
 
   return (
     <>
@@ -54,26 +56,44 @@ export default function BaseLayout({
                 </Breadcrumb>
               </div>
               <div className="flex ms-auto">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon">
-                      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                      <span className="sr-only">Toggle theme</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => setTheme('light')}>
-                      Light
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme('dark')}>
-                      Dark
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme('system')}>
-                      System
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                {
+                  session?.user
+                    ? (
+                      <Link href="/profile">
+                        <Button variant="ghost">
+                          <User/>
+                          {session.user.displayName}
+                        </Button>
+                      </Link>
+                    )
+                    : (
+                      <Link href="/auth/login">
+                        <Button variant="ghost">Log in</Button>
+                      </Link>
+                    )
+                }
+                <div className="ms-3">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="icon">
+                        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                        <span className="sr-only">Toggle theme</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => setTheme('light')}>
+                        Light
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setTheme('dark')}>
+                        Dark
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setTheme('system')}>
+                        System
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </div>
             </header>
           </div>
