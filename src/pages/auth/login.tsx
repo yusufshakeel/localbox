@@ -114,6 +114,10 @@ export default function LogInPage({
               </Form>
             </CardContent>
           </Card>
+          <div className="my-10 text-center">
+            <p>Don&#39;t have any account?</p>
+            <p>Contact the admin for account creation.</p>
+          </div>
         </div>
       </div>
     </BaseLayout>

@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import {db, UsersCollectionName} from '@/configs/database/users';
 import {UserStatus} from '@/types/users';
 import passwordService from '@/services/password-service';
+import {loginFormSchema} from '@/pages/auth/login';
 
 export const authOptions = {
   secret: process.env.AUTH_SECRET,
@@ -26,42 +27,51 @@ export const authOptions = {
         // Any object returned will be saved in `user` property of the JWT
         // If you return null then an error will be displayed advising the user to check their details.
 
-        if (!credentials || !credentials.username || !credentials.password) {
+        try {
+          const parsedCredentials = loginFormSchema.safeParse(credentials);
+          if (!parsedCredentials.success) {
+            return null;
+          }
+
+          const users  = await db.query.selectAsync(UsersCollectionName, {
+            where: { username: parsedCredentials.data.username, status: UserStatus.active }
+          });
+
+          if (users.length !== 1) {
+            return null;
+          }
+
+          const {
+            id,
+            username,
+            password,
+            displayName,
+            status,
+            type,
+            permissions,
+            createdAt,
+            updatedAt
+          } = users[0];
+
+          if (!passwordService.isValidPassword(parsedCredentials.data.password, password)) {
+            return null;
+          }
+
+          return {
+            id,
+            username,
+            displayName,
+            status,
+            type,
+            permissions,
+            createdAt,
+            updatedAt
+          };
+        } catch (error) {
+          // eslint-disable-next-line
+          console.log('authorize error', error);
           return null;
         }
-
-        const users  = await db.query.selectAsync(UsersCollectionName, {
-          where: { username: credentials.username, status: UserStatus.active }
-        });
-
-        if (!users.length || users.length !== 1) {
-          return null;
-        }
-
-        const {
-          id,
-          username,
-          password,
-          displayName,
-          status,
-          type,
-          createdAt,
-          updatedAt
-        } = users[0];
-
-        if (!passwordService.isValidPassword(credentials.password, password)) {
-          return null;
-        }
-
-        return {
-          id,
-          username,
-          displayName,
-          status,
-          type,
-          createdAt,
-          updatedAt
-        };
       }
     })
 
