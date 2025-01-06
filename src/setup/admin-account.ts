@@ -2,6 +2,7 @@ import passwordService from '@/services/password-service';
 import {UserStatus, UserType} from '@/types/users';
 import {db as Users, UsersCollectionName} from '@/configs/database/users';
 import {getISOStringDate} from '@/utils/date';
+import {PermissionsType} from '@/types/permissions';
 
 export function setupAdminAccount() {
   const plainTextPassword = 'root1234';
@@ -11,7 +12,7 @@ export function setupAdminAccount() {
     password: passwordService.hashPassword(plainTextPassword),
     status: UserStatus.active,
     type: UserType.admin,
-    permissions: ['admin']
+    permissions: [PermissionsType.ADMIN]
   };
   const where = { where: { username: adminUser.username } };
   if (Users.query.select(UsersCollectionName, where).length) {

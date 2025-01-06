@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Sidebar,
   SidebarContent,
@@ -8,13 +9,16 @@ import {
   SidebarMenuItem, SidebarRail
 } from '@/components/ui/sidebar';
 import {Server} from 'lucide-react';
-import {PAGES} from '@/configs/pages';
+import {LOGGED_IN_ADMIN_PAGES, LOGGED_IN_USER_PAGES, PAGES} from '@/configs/pages';
 import Link from 'next/link';
 import {useAppContext} from '@/context/AppContext';
 import {WEBSITE_NAME} from '@/constants';
+import {useSession} from 'next-auth/react';
+import {UserType} from '@/types/users';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const {ip, port} = useAppContext();
+  const {ip, port, localServerAddress} = useAppContext();
+  const {data: session} = useSession() as any;
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -51,20 +55,63 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <div>
+                  <Link href={localServerAddress}>
                     <Server/>
                     <span>{ip}:{port}</span>
-                  </div>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {
+          session && (
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {LOGGED_IN_USER_PAGES.map((page) => (
+                    <SidebarMenuItem key={page.title}>
+                      <SidebarMenuButton asChild>
+                        <Link href={page.link}>
+                          <page.icon />
+                          <span>{page.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          )
+        }
+
+        {
+          session?.user?.type === UserType.admin && (
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {LOGGED_IN_ADMIN_PAGES.map((page) => (
+                    <SidebarMenuItem key={page.title}>
+                      <SidebarMenuButton asChild>
+                        <Link href={page.link}>
+                          <page.icon />
+                          <span>{page.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          )
+        }
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
