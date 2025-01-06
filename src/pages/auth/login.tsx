@@ -23,13 +23,7 @@ import {getCsrfToken, useSession} from 'next-auth/react';
 import {AlertError} from '@/components/alerts';
 import {handleCredentialsSignIn} from '@/services/auth-service';
 import LoadingSpinner from '@/components/loading';
-
-export const loginFormSchema = z.object({
-  username: z.string({ required_error: 'Username is required' })
-    .min(1, 'Username is required'),
-  password: z.string({ required_error: 'Password is required' })
-    .min(1, 'Password is required')
-});
+import {loginSchema} from '@/validations/login-validation';
 
 export default function LogInPage({
   csrfToken
@@ -58,15 +52,15 @@ export default function LogInPage({
     }
   }, [error]);
 
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       username: '',
       password: ''
     }
   });
 
-  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
     try {
       await handleCredentialsSignIn(values);
     } catch (error: any) {
