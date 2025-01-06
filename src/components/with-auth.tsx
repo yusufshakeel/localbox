@@ -2,7 +2,6 @@ import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/router';
 import {ComponentType, useEffect} from 'react';
 import LoadingSpinner from '@/components/loading';
-import BaseLayout from '@/layouts/BaseLayout';
 import {UserType} from '@/types/users';
 
 interface WithAuthOptions {
@@ -36,19 +35,9 @@ export function WithAuth(
       })();
     }, [status, router, redirectTo, requireAuthentication, userType, session?.user.userType]);
 
-    if (status === 'loading') {
+    if (status === 'loading' || !session) {
       // Optionally display a loading state while session is checked
       return <LoadingSpinner/>;
-    }
-
-    if (!session) {
-      return (
-        <BaseLayout pageTitle={'Profile'}>
-          <div className="grid gap-4">
-            <p>You are logged out!</p>
-          </div>
-        </BaseLayout>
-      );
     }
 
     // Render the wrapped component if the conditions are met
