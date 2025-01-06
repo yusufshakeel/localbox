@@ -34,16 +34,18 @@ export const loginFormSchema = z.object({
 export default function LogInPage({
   csrfToken
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const { error } = router.query;
 
   const [globalError, setGlobalError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      router.push('/'); // Redirect to home if logged in
-    }
+    (async () => {
+      if (status === 'authenticated') {
+        await router.push('/'); // Redirect to home if logged in
+      }
+    })();
   }, [status, router]);
 
   useEffect(() => {
@@ -72,7 +74,7 @@ export default function LogInPage({
     }
   }
 
-  if (status === 'loading') {
+  if (status === 'loading' || session) {
     return <LoadingSpinner/>;
   }
 
