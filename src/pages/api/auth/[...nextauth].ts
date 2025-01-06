@@ -123,4 +123,8 @@ export const authOptions = {
   }
 };
 
-export default NextAuth(authOptions);
+export default function nextAuth(req: any, res: any) {
+  const host = req.headers.host || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  process.env.NEXTAUTH_URL = `http://${host}`; // Dynamically update the base URL
+  return NextAuth(authOptions)(req, res);
+};
