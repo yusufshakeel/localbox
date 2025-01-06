@@ -125,6 +125,6 @@ export default function ListDirectoryFiles(props: PropType) {
   }, [props.dir, props.selectedFileHandler, props.selectedFileHandlerText, props.sort]);
 
   return (
-    <DataTable columns={columns} data={files}/>
+    <DataTable columns={columns} data={files} columnToSearch='filename'/>
   );
 }

@@ -2,7 +2,7 @@ import {useState} from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import BaseLayout from '@/layouts/BaseLayout';
 import {getFilename} from '@/utils/filename';
-import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
+import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 

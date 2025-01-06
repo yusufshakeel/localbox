@@ -7,7 +7,7 @@ import {
 import BaseLayout from '@/layouts/BaseLayout';
 import {WithAuth} from '@/components/with-auth';
 import {UserType} from '@/types/users';
-import {UserManagement} from '@/components/admin/user-management';
+import UserManagementComponent from '@/components/admin/users';
 
 function AdminDashboardPage() {
   return (
@@ -19,7 +19,7 @@ function AdminDashboardPage() {
           <TabsTrigger value="pages">Pages</TabsTrigger>
         </TabsList>
         <TabsContent value="users">
-          <UserManagement/>
+          <UserManagementComponent/>
         </TabsContent>
         <TabsContent value="permissions">permissions
         </TabsContent>

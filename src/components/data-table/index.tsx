@@ -24,12 +24,14 @@ import { Input } from '@/components/ui/input';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
+  columnToSearch: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
+  columnToSearch
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
@@ -54,10 +56,10 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center mb-4">
         <Input
-          placeholder="Search by name..."
-          value={(table.getColumn('filename')?.getFilterValue() as string) ?? ''}
+          placeholder="🔍 Search..."
+          value={(table.getColumn(columnToSearch)?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('filename')?.setFilterValue(event.target.value)
+            table.getColumn(columnToSearch)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
