@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import {db, UsersCollectionName} from '@/configs/database/users';
 import {UserStatus} from '@/types/users';
 import passwordService from '@/services/password-service';
-import {loginFormSchema} from '@/pages/auth/login';
+import {loginSchema} from '@/validations/login-validation';
 
 export const authOptions = {
   secret: process.env.AUTH_SECRET,
@@ -28,7 +28,7 @@ export const authOptions = {
         // If you return null then an error will be displayed advising the user to check their details.
 
         try {
-          const parsedCredentials = loginFormSchema.safeParse(credentials);
+          const parsedCredentials = loginSchema.safeParse(credentials);
           if (!parsedCredentials.success) {
             return null;
           }

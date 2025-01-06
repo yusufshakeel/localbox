@@ -18,14 +18,14 @@ import {PublicFolders} from '@/configs/folders';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-type FileSchemaForColumns = {
+type UserSchemaForColumn = {
   dir: string
   filename: string
   selectedFileHandler?: (filename: string) => void
   selectedFileHandlerText?: string
 }
 
-const columns: ColumnDef<FileSchemaForColumns>[] = [
+const columns: ColumnDef<UserSchemaForColumn>[] = [
   {
     accessorKey: 'filename',
     header: ({ column }) => {
@@ -100,8 +100,8 @@ export type PropType = {
   setFetchAgain?: (_: boolean) => void,
 }
 
-export default function ListDirectoryFiles(props: PropType) {
-  const [files, setFiles] = useState<FileSchemaForColumns[]>([]);
+export default function ListUsers(props: PropType) {
+  const [files, setFiles] = useState<UserSchemaForColumn[]>([]);
 
   useEffect(() => {
     const fetchFiles = async () => {

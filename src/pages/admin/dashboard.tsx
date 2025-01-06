@@ -1,13 +1,31 @@
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from '@/components/ui/tabs';
 import BaseLayout from '@/layouts/BaseLayout';
 import {WithAuth} from '@/components/with-auth';
 import {UserType} from '@/types/users';
+import {UserManagement} from '@/components/admin/user-management';
 
 function AdminDashboardPage() {
   return (
     <BaseLayout pageTitle={'Admin Dashboard'}>
-      <div className="grid gap-4">
-        <h1>Admin Dashboard</h1>
-      </div>
+      <Tabs defaultValue="users">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="users">Users</TabsTrigger>
+          <TabsTrigger value="permissions">Permissions</TabsTrigger>
+          <TabsTrigger value="pages">Pages</TabsTrigger>
+        </TabsList>
+        <TabsContent value="users">
+          <UserManagement/>
+        </TabsContent>
+        <TabsContent value="permissions">permissions
+        </TabsContent>
+        <TabsContent value="pages">pages
+        </TabsContent>
+      </Tabs>
     </BaseLayout>
   );
 }
