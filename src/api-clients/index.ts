@@ -103,7 +103,7 @@ export class HttpClient {
     url, body, params, headers = {'Content-Type': 'application/json'}
   }: {
     url: string,
-    body: any,
+    body?: any,
     params?: any,
     headers?: any,
   }): Promise<ApiResponse<T>> {

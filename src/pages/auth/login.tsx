@@ -123,7 +123,7 @@ export default function LogInPage({
             </CardContent>
           </Card>
           <div className="my-10 text-center">
-            <p>Don&#39;t have any account?</p>
+            <p>Don&apos;t have any account?</p>
             <p>Contact the admin for account creation.</p>
           </div>
         </div>

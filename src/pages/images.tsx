@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import BaseLayout from '@/layouts/BaseLayout';
-import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
+import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {useState} from 'react';
 import {getFilename} from '@/utils/filename';
 import {Button} from '@/components/ui/button';

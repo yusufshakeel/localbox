@@ -1,6 +1,6 @@
 import BaseLayout from '@/layouts/BaseLayout';
 import FileUploadComponent from '@/components/FileUploadComponent';
-import ListDirectoryFiles from '@/components/data-table/ListDirectoryFiles';
+import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 
