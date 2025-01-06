@@ -11,7 +11,7 @@ const schemaRegistry = new SchemaRegistry({
       name: DB_COLLECTIONS.Users,
       columns: [
         { name: 'id', isUnique: true },
-        { name: 'username', isRequired: true },
+        { name: 'username', isRequired: true, isUnique: true },
         { name: 'displayName', isRequired: true },
         { name: 'password', isRequired: true },
         { name: 'status', isRequired: true },

@@ -1,46 +1,53 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
-import {Plus} from 'lucide-react';
 import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {userCreateSchema} from '@/validations/user-validation';
+import {userUpdateSchema} from '@/validations/user-validation';
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
 import httpClient from '@/api-clients';
 import showToast from '@/utils/show-toast';
 import {AlertError} from '@/components/alerts';
 
-export default function CreateUser(props: any) {
+export default function UpdateUser(props: any) {
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const form = useForm<z.infer<typeof userCreateSchema>>({
-    resolver: zodResolver(userCreateSchema),
+  const form = useForm<z.infer<typeof userUpdateSchema>>({
+    resolver: zodResolver(userUpdateSchema),
     defaultValues: {
       username: '',
-      displayName: '',
-      password: ''
+      displayName: ''
     }
   });
 
-  async function onSubmit(values: z.infer<typeof userCreateSchema>) {
+  useEffect(() => {
+    if (props.userAccountToUpdate?.id) {
+      form.setValue('username', props.userAccountToUpdate.username);
+      form.setValue('displayName', props.userAccountToUpdate.displayName);
+      setOpen(true);
+    }
+  }, [form, props.userAccountToUpdate]);
+
+  async function onSubmit(values: z.infer<typeof userUpdateSchema>) {
     try {
       setErrorMessage('');
-      const response = await httpClient.post({
+      const response = await httpClient.patch({
         url: '/api/admins/users',
-        body: values
+        body: values,
+        params: { userId: props.userAccountToUpdate.id }
       });
-      if (response.statusCode === 201) {
+      if (response.statusCode === 200) {
         setOpen(false);
-        showToast({ content: 'New user account created', type: 'success', autoClose: 1000 });
+        props.setUserAccountToUpdate('');
+        showToast({ content: 'User account updated successfully', type: 'success', autoClose: 1000 });
         props.setLastUserAccountChangesAt(new Date().toISOString());
         form.reset();
       } else {
@@ -53,12 +60,6 @@ export default function CreateUser(props: any) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="default">
-          <Plus />
-          Create User
-        </Button>
-      </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Create a new user account</DialogTitle>
@@ -72,7 +73,7 @@ export default function CreateUser(props: any) {
                 name="displayName"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Display Name</FormLabel>
+                    <FormLabel>Update display name</FormLabel>
                     <FormControl>
                       <Input type="text"
                         autoComplete="off"
@@ -88,7 +89,7 @@ export default function CreateUser(props: any) {
                 name="username"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Update username</FormLabel>
                     <FormControl>
                       <Input type="text"
                         autoComplete="off"
@@ -99,22 +100,7 @@ export default function CreateUser(props: any) {
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password"
-                        {...field}/>
-                    </FormControl>
-                    <FormMessage/>
-                  </FormItem>
-                )}
-              />
-
-              <Button type="submit">Create</Button>
+              <Button type="submit">Update</Button>
             </form>
           </Form>
         </div>
