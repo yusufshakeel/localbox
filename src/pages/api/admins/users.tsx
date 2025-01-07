@@ -3,7 +3,11 @@ import {hasAdminApiPrivileges} from '@/services/api-service';
 import {HttpMethod} from '@/types/api';
 import {UserStatus, UserType} from '@/types/users';
 import {db, UsersCollectionName} from '@/configs/database/users';
-import {userCreateSchema, userUpdateSchema} from '@/validations/user-validation';
+import {
+  userCreateSchema,
+  userUpdatePasswordSchema,
+  userUpdateSchema
+} from '@/validations/user-validation';
 import {getISOStringDate} from '@/utils/date';
 import passwordService from '@/services/password-service';
 
@@ -71,8 +75,14 @@ async function patchHandler(
     }
     const user = userExists[0];
 
-    const parsedData = await userUpdateSchema.safeParseAsync(req.body);
-    if (!parsedData.success) {
+    let parsedData;
+    if (req.query.updateFor === 'accountDetails') {
+      parsedData = await userUpdateSchema.safeParseAsync(req.body);
+    }
+    else if (req.query.updateFor === 'password') {
+      parsedData = await userUpdatePasswordSchema.safeParseAsync(req.body);
+    }
+    if (!parsedData?.success) {
       return res.status(401).json({ error: parsedData});
     }
 
@@ -81,8 +91,8 @@ async function patchHandler(
       ...parsedData.data,
       updatedAt: getISOStringDate()
     };
-    if (parsedData.data.password) {
-      dataToUpdate['password'] = passwordService.hashPassword(parsedData.data.password);
+    if ((parsedData.data as any).password) {
+      dataToUpdate['password'] = passwordService.hashPassword((parsedData.data as any).password);
     }
 
     const updatedRows = await db.query.updateAsync(UsersCollectionName, dataToUpdate, {where});

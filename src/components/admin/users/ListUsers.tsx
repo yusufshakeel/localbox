@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 import httpClient from '@/api-clients';
 import showToast from '@/utils/show-toast';
@@ -8,7 +8,7 @@ import {Button} from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuItem, DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
@@ -22,7 +22,8 @@ type UserSchemaForColumn = {
   status: string
   createdAt: string
   updatedAt: string
-  deleteUser: (_: string) => Promise<void>
+  setUserAccountToDelete: (_: object) => void
+  setUserAccountPasswordToUpdate: (_: object) => void
   setUserAccountToUpdate: (_: object) => void
 }
 
@@ -42,24 +43,25 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
     }
   },
   {
-    accessorKey: 'displayName',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          <span className="font-bold">Display Name</span>
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    accessorKey: 'updatedAt',
+    header: 'Updated At',
+    cell: ({ row }) => {
+      const { updatedAt } = row.original;
+      return updatedAt ? new Date(updatedAt).toLocaleString(): '';
     }
   },
   {
     id: 'actions',
     header: () => <div className="font-bold">Actions</div>,
     cell: ({ row }) => {
-      const { id, username, displayName, deleteUser, setUserAccountToUpdate } = row.original;
+      const {
+        id,
+        username,
+        displayName,
+        setUserAccountToDelete,
+        setUserAccountPasswordToUpdate,
+        setUserAccountToUpdate
+      } = row.original;
 
       return (
         <DropdownMenu>
@@ -71,10 +73,18 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => setUserAccountToUpdate({id, username, displayName})}>
-              Update
+              Update Details
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={async () => await deleteUser(id)}>
-              Delete
+            <DropdownMenuItem
+              onClick={() => setUserAccountPasswordToUpdate({id, username, displayName})}
+            >
+              Update Password
+            </DropdownMenuItem>
+            <DropdownMenuSeparator/>
+            <DropdownMenuItem className="text-red-500"
+              onClick={() => setUserAccountToDelete({id, username, displayName})}
+            >
+              Delete Account
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -86,37 +96,29 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
 export default function ListUsers(props: any) {
   const [files, setFiles] = useState<UserSchemaForColumn[]>([]);
 
-  const deleteUser = useCallback(async (userId: string) => {
-    const response: any = await httpClient.delete({
-      url: '/api/admins/users',
-      params: { userId }
-    });
-    if (response.statusCode === 200) {
-      showToast({ content: 'User deleted', type: 'success', autoClose: 1000 });
-      props.setLastUserAccountChangesAt(new Date().toISOString());
-    } else {
-      showToast({ content: 'Something went wrong', type: 'error', autoClose: 1000 });
-    }
-  }, [props]);
-
-  const fetchUsers = useCallback(async () => {
-    const response: any = await httpClient.get({
-      url: '/api/admins/users'
-    });
-    if (response.statusCode === 200 && response.data?.users) {
-      setFiles(response.data.users.map((user: any) => {
-        return {
-          ...user,
-          deleteUser,
-          setUserAccountToUpdate: props.setUserAccountToUpdate
-        };
-      }));
-    }
-  }, [deleteUser, props.setUserAccountToUpdate]);
-
   useEffect(() => {
+    const fetchUsers = async () => {
+      const response: any = await httpClient.get({
+        url: '/api/admins/users'
+      });
+      if (response.statusCode === 200 && response.data?.users) {
+        setFiles(response.data.users.map((user: any) => {
+          return {
+            ...user,
+            setUserAccountToDelete: props.setUserAccountToDelete,
+            setUserAccountPasswordToUpdate: props.setUserAccountPasswordToUpdate,
+            setUserAccountToUpdate: props.setUserAccountToUpdate
+          };
+        }));
+      }
+    };
     fetchUsers().catch(e => showToast({content: e.message, type: 'error'}));
-  }, [fetchUsers, props.lastUserAccountCreatedAt]);
+  }, [
+    props.lastUserAccountChangesAt,
+    props.setUserAccountPasswordToUpdate,
+    props.setUserAccountToDelete,
+    props.setUserAccountToUpdate
+  ]);
 
   return (
     <DataTable columns={columns} data={files} columnToSearch='username'/>
