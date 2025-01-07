@@ -7,7 +7,10 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const attributes = ['id', 'link', 'title', 'type', 'status', 'permissions', 'createdAt', 'updatedAt'];
     const pages = await db.query.selectAsync(PagesCollectionName, {
-      attributes
+      attributes,
+      orderBy: [
+        { attribute: 'title' }
+      ]
     });
     return res.status(200).json({pages});
   } catch (error: any) {

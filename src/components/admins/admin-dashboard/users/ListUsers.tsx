@@ -22,6 +22,7 @@ type UserSchemaForColumn = {
   status: string
   createdAt: string
   updatedAt: string
+  permissions: string[]
   setUserAccountToDelete: (_: object) => void
   setUserAccountPasswordToUpdate: (_: object) => void
   setUserAccountToUpdate: (_: object) => void
@@ -48,6 +49,18 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
     cell: ({ row }) => {
       const { updatedAt } = row.original;
       return updatedAt ? new Date(updatedAt).toLocaleString(): '';
+    }
+  },
+  {
+    accessorKey: 'permissions',
+    header: 'Permissions',
+    cell: ({ row }) => {
+      const { permissions } = row.original;
+      return permissions.map(v => {
+        return (
+          <span className="bg-gray-200 text-black py-1 px-3 m-1 rounded" key={v}>{v}</span>
+        );
+      });
     }
   },
   {
