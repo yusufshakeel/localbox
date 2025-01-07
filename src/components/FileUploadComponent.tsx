@@ -5,7 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {getISOStringDate} from '@/utils/date';
 
-export default function FileUploadComponent(props: any) {
+type PropType = {
+  setLastUploadAt: (_: string) => void
+}
+
+export default function FileUploadComponent({ setLastUploadAt = () => {} }: PropType) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir: 'uploads' });
 
@@ -40,10 +44,10 @@ export default function FileUploadComponent(props: any) {
         inputRef.current.value = '';
       }
       setSelectedFile(null);
-      props.setLastUploadAt(getISOStringDate());
+      setLastUploadAt?.(getISOStringDate());
       showToast({ type: 'success', content: 'File uploaded', autoClose: 1000});
     }
-  }, [file, error]);
+  }, [file, error, setLastUploadAt]);
 
   return (
     <div>

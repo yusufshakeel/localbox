@@ -9,7 +9,7 @@ import {
   SidebarMenuItem, SidebarRail
 } from '@/components/ui/sidebar';
 import {Server} from 'lucide-react';
-import {LOGGED_IN_ADMIN_PAGES, LOGGED_IN_USER_PAGES, PAGES} from '@/configs/pages';
+import {LOGGED_IN_ADMIN_PAGES, LOGGED_IN_USER_PAGES, COMMON_PAGES} from '@/configs/pages';
 import Link from 'next/link';
 import {useAppContext} from '@/context/AppContext';
 import {WEBSITE_NAME} from '@/constants';
@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {PAGES.map((page) => (
+              {COMMON_PAGES.map((page) => (
                 <SidebarMenuItem key={page.title}>
                   <SidebarMenuButton asChild>
                     <Link href={page.link}>
