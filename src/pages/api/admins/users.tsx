@@ -17,7 +17,7 @@ async function getHandler(
 ) {
   try {
     const where = {type: UserType.user};
-    const attributes = ['id', 'username', 'displayName', 'type', 'permissions', 'createdAt', 'updatedAt'];
+    const attributes = ['id', 'username', 'displayName', 'type', 'status', 'permissions', 'createdAt', 'updatedAt'];
     const users = await db.query.selectAsync(UsersCollectionName, {where, attributes});
     return res.status(200).json({users});
   } catch (error: any) {

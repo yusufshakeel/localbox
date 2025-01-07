@@ -44,6 +44,10 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
     }
   },
   {
+    accessorKey: 'status',
+    header: 'Account Status'
+  },
+  {
     accessorKey: 'updatedAt',
     header: 'Updated At',
     cell: ({ row }) => {
@@ -71,6 +75,7 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
         id,
         username,
         displayName,
+        status,
         setUserAccountToDelete,
         setUserAccountPasswordToUpdate,
         setUserAccountToUpdate
@@ -85,7 +90,8 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setUserAccountToUpdate({id, username, displayName})}>
+            <DropdownMenuItem
+              onClick={() => setUserAccountToUpdate({id, username, displayName, status})}>
               Update Details
             </DropdownMenuItem>
             <DropdownMenuItem

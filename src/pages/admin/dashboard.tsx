@@ -14,15 +14,12 @@ function AdminDashboardPage() {
   return (
     <BaseLayout pageTitle={'Admin Dashboard'}>
       <Tabs defaultValue="users">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="users">Users</TabsTrigger>
-          <TabsTrigger value="permissions">Permissions</TabsTrigger>
           <TabsTrigger value="pages">Pages</TabsTrigger>
         </TabsList>
         <TabsContent value="users">
           <UserManagementComponent/>
-        </TabsContent>
-        <TabsContent value="permissions">permissions
         </TabsContent>
         <TabsContent value="pages">
           <PageManagementComponent/>

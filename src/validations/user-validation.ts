@@ -7,6 +7,7 @@ import {
   AUTH_USERNAME_MAX_LENGTH,
   AUTH_USERNAME_MIN_LENGTH
 } from '@/configs/auth';
+import {UserStatus} from '@/types/users';
 
 export const userCreateSchema = z.object({
   username: z.string({ required_error: 'Username is required' })
@@ -25,12 +26,11 @@ export const userUpdateSchema = z.object({
   username: z.string()
     .min(AUTH_USERNAME_MIN_LENGTH, `Username must have at least ${AUTH_USERNAME_MIN_LENGTH} characters`)
     .max(AUTH_USERNAME_MAX_LENGTH, `Username cannot have more than ${AUTH_USERNAME_MAX_LENGTH} characters`)
-    .regex(/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric')
-    .optional(),
+    .regex(/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric'),
   displayName: z.string()
     .min(AUTH_DISPLAY_NAME_MIN_LENGTH, `Display name must have at least ${AUTH_DISPLAY_NAME_MIN_LENGTH} characters`)
-    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`)
-    .optional()
+    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`),
+  status: z.enum([UserStatus.active, UserStatus.suspend])
 });
 
 export const userUpdatePasswordSchema = z.object({
