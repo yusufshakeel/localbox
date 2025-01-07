@@ -1,9 +1,9 @@
 import {useState} from 'react';
-import ListUsers from '@/components/admin/users/ListUsers';
-import CreateUser from '@/components/admin/users/CreateUser';
-import UpdateUser from '@/components/admin/users/UpdateUser';
-import DeleteUser from '@/components/admin/users/DeleteUser';
-import UpdateUserPassword from '@/components/admin/users/UpdateUserPassword';
+import ListUsers from '@/components/admins/users/ListUsers';
+import CreateUser from '@/components/admins/users/CreateUser';
+import UpdateUser from '@/components/admins/users/UpdateUser';
+import DeleteUser from '@/components/admins/users/DeleteUser';
+import UpdateUserPassword from '@/components/admins/users/UpdateUserPassword';
 
 export default function UserManagementComponent() {
   const [lastUserAccountChangesAt, setLastUserAccountChangesAt] = useState('');
