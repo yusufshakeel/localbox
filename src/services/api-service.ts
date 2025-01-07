@@ -24,7 +24,7 @@ export async function isValidSessionWithPermissions(
   const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
-    return res.status(401).json({ message: 'Unauthorized: Login required.' });
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 
   const {user: {type, permissions}} = session;

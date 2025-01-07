@@ -7,7 +7,7 @@ import {
 import BaseLayout from '@/layouts/BaseLayout';
 import {WithAuth} from '@/components/with-auth';
 import {UserType} from '@/types/users';
-import UserManagementComponent from '@/components/admins/users';
+import UserManagementComponent from '../../components/admins/admin-dashboard/users';
 
 function AdminDashboardPage() {
   return (
