@@ -3,8 +3,9 @@ import {useEffect, useRef, useState} from 'react';
 import useFileUploadEffect from '@/hooks/useFileUploadEffect';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import {getISOStringDate} from '@/utils/date';
 
-export default function FileUploadComponent() {
+export default function FileUploadComponent(props: any) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir: 'uploads' });
 
@@ -39,6 +40,7 @@ export default function FileUploadComponent() {
         inputRef.current.value = '';
       }
       setSelectedFile(null);
+      props.setLastUploadAt(getISOStringDate());
       showToast({ type: 'success', content: 'File uploaded', autoClose: 1000});
     }
   }, [file, error]);

@@ -4,6 +4,7 @@ import path from 'path';
 import { promisify } from 'util';
 import {FileUploadApiResponse} from '@/types/api-responses';
 import {PublicFolders} from '@/configs/folders';
+import {getISOStringDate} from '@/utils/date';
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,7 +26,7 @@ export default async function handler(
         storage: multer.diskStorage({
           destination: uploadsFolder,
           filename: (req, file, cb) => {
-            uploadedFileName = `${new Date().toISOString()}-${file.originalname.replace(/[^a-z0-9.]|\s+/gmi, '-').replace(/-{2,}/gmi,'-')}`;
+            uploadedFileName = `${getISOStringDate()}-${file.originalname.replace(/[^a-z0-9.]|\s+/gmi, '-').replace(/-{2,}/gmi,'-')}`;
             cb(null, uploadedFileName);
           }
         })

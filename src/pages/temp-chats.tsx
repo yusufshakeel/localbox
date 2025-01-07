@@ -16,14 +16,9 @@ function TempChats() {
     <BaseLayout pageTitle="TempChats">
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 md:col-span-12 lg:col-span-8 mb-10">
-          <div id="chat-container" className="border rounded-md p-3">
-            <div id="chat-header" className="mb-3">
-              <span className="ms-2"><strong>{displayName}</strong></span>
-            </div>
-            <div>
-              <ChatsComponent messages={messages} currentUserId={userId}/>
-              <InputComponent userId={userId} displayName={displayName} sendMessage={sendMessage}/>
-            </div>
+          <div id="chat-container">
+            <ChatsComponent messages={messages} currentUserId={userId}/>
+            <InputComponent userId={userId} displayName={displayName} sendMessage={sendMessage}/>
           </div>
         </div>
         <div className="col-span-12 md:col-span-12 lg:col-span-4 mb-10">

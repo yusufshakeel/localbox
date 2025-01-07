@@ -8,6 +8,7 @@ import {LOCALBOX_SETUP_LOCK_FILENAME} from '@/configs';
 import {Button} from '@/components/ui/button';
 import {Home} from 'lucide-react';
 import Link from 'next/link';
+import {getISOStringDate} from '@/utils/date';
 
 export default function Setup(props: any) {
   if(props.errorMessage) {
@@ -69,7 +70,7 @@ export function getServerSideProps() {
     const {dbCollections} = initDbCollections();
     const adminUser = setupAdminAccount();
 
-    fs.writeFileSync(filePath, `Last updated at: ${new Date().toISOString()}`, 'utf8');
+    fs.writeFileSync(filePath, `Last updated at: ${getISOStringDate()}`, 'utf8');
 
     return {
       props: {

@@ -94,6 +94,7 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
 export type PropType = {
   dir: string,
   sort?: 'ASC' | 'DESC',
+  lastUploadAt?: string,
   selectedFileHandler?: (filename: string) => void,
   selectedFileHandlerText?: string,
   fetchAgain?: boolean,
@@ -122,7 +123,7 @@ export default function ListDirectoryFiles(props: PropType) {
     };
     fetchFiles()
       .catch(e => showToast({content: e.message, type: 'error'}));
-  }, [props.dir, props.selectedFileHandler, props.selectedFileHandlerText, props.sort]);
+  }, [props.dir, props.selectedFileHandler, props.selectedFileHandlerText, props.sort, props.lastUploadAt]);
 
   return (
     <DataTable columns={columns} data={files} columnToSearch='filename'/>

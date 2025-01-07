@@ -9,6 +9,7 @@ import {Button} from '@/components/ui/button';
 import httpClient from '@/api-clients';
 import showToast from '@/utils/show-toast';
 import {AlertError} from '@/components/alerts';
+import {getISOStringDate} from '@/utils/date';
 
 export default function DeleteUser(props: any) {
   const [open, setOpen] = useState(false);
@@ -32,7 +33,7 @@ export default function DeleteUser(props: any) {
         params: { userId }
       });
       if (response.statusCode === 200) {
-        props.setLastUserAccountChangesAt(new Date().toISOString());
+        props.setLastUserAccountChangesAt(getISOStringDate());
         setOpen(false);
         props.setUserAccountToDelete('');
         showToast({ content: 'User account deleted', type: 'success', autoClose: 1000 });

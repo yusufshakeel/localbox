@@ -39,7 +39,7 @@ export default function ChatsComponent(props: PropType) {
   return (
     <div
       ref={messagesEndRef}
-      className="border"
+      className="border rounded"
       style={{ padding: '10px', height: `${chatContentHeight}px`, overflowY: 'scroll' }}>
       {
         (props.messages || []).map((msg: MessageType, idx) => {
