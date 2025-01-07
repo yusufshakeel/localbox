@@ -15,6 +15,7 @@ import {Input} from '@/components/ui/input';
 import httpClient from '@/api-clients';
 import showToast from '@/utils/show-toast';
 import {AlertError} from '@/components/alerts';
+import {getISOStringDate} from '@/utils/date';
 
 export default function UpdateUser(props: any) {
   const [open, setOpen] = useState(false);
@@ -45,7 +46,7 @@ export default function UpdateUser(props: any) {
         params: { userId: props.userAccountToUpdate.id, updateFor: 'accountDetails' }
       });
       if (response.statusCode === 200) {
-        props.setLastUserAccountChangesAt(new Date().toISOString());
+        props.setLastUserAccountChangesAt(getISOStringDate());
         setOpen(false);
         props.setUserAccountToUpdate('');
         showToast({ content: 'User account updated successfully', type: 'success', autoClose: 1000 });

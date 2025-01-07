@@ -3,18 +3,22 @@ import FileUploadComponent from '@/components/FileUploadComponent';
 import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
+import {useState} from 'react';
 
 function Uploads() {
+  const [lastUploadAt, setLastUploadAt] = useState<string>('');
+
   return (
     <BaseLayout pageTitle={'Uploads'}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 lg:col-span-5 mb-10">
-          <FileUploadComponent/>
+          <FileUploadComponent setLastUploadAt={setLastUploadAt}/>
         </div>
         <div className="col-span-12 lg:col-span-7 mb-10">
           <ListDirectoryFiles
             dir={PublicFolders.uploads}
             sort={'DESC'}
+            lastUploadAt={lastUploadAt}
           />
         </div>
       </div>
