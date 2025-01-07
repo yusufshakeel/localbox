@@ -26,7 +26,7 @@ describe('FileUploadComponent', () => {
   });
 
   it('Renders the component', () => {
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent setLastUploadAt={jest.fn()}/>);
     expect(screen.getByTestId('upload-btn')).toBeInTheDocument();
     expect(screen.getByTestId('reset-btn')).toBeInTheDocument();
     expect(screen.getByTestId('file-input')).toBeInTheDocument();

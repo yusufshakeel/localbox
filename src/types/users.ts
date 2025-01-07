@@ -7,5 +7,4 @@ export enum UserType {
 export enum UserStatus {
   active = 'active',
   suspend = 'suspend',
-  deleted = 'deleted',
 }

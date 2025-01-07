@@ -9,6 +9,7 @@ import {Button} from '@/components/ui/button';
 import {Home} from 'lucide-react';
 import Link from 'next/link';
 import {getISOStringDate} from '@/utils/date';
+import {setupPages} from '@/setup/pages';
 
 export default function Setup(props: any) {
   if(props.errorMessage) {
@@ -33,6 +34,14 @@ export default function Setup(props: any) {
 
         <h2 className="text-2xl">Database collections created</h2>
         <div>{props.dbCollections?.map((v: string) => <p key={v}>{v}</p>)}</div>
+
+        <h2 className="text-2xl">Pages collection configured</h2>
+        <div>
+          {
+            props.pages?.map((v: { link: string, title: string }) =>
+              <p key={v.link}>{v.title}</p>)
+          }
+        </div>
 
         <h2 className="text-2xl">Admin account created</h2>
         <div>
@@ -69,6 +78,7 @@ export function getServerSideProps() {
     const {envFilePath} = setupEnvFile();
     const {dbCollections} = initDbCollections();
     const adminUser = setupAdminAccount();
+    const pages = setupPages();
 
     fs.writeFileSync(filePath, `Last updated at: ${getISOStringDate()}`, 'utf8');
 
@@ -76,7 +86,8 @@ export function getServerSideProps() {
       props: {
         dbCollections,
         adminUser,
-        envFilePath
+        envFilePath,
+        pages
       }
     };
   } catch (error: any) {

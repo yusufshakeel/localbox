@@ -4,6 +4,7 @@ import {PrivateFolder, PrivateFolders} from '@/configs/folders';
 export const DATABASE_DIR = `${PrivateFolder}/${PrivateFolders.db}`;
 
 export const DB_COLLECTIONS = {
+  Pages: 'Pages',
   TempChatsMessages: 'TempChatsMessages',
   Users: 'Users'
 };

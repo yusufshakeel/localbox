@@ -123,7 +123,13 @@ export default function ListDirectoryFiles(props: PropType) {
     };
     fetchFiles()
       .catch(e => showToast({content: e.message, type: 'error'}));
-  }, [props.dir, props.selectedFileHandler, props.selectedFileHandlerText, props.sort, props.lastUploadAt]);
+  }, [
+    props.dir,
+    props.selectedFileHandler,
+    props.selectedFileHandlerText,
+    props.sort,
+    props.lastUploadAt
+  ]);
 
   return (
     <DataTable columns={columns} data={files} columnToSearch='filename'/>
