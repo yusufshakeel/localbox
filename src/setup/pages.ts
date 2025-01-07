@@ -23,7 +23,7 @@ export function setupPages() {
       return {
         link: v.link,
         title: v.title,
-        permissions: v.permissions,
+        permissions: v.permissions.sort(),
         type: PageType.inBuilt,
         status: PageStatus.active,
         createdAt
@@ -36,7 +36,7 @@ export function setupPages() {
       return {
         link: v.link,
         title: v.title,
-        permissions: v.permissions,
+        permissions: v.permissions.sort(),
         type: PageType.inBuilt,
         status: PageStatus.active,
         updatedAt
