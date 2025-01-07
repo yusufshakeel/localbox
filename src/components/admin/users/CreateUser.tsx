@@ -39,9 +39,9 @@ export default function CreateUser(props: any) {
         body: values
       });
       if (response.statusCode === 201) {
+        props.setLastUserAccountChangesAt(new Date().toISOString());
         setOpen(false);
         showToast({ content: 'New user account created', type: 'success', autoClose: 1000 });
-        props.setLastUserAccountChangesAt(new Date().toISOString());
         form.reset();
       } else {
         setErrorMessage(response.message!);
@@ -114,7 +114,8 @@ export default function CreateUser(props: any) {
                 )}
               />
 
-              <Button type="submit">Create</Button>
+              <Button type="submit" className="me-3">Create</Button>
+              <Button type="reset" variant="secondary" className="me-3" onClick={() => setOpen(false)}>Close</Button>
             </form>
           </Form>
         </div>
