@@ -12,7 +12,7 @@ export const Pages = {
     ...pagesCommonFields,
     permissions: [
       PermissionsType.AUTHORIZED_VIEW,
-      PermissionsType.UNAUTHORIZED_VIEW
+      PermissionsType.PUBLIC_VIEW
     ]
   },
   'info': {
@@ -21,7 +21,7 @@ export const Pages = {
     ...pagesCommonFields,
     permissions: [
       PermissionsType.AUTHORIZED_VIEW,
-      PermissionsType.UNAUTHORIZED_VIEW
+      PermissionsType.PUBLIC_VIEW
     ]
   },
   'adminDashboard': {
