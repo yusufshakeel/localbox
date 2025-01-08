@@ -5,6 +5,7 @@ import ChatsComponent from '@/components/temp-chats/ChatsComponent';
 import InputComponent from '@/components/temp-chats/InputComponent';
 import {WithAuth} from '@/components/with-auth';
 import {useSession} from 'next-auth/react';
+import {PermissionsType} from '@/types/permissions';
 
 function TempChats() {
   const {data: session} = useSession() as any;
@@ -37,4 +38,6 @@ function TempChats() {
   );
 }
 
-export default WithAuth(TempChats);
+export default WithAuth(TempChats, {
+  permissions: [PermissionsType.AUTHORIZED_VIEW, PermissionsType.AUTHORIZED_USE]
+});

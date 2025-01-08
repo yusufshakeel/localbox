@@ -7,6 +7,7 @@ import {Button} from '@/components/ui/button';
 import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
+import {PermissionsType} from '@/types/permissions';
 
 function Images() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
@@ -55,4 +56,6 @@ function Images() {
   );
 }
 
-export default WithAuth(Images);
+export default WithAuth(Images, {
+  permissions: [PermissionsType.AUTHORIZED_VIEW]
+});
