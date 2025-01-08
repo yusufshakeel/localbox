@@ -58,7 +58,7 @@ export default function DeleteUser(props: any) {
         </div>
         <DialogFooter>
           <Button variant="destructive" className="me-3" onClick={handleDelete}>Yes, delete the account</Button>
-          <Button variant="secondary" className="me-3">Close</Button>
+          <Button variant="secondary" className="me-3" onClick={() => setOpen(false)}>Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

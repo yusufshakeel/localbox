@@ -164,7 +164,8 @@ export default function UpdateUserPermissions(props: any) {
                   )}
                 />
               </div>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className="me-3">Submit</Button>
+              <Button type="reset" variant="secondary" className="me-3" onClick={() => setOpen(false)}>Close</Button>
             </form>
           </Form>
         </div>
