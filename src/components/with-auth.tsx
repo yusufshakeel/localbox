@@ -1,6 +1,6 @@
 import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/router';
-import {ComponentType, useEffect} from 'react';
+import {ComponentType, useEffect, useState} from 'react';
 import LoadingSpinner from '@/components/loading';
 import {UserType} from '@/types/users';
 
@@ -18,6 +18,7 @@ export function WithAuth(
     const { data: session, status } = useSession() as any;
     const router = useRouter();
     const { redirectTo = '/', userType = UserType.any, permissions = [] } = options;
+    const [isLoading, setIsLoading] = useState(true);
 
     /**
      * Redirect rules to be applied in the following order
@@ -74,11 +75,15 @@ export function WithAuth(
           ) {
             await router.push(redirectTo);
           }
+
+          else {
+            setIsLoading(false);
+          }
         }
       })();
     }, [status, router, redirectTo, userType, permissions, session]);
 
-    if (!session) {
+    if (!session || isLoading) {
       // Display a loading state while session is checked
       return <LoadingSpinner/>;
     }
