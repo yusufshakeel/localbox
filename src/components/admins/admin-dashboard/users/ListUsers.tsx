@@ -25,6 +25,7 @@ type UserSchemaForColumn = {
   permissions: string[]
   setUserAccountToDelete: (_: object) => void
   setUserAccountPasswordToUpdate: (_: object) => void
+  setUserAccountPermissionsToUpdate: (_: object) => void
   setUserAccountToUpdate: (_: object) => void
 }
 
@@ -62,7 +63,9 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
       const { permissions } = row.original;
       return permissions.map(v => {
         return (
-          <span className="bg-gray-200 text-black py-1 px-3 m-1 rounded" key={v}>{v}</span>
+          <div key={v} className="my-3">
+            <span className="bg-gray-200 text-black px-3 py-1 rounded">{v}</span>
+          </div>
         );
       });
     }
@@ -75,9 +78,11 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
         id,
         username,
         displayName,
+        permissions,
         status,
         setUserAccountToDelete,
         setUserAccountPasswordToUpdate,
+        setUserAccountPermissionsToUpdate,
         setUserAccountToUpdate
       } = row.original;
 
@@ -98,6 +103,13 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
               onClick={() => setUserAccountPasswordToUpdate({id, username, displayName})}
             >
               Update Password
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => setUserAccountPermissionsToUpdate({
+                id, username, displayName, permissions
+              })}
+            >
+              Update Permissions
             </DropdownMenuItem>
             <DropdownMenuSeparator/>
             <DropdownMenuItem className="text-red-500"
@@ -126,6 +138,7 @@ export default function ListUsers(props: any) {
             ...user,
             setUserAccountToDelete: props.setUserAccountToDelete,
             setUserAccountPasswordToUpdate: props.setUserAccountPasswordToUpdate,
+            setUserAccountPermissionsToUpdate: props.setUserAccountPermissionsToUpdate,
             setUserAccountToUpdate: props.setUserAccountToUpdate
           };
         }));
@@ -135,6 +148,7 @@ export default function ListUsers(props: any) {
   }, [
     props.lastUserAccountChangesAt,
     props.setUserAccountPasswordToUpdate,
+    props.setUserAccountPermissionsToUpdate,
     props.setUserAccountToDelete,
     props.setUserAccountToUpdate
   ]);

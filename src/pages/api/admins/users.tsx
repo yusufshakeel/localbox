@@ -6,6 +6,7 @@ import {db, UsersCollectionName} from '@/configs/database/users';
 import {
   userCreateSchema,
   userUpdatePasswordSchema,
+  userUpdatePermissionsSchema,
   userUpdateSchema
 } from '@/validations/user-validation';
 import {getISOStringDate} from '@/utils/date';
@@ -81,6 +82,9 @@ async function patchHandler(
     }
     else if (req.query.updateFor === 'password') {
       parsedData = await userUpdatePasswordSchema.safeParseAsync(req.body);
+    }
+    else if (req.query.updateFor === 'permissions') {
+      parsedData = await userUpdatePermissionsSchema.safeParseAsync(req.body);
     }
     if (!parsedData?.success) {
       return res.status(401).json({ error: parsedData});

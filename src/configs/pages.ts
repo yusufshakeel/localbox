@@ -1,6 +1,7 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
 import {Home, Upload, Image, Music, Video, File, MessageCircle, Info, User, SlidersHorizontal} from 'lucide-react';
 import {PermissionsType} from '@/types/permissions';
+import {UserType} from '@/types/users';
 
 const permissionTag = (pageId: string, permissions: string[]) => {
   return permissions.map(p => `${pageId}:${p}`);
@@ -10,18 +11,25 @@ export const Pages = {
     id: 'home',
     link: '/',
     title: 'Home',
-    permissions: []
+    pageFor: [UserType.any],
+    permissions: permissionTag('home', [
+      PermissionsType.PUBLIC
+    ])
   },
   'info': {
     id: 'info',
     link: '/info',
     title: 'Info',
-    permissions: []
+    pageFor: [UserType.any],
+    permissions: permissionTag('info', [
+      PermissionsType.PUBLIC
+    ])
   },
   'adminsDashboard': {
     id: 'adminsDashboard',
     link: '/admins/dashboard',
     title: 'Admins Dashboard',
+    pageFor: [UserType.admin],
     permissions: [
       PermissionsType.ADMIN
     ]
@@ -30,6 +38,7 @@ export const Pages = {
     id: 'profile',
     link: '/profile',
     title: 'Profile',
+    pageFor: [UserType.any],
     permissions: permissionTag('profile', [
       PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
@@ -39,6 +48,7 @@ export const Pages = {
     id: 'uploads',
     link: '/uploads',
     title: 'Uploads',
+    pageFor: [UserType.any],
     permissions: permissionTag('uploads', [
       PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
@@ -48,8 +58,8 @@ export const Pages = {
     id: 'images',
     link: '/images',
     title: 'Images',
+    pageFor: [UserType.any],
     permissions: permissionTag('images', [
-      PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
     ])
   },
@@ -57,8 +67,8 @@ export const Pages = {
     id: 'audios',
     link: '/audios',
     title: 'Audios',
+    pageFor: [UserType.any],
     permissions: permissionTag('audios', [
-      PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
     ])
   },
@@ -66,8 +76,8 @@ export const Pages = {
     id: 'videos',
     link: '/videos',
     title: 'Videos',
+    pageFor: [UserType.any],
     permissions: permissionTag('videos', [
-      PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
     ])
   },
@@ -75,8 +85,8 @@ export const Pages = {
     id: 'documents',
     link: '/documents',
     title: 'Documents',
+    pageFor: [UserType.any],
     permissions: permissionTag('documents', [
-      PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
     ])
   },
@@ -84,6 +94,7 @@ export const Pages = {
     id: 'tempChats',
     link: '/temp-chats',
     title: 'TempChats',
+    pageFor: [UserType.any],
     permissions: permissionTag('tempChats', [
       PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW

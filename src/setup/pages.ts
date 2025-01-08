@@ -21,9 +21,11 @@ export function setupPages() {
     .filter(v => !alreadyExistingPageLinks.includes(v.link))
     .map(v => {
       return {
+        id: v.id,
         link: v.link,
         title: v.title,
-        permissions: v.permissions.sort(),
+        pageFor: v.pageFor,
+        permissions: Array.from(new Set(v.permissions)).sort(),
         type: PageType.inBuilt,
         status: PageStatus.active,
         createdAt
@@ -34,9 +36,11 @@ export function setupPages() {
     .filter(v => alreadyExistingPageLinks.includes(v.link))
     .map(v => {
       return {
+        id: v.id,
         link: v.link,
         title: v.title,
-        permissions: v.permissions.sort(),
+        pageFor: v.pageFor,
+        permissions: Array.from(new Set(v.permissions)).sort(),
         type: PageType.inBuilt,
         status: PageStatus.active,
         updatedAt

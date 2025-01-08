@@ -4,11 +4,13 @@ import CreateUser from '@/components/admins/admin-dashboard/users/CreateUser';
 import UpdateUser from '@/components/admins/admin-dashboard/users/UpdateUser';
 import DeleteUser from '@/components/admins/admin-dashboard/users/DeleteUser';
 import UpdateUserPassword from '@/components/admins/admin-dashboard/users/UpdateUserPassword';
+import UpdateUserPermissions from '@/components/admins/admin-dashboard/users/UpdateUserPermissions';
 
 export default function UserManagementComponent() {
   const [lastUserAccountChangesAt, setLastUserAccountChangesAt] = useState('');
   const [userAccountToUpdate, setUserAccountToUpdate] = useState<any>(null);
   const [userAccountPasswordToUpdate, setUserAccountPasswordToUpdate] = useState<any>(null);
+  const [userAccountPermissionsToUpdate, setUserAccountPermissionsToUpdate] = useState<any>(null);
   const [userAccountToDelete, setUserAccountToDelete] = useState<any>(null);
 
   return (
@@ -26,6 +28,11 @@ export default function UserManagementComponent() {
         setUserAccountPasswordToUpdate={setUserAccountPasswordToUpdate}
         setLastUserAccountChangesAt={setLastUserAccountChangesAt}
       />
+      <UpdateUserPermissions
+        userAccountPermissionsToUpdate={userAccountPermissionsToUpdate}
+        setUserAccountPermissionsToUpdate={setUserAccountPermissionsToUpdate}
+        setLastUserAccountChangesAt={setLastUserAccountChangesAt}
+      />
       <DeleteUser
         userAccountToDelete={userAccountToDelete}
         setUserAccountToDelete={setUserAccountToDelete}
@@ -36,6 +43,7 @@ export default function UserManagementComponent() {
           lastUserAccountChangesAt={lastUserAccountChangesAt}
           setUserAccountToUpdate={setUserAccountToUpdate}
           setUserAccountPasswordToUpdate={setUserAccountPasswordToUpdate}
+          setUserAccountPermissionsToUpdate={setUserAccountPermissionsToUpdate}
           setUserAccountToDelete={setUserAccountToDelete}
         />
       </div>

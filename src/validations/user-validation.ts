@@ -38,3 +38,7 @@ export const userUpdatePasswordSchema = z.object({
     .min(AUTH_PASSWORD_MIN_LENGTH, `Password must have at least ${AUTH_PASSWORD_MIN_LENGTH} characters`)
     .max(AUTH_PASSWORD_MAX_LENGTH, `Password cannot have more than ${AUTH_PASSWORD_MAX_LENGTH} characters`)
 });
+
+export const userUpdatePermissionsSchema = z.object({
+  permissions: z.array(z.string())
+});

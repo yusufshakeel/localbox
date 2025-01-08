@@ -13,6 +13,7 @@ const schemaRegistry = new SchemaRegistry({
         { name: 'id', isUnique: true },
         { name: 'link', isRequired: true, isUnique: true },
         { name: 'title', isRequired: true },
+        { name: 'pageFor', isRequired: true },
         { name: 'permissions', isRequired: true },
         { name: 'type', isRequired: true },
         { name: 'status', isRequired: true },

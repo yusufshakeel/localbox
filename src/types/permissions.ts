@@ -1,5 +1,6 @@
 export enum PermissionsType {
   ADMIN = 'ADMIN',
+  PUBLIC = 'PUBLIC',
   AUTHORIZED_VIEW = 'AUTHORIZED_VIEW',
   AUTHORIZED_USE = 'AUTHORIZED_USE',
 }

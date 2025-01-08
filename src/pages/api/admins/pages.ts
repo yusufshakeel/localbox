@@ -2,11 +2,22 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import {HttpMethod} from '@/types/api';
 import {hasAdminApiPrivileges} from '@/services/api-service';
 import {db, PagesCollectionName} from '@/configs/database/pages';
+import {Op} from 'minivium';
 
 async function getHandler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const attributes = ['id', 'link', 'title', 'type', 'status', 'permissions', 'createdAt', 'updatedAt'];
+    let whereClause: any = {};
+    if (req.query.pageFor?.length) {
+      whereClause = {
+        where: {
+          pageFor: {[Op.in]: (req.query.pageFor as string).split(',')}
+        }
+      };
+    }
+
+    const attributes = ['id', 'link', 'title', 'type', 'status', 'pageFor', 'permissions', 'createdAt', 'updatedAt'];
     const pages = await db.query.selectAsync(PagesCollectionName, {
+      ...whereClause,
       attributes,
       orderBy: [
         { attribute: 'title' }
