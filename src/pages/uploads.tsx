@@ -4,7 +4,6 @@ import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {useState} from 'react';
-import {PermissionsType} from '@/types/permissions';
 import {Pages} from '@/configs/pages';
 
 function Uploads() {
@@ -29,6 +28,5 @@ function Uploads() {
 }
 
 export default WithAuth(Uploads, {
-  pageId: Pages.uploads.id,
-  permissions: [PermissionsType.AUTHORIZED_VIEW, PermissionsType.AUTHORIZED_USE]
+  permissions: Pages.uploads.permissions
 });

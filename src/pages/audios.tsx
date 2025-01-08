@@ -4,7 +4,6 @@ import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {getFilename} from '@/utils/filename';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
-import {PermissionsType} from '@/types/permissions';
 import {Pages} from '@/configs/pages';
 
 function Audios() {
@@ -49,6 +48,5 @@ function Audios() {
 }
 
 export default WithAuth(Audios, {
-  pageId: Pages.audios.id,
-  permissions: [PermissionsType.AUTHORIZED_VIEW]
+  permissions: Pages.audios.permissions
 });

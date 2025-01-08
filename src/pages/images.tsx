@@ -7,7 +7,6 @@ import {Button} from '@/components/ui/button';
 import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
-import {PermissionsType} from '@/types/permissions';
 import {Pages} from '@/configs/pages';
 
 function Images() {
@@ -58,6 +57,5 @@ function Images() {
 }
 
 export default WithAuth(Images, {
-  pageId: Pages.images.id,
-  permissions: [PermissionsType.AUTHORIZED_VIEW]
+  permissions: Pages.images.permissions
 });

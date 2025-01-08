@@ -2,7 +2,6 @@ import BaseLayout from '@/layouts/BaseLayout';
 import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
-import {PermissionsType} from '@/types/permissions';
 import {Pages} from '@/configs/pages';
 
 function Documents() {
@@ -20,6 +19,5 @@ function Documents() {
 }
 
 export default WithAuth(Documents, {
-  pageId: Pages.documents.id,
-  permissions: [PermissionsType.AUTHORIZED_VIEW]
+  permissions: Pages.documents.permissions
 });

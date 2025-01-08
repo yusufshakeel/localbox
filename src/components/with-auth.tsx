@@ -3,23 +3,21 @@ import {useRouter} from 'next/router';
 import {ComponentType, useEffect} from 'react';
 import LoadingSpinner from '@/components/loading';
 import {UserType} from '@/types/users';
-import {PermissionsType} from '@/types/permissions';
 
 interface WithAuthOptions {
-  pageId: string;
   redirectTo?: string; // Redirect for unauthenticated users
   userType?: UserType; // Whether this page is for anyone of specific user type
-  permissions?: PermissionsType[]; // List of permissions required for the page
+  permissions?: string[]; // List of permissions required for the page
 }
 
 export function WithAuth(
   WrappedComponent: ComponentType,
-  options: WithAuthOptions
+  options: WithAuthOptions = {}
 ): ComponentType {
   return function AuthPage(props) {
     const { data: session, status } = useSession() as any;
     const router = useRouter();
-    const { pageId, redirectTo = '/', userType = UserType.any, permissions = [] } = options;
+    const { redirectTo = '/', userType = UserType.any, permissions = [] } = options;
 
     /**
      * Redirect rules to be applied in the following order
@@ -46,7 +44,7 @@ export function WithAuth(
     useEffect(() => {
       (async () => {
         const hasPermissions = (userPermissions: string[]) => {
-          return permissions.some(permission => userPermissions.includes(`${pageId}:${permission}`));
+          return permissions.some(permission => userPermissions.includes(permission));
         };
 
         const isNonAdminUser = (loggedInUserType: UserType) => {
@@ -78,7 +76,7 @@ export function WithAuth(
           }
         }
       })();
-    }, [status, router, redirectTo, userType, permissions, session, pageId]);
+    }, [status, router, redirectTo, userType, permissions, session]);
 
     if (!session) {
       // Display a loading state while session is checked
