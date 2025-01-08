@@ -24,9 +24,9 @@ export const Pages = {
       PermissionsType.PUBLIC_VIEW
     ]
   },
-  'adminDashboard': {
-    link: '/admin/dashboard',
-    title: 'Admin Dashboard',
+  'adminsDashboard': {
+    link: '/admins/dashboard',
+    title: 'Admins Dashboard',
     ...pagesCommonFields,
     permissions: [
       PermissionsType.ADMIN
@@ -57,5 +57,5 @@ export const LOGGED_IN_USER_PAGES = [
 ];
 
 export const LOGGED_IN_ADMIN_PAGES = [
-  {icon: SlidersHorizontal, title: Pages.adminDashboard.title, link: Pages.adminDashboard.link}
+  {icon: SlidersHorizontal, title: Pages.adminsDashboard.title, link: Pages.adminsDashboard.link}
 ];

@@ -2,6 +2,7 @@ import BaseLayout from '@/layouts/BaseLayout';
 import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
+import {PermissionsType} from '@/types/permissions';
 
 function Documents() {
   return (
@@ -17,4 +18,6 @@ function Documents() {
   );
 }
 
-export default WithAuth(Documents);
+export default WithAuth(Documents, {
+  permissions: [PermissionsType.AUTHORIZED_VIEW]
+});

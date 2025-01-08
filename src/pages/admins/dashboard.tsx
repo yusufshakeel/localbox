@@ -29,4 +29,6 @@ function AdminDashboardPage() {
   );
 }
 
-export default WithAuth(AdminDashboardPage, { userType: UserType.admin });
+export default WithAuth(AdminDashboardPage, {
+  userType: UserType.admin
+});
