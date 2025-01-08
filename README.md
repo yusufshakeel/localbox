@@ -72,10 +72,22 @@ Bootstrap
 npm run bootstrap
 ```
 
-Run the local server
+Build
+
+```bash
+npm run build
+```
+
+Start the local server
 
 ```bash
 npm run start
+```
+
+Alternatively, to run in dev mode
+
+```shell
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in the browser to see the result.
