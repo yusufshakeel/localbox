@@ -6,6 +6,7 @@ import {UserType} from '@/types/users';
 import {PermissionsType} from '@/types/permissions';
 
 interface WithAuthOptions {
+  pageId: string;
   redirectTo?: string; // Redirect for unauthenticated users
   userType?: UserType; // Whether this page is for anyone of specific user type
   permissions?: PermissionsType[]; // List of permissions required for the page
@@ -13,12 +14,12 @@ interface WithAuthOptions {
 
 export function WithAuth(
   WrappedComponent: ComponentType,
-  options: WithAuthOptions = {}
+  options: WithAuthOptions
 ): ComponentType {
   return function AuthPage(props) {
     const { data: session, status } = useSession() as any;
     const router = useRouter();
-    const { redirectTo = '/', userType = UserType.any, permissions = [] } = options;
+    const { pageId, redirectTo = '/', userType = UserType.any, permissions = [] } = options;
 
     /**
      * Redirect rules to be applied in the following order
@@ -45,7 +46,7 @@ export function WithAuth(
     useEffect(() => {
       (async () => {
         const hasPermissions = (userPermissions: string[]) => {
-          return permissions.some(v => userPermissions.includes(v));
+          return permissions.some(permission => userPermissions.includes(`${pageId}:${permission}`));
         };
 
         const isNonAdminUser = (loggedInUserType: UserType) => {
@@ -77,7 +78,7 @@ export function WithAuth(
           }
         }
       })();
-    }, [status, router, redirectTo, userType, permissions, session]);
+    }, [status, router, redirectTo, userType, permissions, session, pageId]);
 
     if (!session) {
       // Display a loading state while session is checked

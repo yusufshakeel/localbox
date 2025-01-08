@@ -9,6 +9,7 @@ import {WithAuth} from '@/components/with-auth';
 import {UserType} from '@/types/users';
 import UserManagementComponent from '../../components/admins/admin-dashboard/users';
 import PageManagementComponent from '@/components/admins/admin-dashboard/pages';
+import {Pages} from '@/configs/pages';
 
 function AdminDashboardPage() {
   return (
@@ -30,5 +31,6 @@ function AdminDashboardPage() {
 }
 
 export default WithAuth(AdminDashboardPage, {
-  userType: UserType.admin
+  userType: UserType.admin,
+  pageId: Pages.adminsDashboard.id
 });

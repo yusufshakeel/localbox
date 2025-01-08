@@ -4,6 +4,7 @@ import {useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
 import {handleSignOut} from '@/services/auth-service';
 import {WithAuth} from '@/components/with-auth';
+import {Pages} from '@/configs/pages';
 
 function ProfilePage() {
   const {data: session} = useSession() as any;
@@ -59,4 +60,6 @@ function ProfilePage() {
   );
 }
 
-export default WithAuth(ProfilePage);
+export default WithAuth(ProfilePage, {
+  pageId: Pages.profile.id
+});

@@ -2,43 +2,93 @@
 import {Home, Upload, Image, Music, Video, File, MessageCircle, Info, User, SlidersHorizontal} from 'lucide-react';
 import {PermissionsType} from '@/types/permissions';
 
-const pagesCommonFields = {
-  permissions: [PermissionsType.AUTHORIZED_VIEW, PermissionsType.AUTHORIZED_USE]
+const permissionTag = (pageId: string, permissions: string[]) => {
+  return permissions.map(p => `${pageId}:${p}`);
 };
 export const Pages = {
   'home': {
+    id: 'home',
     link: '/',
     title: 'Home',
-    ...pagesCommonFields,
-    permissions: [
-      PermissionsType.AUTHORIZED_VIEW,
-      PermissionsType.PUBLIC_VIEW
-    ]
+    permissions: []
   },
   'info': {
+    id: 'info',
     link: '/info',
     title: 'Info',
-    ...pagesCommonFields,
-    permissions: [
-      PermissionsType.AUTHORIZED_VIEW,
-      PermissionsType.PUBLIC_VIEW
-    ]
+    permissions: []
   },
   'adminsDashboard': {
+    id: 'adminsDashboard',
     link: '/admins/dashboard',
     title: 'Admins Dashboard',
-    ...pagesCommonFields,
     permissions: [
       PermissionsType.ADMIN
     ]
   },
-  'profile': { link: '/profile', title: 'Profile', ...pagesCommonFields },
-  'uploads': { link: '/uploads', title: 'Uploads', ...pagesCommonFields },
-  'images': { link: '/images', title: 'Images', ...pagesCommonFields },
-  'audios': { link: '/audios', title: 'Audios', ...pagesCommonFields },
-  'videos': { link: '/videos', title: 'Videos', ...pagesCommonFields },
-  'documents': { link: '/documents', title: 'Documents', ...pagesCommonFields },
-  'tempChats': { link: '/temp-chats', title: 'TempChats', ...pagesCommonFields }
+  'profile': {
+    id: 'profile',
+    link: '/profile',
+    title: 'Profile',
+    permissions: permissionTag('profile', [
+      PermissionsType.AUTHORIZED_USE,
+      PermissionsType.AUTHORIZED_VIEW
+    ])
+  },
+  'uploads': {
+    id: 'uploads',
+    link: '/uploads',
+    title: 'Uploads',
+    permissions: permissionTag('uploads', [
+      PermissionsType.AUTHORIZED_USE,
+      PermissionsType.AUTHORIZED_VIEW
+    ])
+  },
+  'images': {
+    id: 'images',
+    link: '/images',
+    title: 'Images',
+    permissions: permissionTag('images', [
+      PermissionsType.AUTHORIZED_USE,
+      PermissionsType.AUTHORIZED_VIEW
+    ])
+  },
+  'audios': {
+    id: 'audios',
+    link: '/audios',
+    title: 'Audios',
+    permissions: permissionTag('audios', [
+      PermissionsType.AUTHORIZED_USE,
+      PermissionsType.AUTHORIZED_VIEW
+    ])
+  },
+  'videos': {
+    id: 'videos',
+    link: '/videos',
+    title: 'Videos',
+    permissions: permissionTag('videos', [
+      PermissionsType.AUTHORIZED_USE,
+      PermissionsType.AUTHORIZED_VIEW
+    ])
+  },
+  'documents': {
+    id: 'documents',
+    link: '/documents',
+    title: 'Documents',
+    permissions: permissionTag('documents', [
+      PermissionsType.AUTHORIZED_USE,
+      PermissionsType.AUTHORIZED_VIEW
+    ])
+  },
+  'tempChats': {
+    id: 'tempChats',
+    link: '/temp-chats',
+    title: 'TempChats',
+    permissions: permissionTag('tempChats', [
+      PermissionsType.AUTHORIZED_USE,
+      PermissionsType.AUTHORIZED_VIEW
+    ])
+  }
 };
 
 export const COMMON_PAGES = [

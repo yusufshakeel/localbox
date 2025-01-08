@@ -5,6 +5,7 @@ import {getFilename} from '@/utils/filename';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {PermissionsType} from '@/types/permissions';
+import {Pages} from '@/configs/pages';
 
 function Audios() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
@@ -48,5 +49,6 @@ function Audios() {
 }
 
 export default WithAuth(Audios, {
+  pageId: Pages.audios.id,
   permissions: [PermissionsType.AUTHORIZED_VIEW]
 });
