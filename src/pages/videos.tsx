@@ -6,6 +6,7 @@ import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {PermissionsType} from '@/types/permissions';
+import {Pages} from '@/configs/pages';
 
 function Videos() {
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
@@ -51,5 +52,6 @@ function Videos() {
 }
 
 export default WithAuth(Videos, {
+  pageId: Pages.videos.id,
   permissions: [PermissionsType.AUTHORIZED_VIEW]
 });

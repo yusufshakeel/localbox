@@ -8,6 +8,7 @@ import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {PermissionsType} from '@/types/permissions';
+import {Pages} from '@/configs/pages';
 
 function Images() {
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
@@ -57,5 +58,6 @@ function Images() {
 }
 
 export default WithAuth(Images, {
+  pageId: Pages.images.id,
   permissions: [PermissionsType.AUTHORIZED_VIEW]
 });
