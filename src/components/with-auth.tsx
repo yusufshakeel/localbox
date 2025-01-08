@@ -66,14 +66,14 @@ export function WithAuth(
             && permissions.length
             && !hasPermissions(session.user.permissions)
           ) {
-            await router.push(redirectTo);
+            await router.push('/unauthorized');
           }
 
           // Rule 2.2
           else if (userType === UserType.admin
             && isNonAdminUser(session.user.type)
           ) {
-            await router.push(redirectTo);
+            await router.push('/unauthorized');
           }
 
           else {
