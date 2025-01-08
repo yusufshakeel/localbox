@@ -6,6 +6,8 @@ import InputComponent from '@/components/temp-chats/InputComponent';
 import {WithAuth} from '@/components/with-auth';
 import {useSession} from 'next-auth/react';
 import {Pages} from '@/configs/pages';
+import {hasPermissions} from '@/utils/permissions';
+import {PermissionsType} from '@/types/permissions';
 
 function TempChats() {
   const {data: session} = useSession() as any;
@@ -19,7 +21,14 @@ function TempChats() {
         <div className="col-span-12 md:col-span-12 lg:col-span-8 mb-10">
           <div id="chat-container">
             <ChatsComponent messages={messages} currentUserId={userId}/>
-            <InputComponent userId={userId} displayName={displayName} sendMessage={sendMessage}/>
+            {
+              hasPermissions(
+                session?.user?.permissions,
+                [`${Pages.tempChats.id}:${PermissionsType.AUTHORIZED_USE}`]
+              ) && <InputComponent userId={userId}
+                displayName={displayName}
+                sendMessage={sendMessage}/>
+            }
           </div>
         </div>
         <div className="col-span-12 md:col-span-12 lg:col-span-4 mb-10">

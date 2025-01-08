@@ -61,13 +61,7 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
     header: 'Permissions',
     cell: ({ row }) => {
       const { permissions } = row.original;
-      return permissions.map(v => {
-        return (
-          <div key={v} className="my-3">
-            <span className="bg-gray-200 text-black px-3 py-1 rounded">{v}</span>
-          </div>
-        );
-      });
+      return permissions.length;
     }
   },
   {

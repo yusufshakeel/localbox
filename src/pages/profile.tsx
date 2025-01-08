@@ -13,7 +13,7 @@ function ProfilePage() {
   return (
     <BaseLayout pageTitle={'Profile'}>
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 lg:col-span-5 mb-10">
+        <div className="col-span-12 lg:col-span-8 mb-10">
           <Table>
             <TableHeader>
               <TableRow>
