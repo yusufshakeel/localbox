@@ -30,9 +30,9 @@ function ProfilePage() {
               <DropdownMenuContent align="start">
                 <DropdownMenuLabel>Username: {user.username}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Edit Profile
+                <DropdownMenuItem>Update Details
                 </DropdownMenuItem>
-                <DropdownMenuItem>Change Password
+                <DropdownMenuItem>Update Password
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
               </DropdownMenuContent>
@@ -81,4 +81,6 @@ function ProfilePage() {
   );
 }
 
-export default WithAuth(ProfilePage);
+export default WithAuth(ProfilePage, {
+  permissions: Pages.profile.permissions
+});

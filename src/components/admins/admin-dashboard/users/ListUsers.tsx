@@ -92,7 +92,7 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
             <DropdownMenuItem
               onClick={() => setUserAccountPasswordToUpdate({id, username, displayName})}
             >
-              Change Password
+              Update Password
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => setUserAccountToUpdate({id, username, displayName, status})}>
