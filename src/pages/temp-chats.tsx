@@ -20,7 +20,12 @@ function TempChats() {
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 md:col-span-12 lg:col-span-8 mb-10">
           <div id="chat-container">
-            <ChatsComponent messages={messages} currentUserId={userId}/>
+            {
+              hasPermissions(
+                session?.user?.permissions,
+                [`${Pages.tempChats.id}:${PermissionsType.AUTHORIZED_VIEW}`]
+              ) && <ChatsComponent messages={messages} currentUserId={userId}/>
+            }
             {
               hasPermissions(
                 session?.user?.permissions,
