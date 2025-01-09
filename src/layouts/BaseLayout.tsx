@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {SidebarInset, SidebarProvider, SidebarTrigger} from '@/components/ui/sidebar';
@@ -17,6 +18,9 @@ import htmlHeadContentHelper from '@/helpers/html-head-content-helper';
 import Link from 'next/link';
 import {SetAppSidebar} from '@/components/setup-app-sidebar';
 import {useSession} from 'next-auth/react';
+import {handleSignOut} from '@/services/auth-service';
+import {UserType} from '@/types/users';
+import {Pages} from '@/configs/pages';
 
 export default function BaseLayout({
   children,
@@ -41,7 +45,7 @@ export default function BaseLayout({
               <div className="flex items-center gap-2">
                 <SidebarTrigger className="-ml-1"/>
                 <Separator orientation="vertical" className="h-4"/>
-                <Link href="/">
+                <Link href={Pages.home.link}>
                   <Button variant="ghost">
                     <Home/>
                   </Button>
@@ -59,15 +63,32 @@ export default function BaseLayout({
                 {
                   session?.user
                     ? (
-                      <Link href="/profile">
-                        <Button variant="ghost">
-                          <User/>
-                          {session.user.displayName}
-                        </Button>
-                      </Link>
+                      <div className="ms-3">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <User/>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem asChild>
+                              <Link href={Pages.profile.link}>Profile</Link>
+                            </DropdownMenuItem>
+                            {
+                              session?.user?.type === UserType.admin &&
+                              <DropdownMenuItem asChild>
+                                <Link href={Pages.adminsDashboard.link}>Admin Dashboard</Link>
+                              </DropdownMenuItem>
+                            }
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={handleSignOut}>Log out
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     )
                     : (
-                      <Link href="/auth/login">
+                      <Link href={Pages.login.link}>
                         <Button variant="ghost">Log in</Button>
                       </Link>
                     )
@@ -75,9 +96,11 @@ export default function BaseLayout({
                 <div className="ms-3">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="icon">
-                        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                      <Button variant="ghost" size="icon">
+                        <Sun
+                          className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/>
+                        <Moon
+                          className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"/>
                         <span className="sr-only">Toggle theme</span>
                       </Button>
                     </DropdownMenuTrigger>

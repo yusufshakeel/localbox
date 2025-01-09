@@ -10,6 +10,7 @@ import {
 import {Settings} from 'lucide-react';
 import Link from 'next/link';
 import {WEBSITE_NAME} from '@/constants';
+import {Pages} from '@/configs/pages';
 
 export function SetAppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -18,7 +19,7 @@ export function SetAppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="/">
+              <Link href={Pages.home.link}>
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <span>☁️</span>
                 </div>
@@ -36,7 +37,7 @@ export function SetAppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href='/setup'>
+                  <Link href={Pages.setup.link}>
                     <Settings/>
                     <span>Setup</span>
                   </Link>
