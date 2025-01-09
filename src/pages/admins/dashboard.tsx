@@ -14,18 +14,22 @@ import {Pages} from '@/configs/pages';
 function AdminDashboardPage() {
   return (
     <BaseLayout pageTitle={Pages.adminsDashboard.title}>
-      <Tabs defaultValue="users">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="users">Users</TabsTrigger>
-          <TabsTrigger value="pages">Pages</TabsTrigger>
-        </TabsList>
-        <TabsContent value="users">
-          <UserManagementComponent/>
-        </TabsContent>
-        <TabsContent value="pages">
-          <PageManagementComponent/>
-        </TabsContent>
-      </Tabs>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 mb-10">
+          <Tabs defaultValue="users">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="users">Users</TabsTrigger>
+              <TabsTrigger value="pages">Pages</TabsTrigger>
+            </TabsList>
+            <TabsContent value="users">
+              <UserManagementComponent/>
+            </TabsContent>
+            <TabsContent value="pages">
+              <PageManagementComponent/>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
     </BaseLayout>
   );
 }
