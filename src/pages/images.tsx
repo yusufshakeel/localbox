@@ -8,8 +8,12 @@ import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
+import {hasPermissions} from '@/utils/permissions';
+import {PermissionsType} from '@/types/permissions';
+import {useSession} from 'next-auth/react';
 
 function Images() {
+  const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
 
   const selectedFileHandler = (file: string) => {
@@ -21,36 +25,45 @@ function Images() {
   return (
     <BaseLayout pageTitle={Pages.images.title}>
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 lg:col-span-5 mb-10">
-          {
-            selectedFile?.length
-              ? (
-                <div>
-                  <Image
-                    width={300}
-                    height={300}
-                    className="img-fluid ms-auto me-auto"
-                    src={`/images/${encodeURIComponent(selectedFile)}`}
-                    alt={selectedFile}/>
-                  <p className="my-3 text-center">{getFilename(selectedFile).substring(0, 30)}</p>
-                  <p className="my-3 text-center">
-                    <Button variant="secondary"
-                      onClick={() => handleDownload('images', selectedFile)}>
-                      Download
-                    </Button>
-                  </p>
-                </div>
-              )
-              : <div className="aspect-video rounded-xl bg-muted/50"/>
-          }
-        </div>
-        <div className="col-span-12 lg:col-span-7 mb-10">
-          <ListDirectoryFiles
-            dir={PublicFolders.images}
-            selectedFileHandler={selectedFileHandler}
-            selectedFileHandlerText='View'
-          />
-        </div>
+        {
+          hasPermissions(
+            session?.user?.permissions,
+            [`${Pages.images.id}:${PermissionsType.AUTHORIZED_VIEW}`]
+          ) && (
+            <>
+              <div className="col-span-12 lg:col-span-5 mb-10">
+                {
+                  selectedFile?.length
+                    ? (
+                      <div>
+                        <Image
+                          width={300}
+                          height={300}
+                          className="img-fluid ms-auto me-auto"
+                          src={`/images/${encodeURIComponent(selectedFile)}`}
+                          alt={selectedFile}/>
+                        <p className="my-3 text-center">{getFilename(selectedFile).substring(0, 30)}</p>
+                        <p className="my-3 text-center">
+                          <Button variant="secondary"
+                            onClick={() => handleDownload('images', selectedFile)}>
+                            Download
+                          </Button>
+                        </p>
+                      </div>
+                    )
+                    : <div className="aspect-video rounded-xl bg-muted/50"/>
+                }
+              </div>
+              <div className="col-span-12 lg:col-span-7 mb-10">
+                <ListDirectoryFiles
+                  dir={PublicFolders.images}
+                  selectedFileHandler={selectedFileHandler}
+                  selectedFileHandlerText="View"
+                />
+              </div>
+            </>
+          )
+        }
       </div>
     </BaseLayout>
   );

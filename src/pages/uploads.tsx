@@ -25,11 +25,16 @@ function Uploads() {
           }
         </div>
         <div className="col-span-12 lg:col-span-7 mb-10">
-          <ListDirectoryFiles
-            dir={PublicFolders.uploads}
-            sort={'DESC'}
-            lastUploadAt={lastUploadAt}
-          />
+          {
+            hasPermissions(
+              session?.user?.permissions,
+              [`${Pages.uploads.id}:${PermissionsType.AUTHORIZED_VIEW}`]
+            ) && <ListDirectoryFiles
+              dir={PublicFolders.uploads}
+              sort={'DESC'}
+              lastUploadAt={lastUploadAt}
+            />
+          }
         </div>
       </div>
     </BaseLayout>
