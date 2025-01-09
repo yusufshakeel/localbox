@@ -3,9 +3,27 @@ import { readdir } from 'fs/promises';
 import path from 'path';
 import {FilesApiResponse} from '@/types/api-responses';
 import {PublicFolders} from '@/configs/folders';
+import {HttpMethod} from '@/types/api';
+import {hasApiPrivileges} from '@/services/api-service';
+import {Pages} from '@/configs/pages';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<FilesApiResponse>) {
   try {
+    const allowedMethods = [HttpMethod.GET];
+    const hasPrivileges = await hasApiPrivileges(req, res, {
+      allowedMethods,
+      permissions: [
+        ...Pages.uploads.permissions,
+        ...Pages.audios.permissions,
+        ...Pages.videos.permissions,
+        ...Pages.images.permissions,
+        ...Pages.documents.permissions
+      ]
+    });
+    if (!hasPrivileges) {
+      return;
+    }
+
     const allowedFolders = [
       PublicFolders.uploads,
       PublicFolders.audios,
