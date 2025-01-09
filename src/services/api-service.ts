@@ -19,18 +19,52 @@ export function isAllowedMethod(
 export async function isValidSessionWithPermissions(
   req: NextApiRequest,
   res: NextApiResponse,
-  option?: { type: string, permissions: string[] }
+  option: {
+    allowedUserTypes: string[],
+    allowedPermissions: string[]
+  } = { allowedUserTypes:[], allowedPermissions:[] }
 ) {
   const session = await getServerSession(req, res, authOptions);
+  const { allowedUserTypes, allowedPermissions } = option;
 
   if (!session) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const {user: {type, permissions}} = session;
+  const listOfPermissions = [...allowedPermissions, PermissionsType.ADMIN];
 
-  if (option && (option.type !== type || !option.permissions.some(v => permissions.includes(v)))) {
+  if (!allowedUserTypes.includes(session.user.type)
+    || !listOfPermissions.some(v => session.user.permissions.includes(v))
+  ) {
     return res.status(403).json({ message: 'Forbidden: Do not have required permissions.' });
+  }
+
+  return true;
+}
+
+export async function hasApiPrivileges(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  option: {
+    allowedUserTypes?: string[],
+    allowedMethods: string[],
+    permissions: string[]
+  } = { allowedMethods: [], permissions: [] }
+) {
+  if (!isAllowedMethod(req, res, option.allowedMethods)) {
+    return;
+  }
+
+  const isAuthorized = await isValidSessionWithPermissions(
+    req,
+    res,
+    {
+      allowedUserTypes: option.allowedUserTypes || [UserType.user, UserType.admin],
+      allowedPermissions: option.permissions
+    }
+  );
+  if (!isAuthorized) {
+    return;
   }
 
   return true;
@@ -48,7 +82,7 @@ export async function hasAdminApiPrivileges(
   const isAuthorized = await isValidSessionWithPermissions(
     req,
     res,
-    { type: UserType.admin, permissions: [PermissionsType.ADMIN] }
+    { allowedUserTypes: [UserType.admin], allowedPermissions: [PermissionsType.ADMIN] }
   );
   if (!isAuthorized) {
     return;

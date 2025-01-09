@@ -21,6 +21,7 @@ import {useSession} from 'next-auth/react';
 import {handleSignOut} from '@/services/auth-service';
 import {UserType} from '@/types/users';
 import {Pages} from '@/configs/pages';
+import {hasPermissions} from '@/utils/permissions';
 
 export default function BaseLayout({
   children,
@@ -34,11 +35,7 @@ export default function BaseLayout({
     <>
       <Head>{htmlHeadContentHelper({ title: pageTitle })}</Head>
       <SidebarProvider>
-        {
-          isSetupPage
-            ? <SetAppSidebar/>
-            : <AppSidebar />
-        }
+        { isSetupPage ? <SetAppSidebar/> : <AppSidebar /> }
         <SidebarInset>
           <div className="sticky top-0 bg-background z-10 shadow">
             <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -73,9 +70,12 @@ export default function BaseLayout({
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Username: {session.user.username}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                              <Link href={Pages.profile.link}>Profile</Link>
-                            </DropdownMenuItem>
+                            {
+                              hasPermissions(session.user.permissions, Pages.profile.permissions) &&
+                              <DropdownMenuItem asChild>
+                                <Link href={Pages.profile.link}>Profile</Link>
+                              </DropdownMenuItem>
+                            }
                             {
                               session?.user?.type === UserType.admin &&
                               <DropdownMenuItem asChild>
