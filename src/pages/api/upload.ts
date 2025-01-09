@@ -50,7 +50,7 @@ export default async function handler(
     await uploadMiddleware(req as any, res as any);
     return res.status(200).json({ message: 'File uploaded successfully', uploadedFileName });
   } catch (error: any) {
-    return res.status(500).json({ error: 'Failed to upload file', message: error.message });
+    return res.status(500).json({ error: 'Something went wrong', message: error.message });
   }
 }
 

@@ -12,7 +12,7 @@ export type InfoApiResponse = {
   license: string,
   author: string,
   homepage: string,
-  licensePage: string
+  licensePage: string,
 };
 
 export type IpApiResponse = {
