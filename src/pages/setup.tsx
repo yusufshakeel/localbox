@@ -30,7 +30,7 @@ export default function Setup(props: any) {
   return (
     <BaseLayout pageTitle={pageTitle} isSetupPage={true}>
       <div className="grid gap-4">
-        <h1 className="text-3xl">Setup.</h1>
+        <h1 className="text-3xl">Setup</h1>
 
         <h2 className="text-2xl"><code>.env</code> file created</h2>
         <div>File path: <span>{props.envFilePath}</span></div>
