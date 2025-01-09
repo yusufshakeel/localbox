@@ -42,3 +42,9 @@ export const userUpdatePasswordSchema = z.object({
 export const userUpdatePermissionsSchema = z.object({
   permissions: z.array(z.string())
 });
+
+export const userUpdateProfileDetailsSchema = z.object({
+  displayName: z.string()
+    .min(AUTH_DISPLAY_NAME_MIN_LENGTH, `Display name must have at least ${AUTH_DISPLAY_NAME_MIN_LENGTH} characters`)
+    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`)
+});

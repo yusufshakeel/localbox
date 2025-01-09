@@ -14,11 +14,35 @@ import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
 import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
+import UpdatePassword from '@/components/profile/UpdatePassword';
+import {useEffect, useState} from 'react';
+import httpClient from '@/api-clients';
+import UpdateDetails from '@/components/profile/UpdateDetails';
 
 function ProfilePage() {
   const {data: session} = useSession() as any;
+  const [lastUserAccountChangesAt, setLastUserAccountChangesAt] = useState('');
+  const [userAccountToUpdate, setUserAccountToUpdate] = useState<any>(null);
+  const [userAccountPasswordToUpdate, setUserAccountPasswordToUpdate] = useState<any>(null);
+  const [userDetails, setUserDetails] = useState<any>(null);
 
-  const { user } = session;
+  useEffect(() => {
+    if (session.user) {
+      (async() => {
+        const response: any = await httpClient.get({
+          url: '/api/profile',
+          params: { userId: session.user.id }
+        });
+        if (response.statusCode === 200 && response.data) {
+          setUserDetails(response.data.user);
+        }
+      })();
+    }
+  }, [lastUserAccountChangesAt, session.user]);
+
+  if (!userDetails) {
+    return;
+  }
 
   return (
     <BaseLayout pageTitle={Pages.profile.title}>
@@ -27,7 +51,7 @@ function ProfilePage() {
           <div className="mb-5">
             {
               hasPermissions(
-                session?.user?.permissions,
+                userDetails.permissions,
                 [`${Pages.profile.id}:${PermissionsType.AUTHORIZED_USE}`]
               ) && (
                 <DropdownMenu>
@@ -35,11 +59,15 @@ function ProfilePage() {
                     <Button variant="default">Edit</Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
-                    <DropdownMenuLabel>Username: {user.username}</DropdownMenuLabel>
+                    <DropdownMenuLabel>Username: {userDetails.username}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Update Details
+                    <DropdownMenuItem
+                      onClick={() => setUserAccountToUpdate(() => userDetails)}>
+                      Update Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem>Update Password
+                    <DropdownMenuItem
+                      onClick={() => setUserAccountPasswordToUpdate(() => userDetails)}>
+                      Update Password
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                   </DropdownMenuContent>
@@ -50,7 +78,7 @@ function ProfilePage() {
 
           {
             hasPermissions(
-              session?.user?.permissions,
+              userDetails.permissions,
               [`${Pages.profile.id}:${PermissionsType.AUTHORIZED_VIEW}`]
             ) && (
               <Table>
@@ -63,25 +91,33 @@ function ProfilePage() {
                 <TableBody>
                   <TableRow>
                     <TableCell>Username</TableCell>
-                    <TableCell>{user.username}</TableCell>
+                    <TableCell>{userDetails.username}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Display Name</TableCell>
-                    <TableCell>{user.displayName}</TableCell>
+                    <TableCell>{userDetails.displayName}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Account Status</TableCell>
-                    <TableCell>{user.status}</TableCell>
+                    <TableCell>{userDetails.status}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Account Type</TableCell>
-                    <TableCell>{user.type}</TableCell>
+                    <TableCell>{userDetails.type}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Created At</TableCell>
+                    <TableCell>{new Date(userDetails.createdAt).toLocaleString()}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Updated At</TableCell>
+                    <TableCell>{new Date(userDetails.updatedAt).toLocaleString()}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Permissions</TableCell>
                     <TableCell>
                       {
-                        user.permissions.sort().map((permission: string) => {
+                        userDetails.permissions.sort().map((permission: string) => {
                           return <p key={permission}><code>{permission}</code></p>;
                         })
                       }
@@ -93,6 +129,14 @@ function ProfilePage() {
           }
         </div>
       </div>
+      <UpdatePassword
+        setLastUserAccountChangesAt={setLastUserAccountChangesAt}
+        userAccountPasswordToUpdate={userAccountPasswordToUpdate}
+        setUserAccountPasswordToUpdate={setUserAccountPasswordToUpdate}/>
+      <UpdateDetails
+        userAccountToUpdate={userAccountToUpdate}
+        setUserAccountToUpdate={setUserAccountToUpdate}
+        setLastUserAccountChangesAt={setLastUserAccountChangesAt}/>
     </BaseLayout>
   );
 }

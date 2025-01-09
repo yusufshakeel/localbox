@@ -32,6 +32,11 @@ export default function CreateUser(props: any) {
     }
   });
 
+  const closeDialog = () => {
+    setErrorMessage('');
+    setOpen(false);
+  };
+
   async function onSubmit(values: z.infer<typeof userCreateSchema>) {
     try {
       setErrorMessage('');
@@ -41,8 +46,8 @@ export default function CreateUser(props: any) {
       });
       if (response.statusCode === 201) {
         props.setLastUserAccountChangesAt(getISOStringDate());
-        setOpen(false);
-        showToast({ content: 'New user account created', type: 'success', autoClose: 1000 });
+        closeDialog();
+        showToast({ content: 'Account created', type: 'success', autoClose: 1000 });
         form.reset();
       } else {
         setErrorMessage(response.message!);
@@ -62,7 +67,7 @@ export default function CreateUser(props: any) {
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>Create a new user account</DialogTitle>
+          <DialogTitle>Create Account</DialogTitle>
         </DialogHeader>
         <div>
           { errorMessage && <AlertError message={errorMessage}/> }
@@ -116,7 +121,7 @@ export default function CreateUser(props: any) {
               />
 
               <Button type="submit" className="me-3">Create</Button>
-              <Button type="reset" variant="secondary" className="me-3" onClick={() => setOpen(false)}>Close</Button>
+              <Button type="reset" variant="secondary" className="me-3" onClick={closeDialog}>Close</Button>
             </form>
           </Form>
         </div>

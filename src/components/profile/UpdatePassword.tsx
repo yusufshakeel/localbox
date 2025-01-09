@@ -17,7 +17,7 @@ import showToast from '@/utils/show-toast';
 import {AlertError} from '@/components/alerts';
 import {getISOStringDate} from '@/utils/date';
 
-export default function UpdateUserPassword(props: any) {
+export default function UpdatePassword(props: any) {
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -37,20 +37,20 @@ export default function UpdateUserPassword(props: any) {
   const closeDialog = () => {
     setErrorMessage('');
     setOpen(false);
+    props.setUserAccountPasswordToUpdate(null);
   };
 
   async function onSubmit(values: z.infer<typeof userUpdatePasswordSchema>) {
     try {
       setErrorMessage('');
       const response = await httpClient.patch({
-        url: '/api/admins/users',
+        url: '/api/profile',
         body: values,
         params: { userId: props.userAccountPasswordToUpdate.id, updateFor: 'password' }
       });
       if (response.statusCode === 200) {
         props.setLastUserAccountChangesAt(getISOStringDate());
         closeDialog();
-        props.setUserAccountPasswordToUpdate('');
         showToast({ content: 'Password updated successfully', type: 'success', autoClose: 1000 });
         form.reset();
       } else {
@@ -88,7 +88,9 @@ export default function UpdateUserPassword(props: any) {
               />
 
               <Button type="submit" className="me-3">Update</Button>
-              <Button type="reset" variant="secondary" className="me-3" onClick={closeDialog}>Close</Button>
+              <Button type="reset" variant="secondary"
+                className="me-3"
+                onClick={closeDialog}>Close</Button>
             </form>
           </Form>
         </div>
