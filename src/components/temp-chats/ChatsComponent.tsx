@@ -46,7 +46,7 @@ export default function ChatsComponent(props: PropType) {
           const fileName = getFilename(msg.message);
           const message =
             msg.type === 'file'
-              ? <div>
+              ? <div className="my-1">
                 <a className="ys-a-link text-blue-700 font-bold" href={`/temp-chats/${encodeURIComponent(msg.message)}`} download>
                   {fileName}
                 </a>
@@ -67,17 +67,16 @@ export default function ChatsComponent(props: PropType) {
             }
             else if (['mp4'].includes(fileName.split('.')?.pop() ?? '')) {
               messagePreview = (
-                <video controls height="150px" key={msg.message}>
+                <video controls style={{height: '150px'}} key={msg.message}>
                   <source src={`/temp-chats/${encodeURIComponent(msg.message)}`}/>
                   Your browser does not support the video tag.
                 </video>
               );
-            }
-            else if (['mp3'].includes(fileName.split('.')?.pop() ?? '')) {
+            } else if (['mp3'].includes(fileName.split('.')?.pop() ?? '')) {
               messagePreview = (
                 <audio controls key={msg.message}>
                   <source src={`/temp-chats/${encodeURIComponent(msg.message)}`}/>
-                  Your browser does not support the audio tag.
+                      Your browser does not support the audio tag.
                 </audio>
               );
             }
@@ -86,14 +85,15 @@ export default function ChatsComponent(props: PropType) {
             <div key={idx}
               style={{textAlign: msg.userId === props.currentUserId ? 'right' : 'left'}}>
               <div
-                className="border mb-3 p-2 rounded-md"
+                className="border mb-3 p-2 rounded-md bg-gray-50 text-black"
                 style={{display: 'inline-block'}}>
                 <div className="mb-1">
                   <strong>{msg.displayName} </strong>
                   <span
                     className="float-end ms-3"> <small>{formatDate(msg.timestamp)}</small></span>
                 </div>
-                <div className="mb-1" style={{wordBreak: 'break-word', overflowWrap: 'break-word'}}>
+                <div className="mb-1"
+                  style={{wordBreak: 'break-word', overflowWrap: 'break-word'}}>
                   {messagePreview}
                   {message}
                 </div>
