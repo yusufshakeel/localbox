@@ -1,8 +1,15 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 import BaseLayout from '@/layouts/BaseLayout';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table';
 import {useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
-import {handleSignOut} from '@/services/auth-service';
 import {WithAuth} from '@/components/with-auth';
 
 function ProfilePage() {
@@ -14,6 +21,23 @@ function ProfilePage() {
     <BaseLayout pageTitle={'Profile'}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 lg:col-span-8 mb-10">
+          <div className="mb-5">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="default">Edit</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <DropdownMenuLabel>Username: {user.username}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Edit Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem>Change Password
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
           <Table>
             <TableHeader>
               <TableRow>
@@ -42,7 +66,7 @@ function ProfilePage() {
                 <TableCell>Permissions</TableCell>
                 <TableCell>
                   {
-                    user.permissions.map((permission: string) => {
+                    user.permissions.sort().map((permission: string) => {
                       return <p key={permission}><code>{permission}</code></p>;
                     })
                   }
@@ -50,9 +74,6 @@ function ProfilePage() {
               </TableRow>
             </TableBody>
           </Table>
-          <div className="my-10">
-            <Button onClick={handleSignOut} variant="secondary">Log out</Button>
-          </div>
         </div>
       </div>
     </BaseLayout>

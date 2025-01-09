@@ -90,13 +90,13 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem
-              onClick={() => setUserAccountToUpdate({id, username, displayName, status})}>
-              Update Details
-            </DropdownMenuItem>
-            <DropdownMenuItem
               onClick={() => setUserAccountPasswordToUpdate({id, username, displayName})}
             >
-              Update Password
+              Change Password
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => setUserAccountToUpdate({id, username, displayName, status})}>
+              Update Details
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => setUserAccountPermissionsToUpdate({

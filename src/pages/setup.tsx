@@ -10,6 +10,7 @@ import {Home} from 'lucide-react';
 import Link from 'next/link';
 import {getISOStringDate} from '@/utils/date';
 import {setupPages} from '@/setup/pages';
+import {Pages} from '@/configs/pages';
 
 export default function Setup(props: any) {
   if(props.errorMessage) {
@@ -54,7 +55,7 @@ export default function Setup(props: any) {
 
         <p>Restart the server.</p>
 
-        <Link href="/">
+        <Link href={Pages.home.link}>
           <Button variant="secondary">
             <Home/> Go to Home
           </Button>

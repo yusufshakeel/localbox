@@ -2,6 +2,7 @@ import {Home} from 'lucide-react';
 import BaseLayout from '@/layouts/BaseLayout';
 import Link from 'next/link';
 import {Button} from '@/components/ui/button';
+import {Pages} from '@/configs/pages';
 
 export default function UnauthorizedPage() {
   return (
@@ -12,7 +13,7 @@ export default function UnauthorizedPage() {
         </h1>
         <p>You do not have permissions.</p>
         <div>
-          <Link href="/">
+          <Link href={Pages.home.link}>
             <Button variant="secondary">
               <Home/> Go to Home
             </Button>

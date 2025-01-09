@@ -1,5 +1,5 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
-import {Home, Upload, Image, Music, Video, File, MessageCircle, Info, User, SlidersHorizontal} from 'lucide-react';
+import {Home, Upload, Image, Music, Video, File, MessageCircle, Info} from 'lucide-react';
 import {PermissionsType} from '@/types/permissions';
 import {UserType} from '@/types/users';
 
@@ -7,6 +7,15 @@ const permissionTag = (pageId: string, permissions: string[]) => {
   return permissions.map(p => `${pageId}:${p}`);
 };
 export const Pages = {
+  'login': {
+    id: 'login',
+    link: '/auth/login',
+    title: 'Log in',
+    pageFor: [UserType.any],
+    permissions: permissionTag('home', [
+      PermissionsType.PUBLIC
+    ])
+  },
   'home': {
     id: 'home',
     link: '/',
@@ -29,6 +38,15 @@ export const Pages = {
     id: 'adminsDashboard',
     link: '/admins/dashboard',
     title: 'Admins Dashboard',
+    pageFor: [UserType.admin],
+    permissions: [
+      PermissionsType.ADMIN
+    ]
+  },
+  'setup': {
+    id: 'setup',
+    link: '/setup',
+    title: 'Setup',
     pageFor: [UserType.admin],
     permissions: [
       PermissionsType.ADMIN
@@ -111,12 +129,4 @@ export const COMMON_PAGES = [
   {icon: File, title: Pages.documents.title, link: Pages.documents.link},
   {icon: MessageCircle, title: Pages.tempChats.title, link: Pages.tempChats.link},
   {icon: Info, title: Pages.info.title, link: Pages.info.link}
-];
-
-export const LOGGED_IN_USER_PAGES = [
-  {icon: User, title: Pages.profile.title, link: Pages.profile.link}
-];
-
-export const LOGGED_IN_ADMIN_PAGES = [
-  {icon: SlidersHorizontal, title: Pages.adminsDashboard.title, link: Pages.adminsDashboard.link}
 ];
