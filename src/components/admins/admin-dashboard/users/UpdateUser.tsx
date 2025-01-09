@@ -46,6 +46,11 @@ export default function UpdateUser(props: any) {
     }
   }, [form, props.userAccountToUpdate]);
 
+  const closeDialog = () => {
+    setErrorMessage('');
+    setOpen(false);
+  };
+
   async function onSubmit(values: z.infer<typeof userUpdateSchema>) {
     try {
       setErrorMessage('');
@@ -56,9 +61,9 @@ export default function UpdateUser(props: any) {
       });
       if (response.statusCode === 200) {
         props.setLastUserAccountChangesAt(getISOStringDate());
-        setOpen(false);
+        closeDialog();
         props.setUserAccountToUpdate('');
-        showToast({ content: 'User account updated successfully', type: 'success', autoClose: 1000 });
+        showToast({ content: 'Details updated successfully', type: 'success', autoClose: 1000 });
         form.reset();
       } else {
         setErrorMessage(response.message!);
@@ -69,10 +74,10 @@ export default function UpdateUser(props: any) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={closeDialog}>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>Update details</DialogTitle>
+          <DialogTitle>Update Details</DialogTitle>
         </DialogHeader>
         <div>
           { errorMessage && <AlertError message={errorMessage}/> }
@@ -133,7 +138,7 @@ export default function UpdateUser(props: any) {
               />
 
               <Button type="submit" className="me-3">Update</Button>
-              <Button type="reset" variant="secondary" className="me-3" onClick={() => setOpen(false)}>Close</Button>
+              <Button type="reset" variant="secondary" className="me-3" onClick={closeDialog}>Close</Button>
             </form>
           </Form>
         </div>

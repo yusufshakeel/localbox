@@ -25,6 +25,11 @@ export default function DeleteUser(props: any) {
     }
   }, [props.userAccountToDelete]);
 
+  const closeDialog = () => {
+    setErrorMessage('');
+    setOpen(false);
+  };
+
   async function handleDelete() {
     try {
       setErrorMessage('');
@@ -34,9 +39,9 @@ export default function DeleteUser(props: any) {
       });
       if (response.statusCode === 200) {
         props.setLastUserAccountChangesAt(getISOStringDate());
-        setOpen(false);
+        closeDialog();
         props.setUserAccountToDelete('');
-        showToast({ content: 'User account deleted', type: 'success', autoClose: 1000 });
+        showToast({ content: 'Account deleted', type: 'success', autoClose: 1000 });
       } else {
         setErrorMessage(response.message!);
       }
@@ -46,10 +51,10 @@ export default function DeleteUser(props: any) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={closeDialog}>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>Delete user account</DialogTitle>
+          <DialogTitle>Delete Account</DialogTitle>
         </DialogHeader>
         <div>
           { errorMessage && <AlertError message={errorMessage}/> }
@@ -58,7 +63,7 @@ export default function DeleteUser(props: any) {
         </div>
         <DialogFooter>
           <Button variant="destructive" className="me-3" onClick={handleDelete}>Yes, delete the account</Button>
-          <Button variant="secondary" className="me-3" onClick={() => setOpen(false)}>Close</Button>
+          <Button variant="secondary" className="me-3" onClick={closeDialog}>Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

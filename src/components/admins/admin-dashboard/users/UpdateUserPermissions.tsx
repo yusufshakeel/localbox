@@ -65,6 +65,11 @@ export default function UpdateUserPermissions(props: any) {
     }
   }, [form, props.userAccountPermissionsToUpdate]);
 
+  const closeDialog = () => {
+    setErrorMessage('');
+    setOpen(false);
+  };
+
   async function onSubmit(data: z.infer<typeof userUpdatePermissionsSchema>) {
     try {
       setErrorMessage('');
@@ -76,10 +81,10 @@ export default function UpdateUserPermissions(props: any) {
       if (response.statusCode === 200) {
         setUserAccountDetails(null);
         props.setLastUserAccountChangesAt(getISOStringDate());
-        setOpen(false);
+        closeDialog();
         props.setUserAccountPermissionsToUpdate('');
         showToast({
-          content: 'User account permissions updated successfully',
+          content: 'Permissions updated successfully',
           type: 'success',
           autoClose: 1000
         });
@@ -97,7 +102,7 @@ export default function UpdateUserPermissions(props: any) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={closeDialog}>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Update Permissions</DialogTitle>
@@ -165,7 +170,7 @@ export default function UpdateUserPermissions(props: any) {
                 />
               </div>
               <Button type="submit" className="me-3">Submit</Button>
-              <Button type="reset" variant="secondary" className="me-3" onClick={() => setOpen(false)}>Close</Button>
+              <Button type="reset" variant="secondary" className="me-3" onClick={closeDialog}>Close</Button>
             </form>
           </Form>
         </div>
