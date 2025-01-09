@@ -10,6 +10,7 @@ Features:
 * File upload and sharing
 * Temporary Chats (TempChats)
 * Audio/Video player
+* User management (Authentication and Authorization)
 * Dark Mode
 
 ![image-v0.6.0.png](public/assets/image-v0.6.0.png)
@@ -19,7 +20,9 @@ Features:
 * [Use Case](#use-case)
 * [Server Clients](#server-clients)
 * [Minimum Requirements](#minimum-requirements)
-* [Getting Started](#server-clients)
+* [Getting Started](#getting-started)
+* [First time setup](#first-time-setup)
+* [Steps to run the setup again](#steps-to-run-the-setup-again)
 * [Get Updates](#get-updates)
 * [Configurations](#configurations)
 * [Folders](#folders)
@@ -44,8 +47,13 @@ If the server IP is 192.168.0.151 and is running at port 3001 then type `http://
 
 ## Minimum requirements
 
+Software:
 * Node.js (version 16 or higher)
-* Any modern laptop or desktop should work.
+* npm
+* npx
+
+Hardware:
+* Any modern/older laptop or desktop should work.
   * I am using HP ProBook 6450b laptop from the year 2010.
   * Specs:
     * 320GB HDD
@@ -54,43 +62,68 @@ If the server IP is 192.168.0.151 and is running at port 3001 then type `http://
 
 ## Getting Started
 
-Clone this repository
+* Clone this repository from [GitHub](https://github.com/yusufshakeel/localbox).
 
 ```shell
 git clone https://github.com/yusufshakeel/localbox.git
 ```
 
-Install dependencies
+* Go inside the cloned directory and install the dependencies
 
 ```shell
 npm i
 ```
 
-Bootstrap
+* Now, run the following command in the terminal to bootstrap the project.
+
+This will create files and folders that are needed by the application.
 
 ```shell
 npm run bootstrap
 ```
 
-Build
+* Now, build the application by running the following command in the terminal.
+
+This will build the application.
 
 ```bash
 npm run build
 ```
 
-Start the local server
+* You are now ready to start your localbox server.
 
 ```bash
 npm run start
 ```
 
-Alternatively, to run in dev mode
+Alternatively, run the following command if you want to run the application in dev mode.
 
 ```shell
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in the browser to see the result.
+* You will see the url of the localbox application in the terminal after it starts running.
+
+* Open the url (example [http://localhost:3000](http://localhost:3000)) in the browser.
+
+## First time setup
+
+* Go to Home page and you will see localbox perform some setup operations.
+* You will also get the **admin** account created.
+* A `setup.lock` file will be created inside the `/private` folder.
+
+Default credentials
+```text
+Username: admin
+Password: root1234
+```
+Change the password of the **admin** account after logging in.
+
+## Steps to run the setup again
+
+* Delete the `setup.lock` file from the `/private` folder.
+* Run the server `npm run start` or `npm run dev`
+* Open the Home page.
 
 ## Get Updates
 
