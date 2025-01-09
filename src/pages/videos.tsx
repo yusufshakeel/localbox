@@ -11,6 +11,7 @@ import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
+import {Video} from 'lucide-react';
 
 function Videos() {
   const {data: session} = useSession() as any;
@@ -61,7 +62,11 @@ function Videos() {
                             className="my-3 text-center">{getFilename(selectedFile).substring(0, 30)}</p>
                         </>
                       )
-                      : <div className="aspect-video rounded-xl bg-muted/50"/>
+                      : <div className="aspect-video rounded-xl bg-muted/50">
+                        <div className="flex items-center justify-center h-64">
+                          <Video className="w-12 h-12"/>
+                        </div>
+                      </div>
                   }
                 </AspectRatio>
               </div>
