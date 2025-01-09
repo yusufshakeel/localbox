@@ -6,7 +6,7 @@ import {Pages} from '@/configs/pages';
 
 function Documents() {
   return (
-    <BaseLayout pageTitle={'Documents'}>
+    <BaseLayout pageTitle={Pages.documents.title}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12">
           <ListDirectoryFiles

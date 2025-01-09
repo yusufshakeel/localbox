@@ -14,7 +14,7 @@ function Uploads() {
   const {data: session} = useSession() as any;
 
   return (
-    <BaseLayout pageTitle={'Uploads'}>
+    <BaseLayout pageTitle={Pages.uploads.title}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 lg:col-span-5 mb-10">
           {

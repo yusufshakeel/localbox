@@ -12,7 +12,7 @@ export const Pages = {
     link: '/auth/login',
     title: 'Log in',
     pageFor: [UserType.any],
-    permissions: permissionTag('home', [
+    permissions: permissionTag('login', [
       PermissionsType.PUBLIC
     ])
   },
@@ -39,18 +39,18 @@ export const Pages = {
     link: '/admins/dashboard',
     title: 'Admins Dashboard',
     pageFor: [UserType.admin],
-    permissions: [
+    permissions: permissionTag('adminsDashboard', [
       PermissionsType.ADMIN
-    ]
+    ])
   },
   'setup': {
     id: 'setup',
     link: '/setup',
     title: 'Setup',
     pageFor: [UserType.admin],
-    permissions: [
+    permissions: permissionTag('setup', [
       PermissionsType.ADMIN
-    ]
+    ])
   },
   'profile': {
     id: 'profile',
@@ -116,6 +116,15 @@ export const Pages = {
     permissions: permissionTag('tempChats', [
       PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
+    ])
+  },
+  'unauthorized': {
+    id: 'unauthorized',
+    link: '/unauthorized',
+    title: 'Unauthorized',
+    pageFor: [UserType.any],
+    permissions: permissionTag('unauthorized', [
+      PermissionsType.PUBLIC
     ])
   }
 };

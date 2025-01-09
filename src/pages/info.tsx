@@ -10,12 +10,13 @@ import {
   TableRow
 } from '@/components/ui/table';
 import {WEBSITE_NAME, YUSUF_SHAKEEL_WEBSITE_URL} from '@/constants';
+import {Pages} from '@/configs/pages';
 
 export default function InfoPage() {
   const {ip, port, localServerAddress, info} = useAppContext();
 
   return (
-    <BaseLayout pageTitle={'Info'}>
+    <BaseLayout pageTitle={Pages.info.title}>
       <div className="grid gap-4">
         <Table>
           <TableHeader>

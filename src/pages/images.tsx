@@ -19,7 +19,7 @@ function Images() {
   };
   
   return (
-    <BaseLayout pageTitle={'Images'}>
+    <BaseLayout pageTitle={Pages.images.title}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 lg:col-span-5 mb-10">
           {

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
@@ -71,6 +71,8 @@ export default function BaseLayout({
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Username: {session.user.username}</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
                               <Link href={Pages.profile.link}>Profile</Link>
                             </DropdownMenuItem>
@@ -89,7 +91,7 @@ export default function BaseLayout({
                     )
                     : (
                       <Link href={Pages.login.link}>
-                        <Button variant="ghost">Log in</Button>
+                        <Button variant="default">Log in</Button>
                       </Link>
                     )
                 }

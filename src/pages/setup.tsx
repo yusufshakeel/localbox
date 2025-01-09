@@ -13,9 +13,11 @@ import {setupPages} from '@/setup/pages';
 import {Pages} from '@/configs/pages';
 
 export default function Setup(props: any) {
+  const  pageTitle = Pages.documents.title;
+
   if(props.errorMessage) {
     return (
-      <BaseLayout pageTitle={'Setup'} isSetupPage={true}>
+      <BaseLayout pageTitle={pageTitle} isSetupPage={true}>
         <div className="grid gap-4">
           <h1 className="text-4xl text-destructive">Setup failed!</h1>
           <pre>{props.errorMessage}</pre>
@@ -26,7 +28,7 @@ export default function Setup(props: any) {
   }
 
   return (
-    <BaseLayout pageTitle={'Setup'} isSetupPage={true}>
+    <BaseLayout pageTitle={pageTitle} isSetupPage={true}>
       <div className="grid gap-4">
         <h1 className="text-3xl">Setup.</h1>
 

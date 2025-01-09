@@ -6,7 +6,7 @@ import {Pages} from '@/configs/pages';
 
 export default function UnauthorizedPage() {
   return (
-    <BaseLayout pageTitle={'Home'}>
+    <BaseLayout pageTitle={Pages.unauthorized.title}>
       <div className="grid gap-4">
         <h1 className="text-4xl text-destructive flex items-center space-x-2">
           Unauthorized!
