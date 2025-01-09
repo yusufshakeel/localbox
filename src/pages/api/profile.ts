@@ -73,10 +73,10 @@ export default async function handler(
 ) {
   try {
     const allowedMethods = [HttpMethod.GET, HttpMethod.PATCH];
-    const hasPrivileges = await hasApiPrivileges(req, res, {
+    const session = await hasApiPrivileges(req, res, {
       allowedMethods, permissions: Pages.profile.permissions
     });
-    if (!hasPrivileges) {
+    if (!session) {
       return;
     }
 

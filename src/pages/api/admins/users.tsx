@@ -120,8 +120,8 @@ export default async function handler(
     const allowedMethods = [
       HttpMethod.GET, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH
     ];
-    const hasPrivileges = await hasAdminApiPrivileges(req, res, { allowedMethods });
-    if (!hasPrivileges) {
+    const session = await hasAdminApiPrivileges(req, res, { allowedMethods });
+    if (!session) {
       return;
     }
 

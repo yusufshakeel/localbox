@@ -9,10 +9,13 @@ import {Pages} from '@/configs/pages';
 import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
+import FileUploadComponent from '@/components/FileUploadComponent';
+import {AcceptFileType} from '@/types/file';
 
 function Videos() {
   const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [lastUploadAt, setLastUploadAt] = useState<string>('');
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -22,6 +25,20 @@ function Videos() {
 
   return (
     <BaseLayout pageTitle={Pages.videos.title}>
+      <div className="grid grid-cols-12 gap-4">
+        {
+          hasPermissions(
+            session?.user?.permissions,
+            [`${Pages.videos.id}:${PermissionsType.AUTHORIZED_USE}`]
+          ) &&
+            <div className="col-span-12 lg:col-span-5 mb-10">
+              <FileUploadComponent
+                setLastUploadAt={setLastUploadAt}
+                dir={PublicFolders.videos}
+                acceptFileType={AcceptFileType.video}/>
+            </div>
+        }
+      </div>
       <div className="grid grid-cols-12 gap-4">
         {
           hasPermissions(
@@ -51,8 +68,10 @@ function Videos() {
               <div className="col-span-12 lg:col-span-7 mb-10">
                 <ListDirectoryFiles
                   dir={PublicFolders.videos}
+                  sort={'DESC'}
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText='Play'
+                  lastUploadAt={lastUploadAt}
                 />
               </div>
             </>

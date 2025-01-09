@@ -11,10 +11,13 @@ import {Pages} from '@/configs/pages';
 import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
+import FileUploadComponent from '@/components/FileUploadComponent';
+import {AcceptFileType} from '@/types/file';
 
 function Images() {
   const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
+  const [lastUploadAt, setLastUploadAt] = useState<string>('');
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -24,6 +27,20 @@ function Images() {
   
   return (
     <BaseLayout pageTitle={Pages.images.title}>
+      <div className="grid grid-cols-12 gap-4">
+        {
+          hasPermissions(
+            session?.user?.permissions,
+            [`${Pages.images.id}:${PermissionsType.AUTHORIZED_USE}`]
+          ) &&
+            <div className="col-span-12 lg:col-span-5 mb-10">
+              <FileUploadComponent
+                setLastUploadAt={setLastUploadAt}
+                dir={PublicFolders.images}
+                acceptFileType={AcceptFileType.image}/>
+            </div>
+        }
+      </div>
       <div className="grid grid-cols-12 gap-4">
         {
           hasPermissions(
@@ -57,8 +74,10 @@ function Images() {
               <div className="col-span-12 lg:col-span-7 mb-10">
                 <ListDirectoryFiles
                   dir={PublicFolders.images}
+                  sort={'DESC'}
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText="View"
+                  lastUploadAt={lastUploadAt}
                 />
               </div>
             </>

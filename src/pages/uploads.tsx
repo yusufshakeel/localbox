@@ -8,6 +8,7 @@ import {Pages} from '@/configs/pages';
 import {useSession} from 'next-auth/react';
 import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
+import {AcceptFileType} from '@/types/file';
 
 function Uploads() {
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
@@ -16,26 +17,33 @@ function Uploads() {
   return (
     <BaseLayout pageTitle={Pages.uploads.title}>
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 lg:col-span-5 mb-10">
-          {
-            hasPermissions(
-              session?.user?.permissions,
-              [`${Pages.uploads.id}:${PermissionsType.AUTHORIZED_USE}`]
-            ) && <FileUploadComponent setLastUploadAt={setLastUploadAt}/>
-          }
-        </div>
-        <div className="col-span-12 lg:col-span-7 mb-10">
-          {
-            hasPermissions(
-              session?.user?.permissions,
-              [`${Pages.uploads.id}:${PermissionsType.AUTHORIZED_VIEW}`]
-            ) && <ListDirectoryFiles
-              dir={PublicFolders.uploads}
-              sort={'DESC'}
-              lastUploadAt={lastUploadAt}
-            />
-          }
-        </div>
+        {
+          hasPermissions(
+            session?.user?.permissions,
+            [`${Pages.uploads.id}:${PermissionsType.AUTHORIZED_USE}`]
+          ) &&
+            <div className="col-span-12 lg:col-span-5 mb-10">
+              <FileUploadComponent
+                setLastUploadAt={setLastUploadAt}
+                dir={PublicFolders.uploads}
+                acceptFileType={AcceptFileType.any}/>
+            </div>
+        }
+      </div>
+      <div className="grid grid-cols-12 gap-4">
+        {
+          hasPermissions(
+            session?.user?.permissions,
+            [`${Pages.uploads.id}:${PermissionsType.AUTHORIZED_VIEW}`]
+          ) &&
+            <div className="col-span-12 lg:col-span-7 mb-10">
+              <ListDirectoryFiles
+                dir={PublicFolders.uploads}
+                sort={'DESC'}
+                lastUploadAt={lastUploadAt}
+              />
+            </div>
+        }
       </div>
     </BaseLayout>
   );

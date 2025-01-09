@@ -31,8 +31,8 @@ export default async function handler(
 ) {
   try {
     const allowedMethods = [HttpMethod.GET];
-    const hasPrivileges = await hasAdminApiPrivileges(req, res, { allowedMethods });
-    if (!hasPrivileges) {
+    const session = await hasAdminApiPrivileges(req, res, { allowedMethods });
+    if (!session) {
       return;
     }
 

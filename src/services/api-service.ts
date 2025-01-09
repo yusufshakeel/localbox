@@ -39,7 +39,7 @@ export async function isValidSessionWithPermissions(
     return res.status(403).json({ message: 'Forbidden: Do not have required permissions.' });
   }
 
-  return true;
+  return session;
 }
 
 export async function hasApiPrivileges(
@@ -55,7 +55,7 @@ export async function hasApiPrivileges(
     return;
   }
 
-  const isAuthorized = await isValidSessionWithPermissions(
+  const session = await isValidSessionWithPermissions(
     req,
     res,
     {
@@ -63,11 +63,11 @@ export async function hasApiPrivileges(
       allowedPermissions: option.permissions
     }
   );
-  if (!isAuthorized) {
+  if (!session) {
     return;
   }
 
-  return true;
+  return session;
 }
 
 export async function hasAdminApiPrivileges(
@@ -79,14 +79,14 @@ export async function hasAdminApiPrivileges(
     return;
   }
 
-  const isAuthorized = await isValidSessionWithPermissions(
+  const session = await isValidSessionWithPermissions(
     req,
     res,
     { allowedUserTypes: [UserType.admin], allowedPermissions: [PermissionsType.ADMIN] }
   );
-  if (!isAuthorized) {
+  if (!session) {
     return;
   }
 
-  return true;
+  return session;
 }
