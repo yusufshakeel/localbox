@@ -1,7 +1,7 @@
 # localbox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
-![Static Badge](https://img.shields.io/badge/version-v0.6.2-blue)
+![Static Badge](https://img.shields.io/badge/version-v0.7.0-blue)
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
@@ -24,7 +24,6 @@ Features:
 * [First time setup](#first-time-setup)
 * [Steps to run the setup again](#steps-to-run-the-setup-again)
 * [Get Updates](#get-updates)
-* [Configurations](#configurations)
 * [Folders](#folders)
 * [License](#license)
 * [Donate](#donate)
@@ -132,14 +131,6 @@ Just pull the latest **main** branch.
 ```shell
 git pull origin main
 ```
-
-## Configurations
-
-You will find configurations inside `src/configs` folder.
-
-### TempChats
-
-File: `src/configs/temp-chats.ts`
 
 ## Folders
 
