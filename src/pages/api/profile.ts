@@ -19,8 +19,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const allowedMethods = [HttpMethod.GET, HttpMethod.PATCH];
-  if (!await hasApiPrivileges(req, res, { allowedMethods, permissions: Pages.profile.permissions })
-  ) {
+  const hasPrivileges = await hasApiPrivileges(req, res, {
+    allowedMethods, permissions: Pages.profile.permissions
+  });
+  if (!hasPrivileges) {
     return;
   }
 

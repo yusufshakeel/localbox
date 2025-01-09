@@ -132,8 +132,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const allowedMethods = [HttpMethod.GET, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH];
-  if (!await hasAdminApiPrivileges(req, res, { allowedMethods })) {
+  const allowedMethods = [
+    HttpMethod.GET, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH
+  ];
+  const hasPrivileges = await hasAdminApiPrivileges(req, res, { allowedMethods });
+  if (!hasPrivileges) {
     return;
   }
 
