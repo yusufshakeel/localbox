@@ -10,7 +10,7 @@ import {Pages} from '@/configs/pages';
 export default async function handler(req: NextApiRequest, res: NextApiResponse<FilesApiResponse>) {
   try {
     const allowedMethods = [HttpMethod.GET];
-    const hasPrivileges = await hasApiPrivileges(req, res, {
+    const session = await hasApiPrivileges(req, res, {
       allowedMethods,
       permissions: [
         ...Pages.uploads.permissions,
@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         ...Pages.documents.permissions
       ]
     });
-    if (!hasPrivileges) {
+    if (!session) {
       return;
     }
 

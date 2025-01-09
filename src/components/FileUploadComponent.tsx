@@ -4,14 +4,22 @@ import useFileUploadEffect from '@/hooks/useFileUploadEffect';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {getISOStringDate} from '@/utils/date';
+import {AcceptFileType} from '@/types/file';
 
 type PropType = {
+  dir: string,
   setLastUploadAt: (_: string) => void
+  acceptFileType: string
 }
 
-export default function FileUploadComponent({ setLastUploadAt = () => {} }: PropType) {
+export default function FileUploadComponent({
+  setLastUploadAt = () => {},
+  dir,
+  acceptFileType = AcceptFileType.any
+}: PropType
+) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir: 'uploads' });
+  const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir });
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -56,6 +64,7 @@ export default function FileUploadComponent({ setLastUploadAt = () => {} }: Prop
         ref={inputRef}
         name="file"
         data-testid="file-input"
+        accept={acceptFileType}
         onChange={handleFileChange} />
       <div>
         <Button variant="default" className="mr-3" data-testid="upload-btn" onClick={handleUpload}>

@@ -8,6 +8,7 @@ import {getISOStringDate} from '@/utils/date';
 import {HttpMethod} from '@/types/api';
 import {hasApiPrivileges} from '@/services/api-service';
 import {Pages} from '@/configs/pages';
+import {UserType} from '@/types/users';
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,18 +16,28 @@ export default async function handler(
 ) {
   try {
     const allowedMethods = [HttpMethod.POST];
-    const hasPrivileges = await hasApiPrivileges(req, res, {
+    const session = await hasApiPrivileges(req, res, {
       allowedMethods,
       permissions: [
         ...Pages.uploads.permissions
       ]
     });
-    if (!hasPrivileges) {
+    if (!session) {
       return;
     }
 
     const dir = req.query.dir || PublicFolders.uploads;
     const allowedFolders = [PublicFolders.uploads, PublicFolders.tempChats];
+
+    if (session.user.type === UserType.admin) {
+      allowedFolders.push(
+        PublicFolders.audios,
+        PublicFolders.videos,
+        PublicFolders.images,
+        PublicFolders.documents
+      );
+    }
+
     if (!allowedFolders.includes(dir as PublicFolders || '')) {
       return res.status(400).json({ error: 'Bad request', message: 'Invalid dir' });
     }
