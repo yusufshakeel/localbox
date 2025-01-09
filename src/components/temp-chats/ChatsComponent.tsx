@@ -29,9 +29,8 @@ export default function ChatsComponent(props: PropType) {
     if (typeof window !== 'undefined') {
       const body = document.body;
       const paddingTop = parseFloat(window.getComputedStyle(body).paddingTop);
-      const chatHeader = document.getElementById('chat-header')?.offsetHeight ?? 0;
       const chatInput = document.getElementById('chat-input')?.offsetHeight ?? 0;
-      const chatContent = viewportHeight - paddingTop - chatHeader - chatInput - 200;
+      const chatContent = viewportHeight - paddingTop - chatInput - 150;
       setChatContentHeight(chatContent);
     }
   }, [viewportHeight]);
