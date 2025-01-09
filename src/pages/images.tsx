@@ -13,6 +13,7 @@ import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
+import {Image as ImageIcon} from 'lucide-react';
 
 function Images() {
   const {data: session} = useSession() as any;
@@ -68,7 +69,11 @@ function Images() {
                         </p>
                       </div>
                     )
-                    : <div className="aspect-video rounded-xl bg-muted/50"/>
+                    : <div className="aspect-video rounded-xl bg-muted/50">
+                      <div className="flex items-center justify-center h-64">
+                        <ImageIcon className="w-12 h-12"/>
+                      </div>
+                    </div>
                 }
               </div>
               <div className="col-span-12 lg:col-span-7 mb-10">
