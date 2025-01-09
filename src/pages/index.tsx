@@ -3,10 +3,11 @@ import {WEBSITE_NAME} from '@/constants';
 import fs from 'fs';
 import path from 'path';
 import {LOCALBOX_SETUP_LOCK_FILENAME} from '@/configs';
+import {Pages} from '@/configs/pages';
 
 export default function Home() {
   return (
-    <BaseLayout pageTitle={'Home'}>
+    <BaseLayout pageTitle={Pages.home.title}>
       <div className="grid gap-4">
         <div className="text-center">
           <h1 className="text-5xl mt-32 mb-6">Welcome to {WEBSITE_NAME}</h1>

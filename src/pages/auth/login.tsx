@@ -24,6 +24,7 @@ import {AlertError} from '@/components/alerts';
 import {handleCredentialsSignIn} from '@/services/auth-service';
 import LoadingSpinner from '@/components/loading';
 import {loginSchema} from '@/validations/login-validation';
+import {Pages} from '@/configs/pages';
 
 export default function LogInPage({
   csrfToken
@@ -73,7 +74,7 @@ export default function LogInPage({
   }
 
   return (
-    <BaseLayout pageTitle={'Log In'}>
+    <BaseLayout pageTitle={Pages.login.title}>
       <div className="flex w-full items-center justify-center p-5">
         <div className="w-full max-w-sm">
           <Card>
@@ -117,7 +118,7 @@ export default function LogInPage({
                     )}
                   />
 
-                  <Button type="submit">Log In</Button>
+                  <Button type="submit">Log in</Button>
                 </form>
               </Form>
             </CardContent>

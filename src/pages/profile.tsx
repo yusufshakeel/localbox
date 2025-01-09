@@ -11,6 +11,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/c
 import {useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
 import {WithAuth} from '@/components/with-auth';
+import {Pages} from '@/configs/pages';
 
 function ProfilePage() {
   const {data: session} = useSession() as any;
@@ -18,7 +19,7 @@ function ProfilePage() {
   const { user } = session;
 
   return (
-    <BaseLayout pageTitle={'Profile'}>
+    <BaseLayout pageTitle={Pages.profile.title}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 lg:col-span-8 mb-10">
           <div className="mb-5">

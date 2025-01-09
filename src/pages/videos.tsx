@@ -17,7 +17,7 @@ function Videos() {
   };
 
   return (
-    <BaseLayout pageTitle={'Videos'}>
+    <BaseLayout pageTitle={Pages.videos.title}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 lg:col-span-5 mb-10">
           <AspectRatio ratio={16 / 9}>

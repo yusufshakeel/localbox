@@ -9,10 +9,11 @@ import {WithAuth} from '@/components/with-auth';
 import {UserType} from '@/types/users';
 import UserManagementComponent from '../../components/admins/admin-dashboard/users';
 import PageManagementComponent from '@/components/admins/admin-dashboard/pages';
+import {Pages} from '@/configs/pages';
 
 function AdminDashboardPage() {
   return (
-    <BaseLayout pageTitle={'Admin Dashboard'}>
+    <BaseLayout pageTitle={Pages.adminsDashboard.title}>
       <Tabs defaultValue="users">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="users">Users</TabsTrigger>
