@@ -8,7 +8,14 @@ function getLocalIpAddress() {
   return findIps(networkInterfaces)[0];
 }
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<IpApiResponse>) {
-  const localIp = getLocalIpAddress();
-  res.status(200).json({ ip: localIp || 'IP not found' });
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<IpApiResponse | {error: string, message: string}>
+) {
+  try {
+    const localIp = getLocalIpAddress();
+    res.status(200).json({ip: localIp || 'IP not found'});
+  } catch (error: any) {
+    res.status(500).json({ error: 'Something went wrong', message: error.message });
+  }
 }

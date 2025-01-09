@@ -43,6 +43,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     res.status(200).json({ files: filteredFiles });
   } catch (error: any) {
-    res.status(500).json({ error: 'Failed to list files', message: error.message });
+    res.status(500).json({ error: 'Something went wrong', message: error.message });
   }
 }
