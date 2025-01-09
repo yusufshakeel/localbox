@@ -78,6 +78,7 @@ export const Pages = {
     title: 'Images',
     pageFor: [UserType.any],
     permissions: permissionTag('images', [
+      PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
     ])
   },
@@ -87,6 +88,7 @@ export const Pages = {
     title: 'Audios',
     pageFor: [UserType.any],
     permissions: permissionTag('audios', [
+      PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
     ])
   },
@@ -96,6 +98,7 @@ export const Pages = {
     title: 'Videos',
     pageFor: [UserType.any],
     permissions: permissionTag('videos', [
+      PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
     ])
   },
@@ -105,6 +108,7 @@ export const Pages = {
     title: 'Documents',
     pageFor: [UserType.any],
     permissions: permissionTag('documents', [
+      PermissionsType.AUTHORIZED_USE,
       PermissionsType.AUTHORIZED_VIEW
     ])
   },

@@ -36,7 +36,7 @@ function Uploads() {
             session?.user?.permissions,
             [`${Pages.uploads.id}:${PermissionsType.AUTHORIZED_VIEW}`]
           ) &&
-            <div className="col-span-12 lg:col-span-7 mb-10">
+            <div className="col-span-12 lg:col-span-9 mb-10">
               <ListDirectoryFiles
                 dir={PublicFolders.uploads}
                 sort={'DESC'}

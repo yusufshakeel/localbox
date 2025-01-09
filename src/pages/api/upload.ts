@@ -9,6 +9,7 @@ import {HttpMethod} from '@/types/api';
 import {hasApiPrivileges} from '@/services/api-service';
 import {Pages} from '@/configs/pages';
 import {UserType} from '@/types/users';
+import {PermissionsType} from '@/types/permissions';
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,6 +37,23 @@ export default async function handler(
         PublicFolders.images,
         PublicFolders.documents
       );
+    }
+    else if (session.user.type === UserType.user) {
+      if (session.user.permissions.includes(`${Pages.audios.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+        allowedFolders.push(PublicFolders.audios);
+      }
+
+      if (session.user.permissions.includes(`${Pages.videos.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+        allowedFolders.push(PublicFolders.videos);
+      }
+
+      if (session.user.permissions.includes(`${Pages.images.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+        allowedFolders.push(PublicFolders.images);
+      }
+
+      if (session.user.permissions.includes(`${Pages.documents.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+        allowedFolders.push(PublicFolders.documents);
+      }
     }
 
     if (!allowedFolders.includes(dir as PublicFolders || '')) {
