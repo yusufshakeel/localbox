@@ -68,7 +68,9 @@ export default function BaseLayout({
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Username: {session.user.username}</DropdownMenuLabel>
+                            <DropdownMenuLabel>
+                              Welcome, {session.user.displayName}
+                            </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {
                               hasPermissions(session.user.permissions, Pages.profile.permissions) &&

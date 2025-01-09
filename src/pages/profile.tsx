@@ -2,8 +2,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import BaseLayout from '@/layouts/BaseLayout';
@@ -59,8 +57,6 @@ function ProfilePage() {
                     <Button variant="default">Edit</Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
-                    <DropdownMenuLabel>Username: {userDetails.username}</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => setUserAccountToUpdate(() => userDetails)}>
                       Update Details
@@ -69,7 +65,6 @@ function ProfilePage() {
                       onClick={() => setUserAccountPasswordToUpdate(() => userDetails)}>
                       Update Password
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
                   </DropdownMenuContent>
                 </DropdownMenu>
               )
