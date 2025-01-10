@@ -107,7 +107,7 @@ npm run dev
 
 ## First time setup
 
-* Go to Home page and you will see localbox perform some setup operations.
+* Go to Home page, and you will see localbox perform some setup operations.
 * You will also get the **admin** account created.
 * A `setup.lock` file will be created inside the `/private` folder.
 
