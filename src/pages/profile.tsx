@@ -49,7 +49,7 @@ function ProfilePage() {
           <div className="mb-5">
             {
               hasPermissions(
-                userDetails.permissions,
+                { user: { permissions: userDetails.permissions} },
                 [`${Pages.profile.id}:${PermissionsType.AUTHORIZED_USE}`]
               ) && (
                 <DropdownMenu>
@@ -73,7 +73,7 @@ function ProfilePage() {
 
           {
             hasPermissions(
-              userDetails.permissions,
+              { user: { permissions: userDetails.permissions} },
               [`${Pages.profile.id}:${PermissionsType.AUTHORIZED_VIEW}`]
             ) && (
               <Table>

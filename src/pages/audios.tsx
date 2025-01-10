@@ -5,22 +5,32 @@ import {getFilename} from '@/utils/filename';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
-import {hasPermissions} from '@/utils/permissions';
+import {
+  hasPermissions,
+  isLoggedInSessionForAdmin
+} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
 import {Music} from 'lucide-react';
+import DeleteFile from '@/components/admins/DeleteFile';
+import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
 
 function Audios() {
   const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
+  const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
       setSelectedFile(file);
     }
+  };
+
+  const deleteFileHandler = (dir: string, filename: string) => {
+    setFileToDelete({dir, filename});
   };
   
   return (
@@ -28,7 +38,7 @@ function Audios() {
       <div className="grid grid-cols-12 gap-4">
         {
           hasPermissions(
-            session?.user?.permissions,
+            session,
             [`${Pages.audios.id}:${PermissionsType.AUTHORIZED_USE}`]
           ) &&
             <div className="col-span-12 lg:col-span-5 mb-10">
@@ -36,13 +46,14 @@ function Audios() {
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.audios}
                 acceptFileType={AcceptFileType.audio}/>
+              <UserCannotDeleteUploadedFile session={session}/>
             </div>
         }
       </div>
       <div className="grid grid-cols-12 gap-4">
         {
           hasPermissions(
-            session?.user?.permissions,
+            session,
             [`${Pages.audios.id}:${PermissionsType.AUTHORIZED_VIEW}`]
           ) && (
             <>
@@ -71,6 +82,11 @@ function Audios() {
                 <ListDirectoryFiles
                   dir={PublicFolders.audios}
                   sort={'DESC'}
+                  deleteFileHandler={
+                    isLoggedInSessionForAdmin(session)
+                      ? deleteFileHandler
+                      : undefined
+                  }
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText="Play"
                   lastUploadAt={lastUploadAt}
@@ -80,6 +96,10 @@ function Audios() {
           )
         }
       </div>
+      {
+        isLoggedInSessionForAdmin(session)
+        && <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
+      }
     </BaseLayout>
   );
 }

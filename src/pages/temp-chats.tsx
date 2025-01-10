@@ -21,13 +21,13 @@ function TempChats() {
           <div id="chat-container">
             {
               hasPermissions(
-                session?.user?.permissions,
+                session,
                 [`${Pages.tempChats.id}:${PermissionsType.AUTHORIZED_VIEW}`]
               ) && <ChatsComponent messages={messages} currentUserId={userId}/>
             }
             {
               hasPermissions(
-                session?.user?.permissions,
+                session,
                 [`${Pages.tempChats.id}:${PermissionsType.AUTHORIZED_USE}`]
               ) && <InputComponent userId={userId}
                 displayName={displayName}
