@@ -21,6 +21,7 @@ import {PublicFolders} from '@/configs/folders';
 type FileSchemaForColumns = {
   dir: string
   filename: string
+  deleteFileHandler?: (dir: string, filename: string) => void
   selectedFileHandler?: (filename: string) => void
   selectedFileHandlerText?: string
 }
@@ -60,7 +61,13 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
     id: 'actions',
     header: () => <div className="font-bold">Actions</div>,
     cell: ({ row }) => {
-      const { dir, filename, selectedFileHandlerText, selectedFileHandler } = row.original;
+      const {
+        dir,
+        filename,
+        selectedFileHandlerText,
+        selectedFileHandler,
+        deleteFileHandler
+      } = row.original;
 
       return (
         <DropdownMenu>
@@ -84,6 +91,17 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
             <DropdownMenuItem onClick={() => handleDownload(dir, filename)}>
               Download
             </DropdownMenuItem>
+            {
+              deleteFileHandler && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-red-500"
+                    onClick={() => deleteFileHandler(dir, filename)}>
+                    Delete
+                  </DropdownMenuItem>
+                </>
+              )
+            }
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -95,6 +113,7 @@ export type PropType = {
   dir: string,
   sort?: 'ASC' | 'DESC',
   lastUploadAt?: string,
+  deleteFileHandler?: (dir: string, filename: string) => void,
   selectedFileHandler?: (filename: string) => void,
   selectedFileHandlerText?: string,
   fetchAgain?: boolean,
@@ -114,6 +133,7 @@ export default function ListDirectoryFiles(props: PropType) {
         setFiles(response.data!.files.map(filename => {
           return {
             dir: props.dir,
+            deleteFileHandler: props.deleteFileHandler,
             selectedFileHandler: props.selectedFileHandler,
             selectedFileHandlerText: props.selectedFileHandlerText,
             filename
@@ -125,6 +145,7 @@ export default function ListDirectoryFiles(props: PropType) {
       .catch(e => showToast({content: e.message, type: 'error'}));
   }, [
     props.dir,
+    props.deleteFileHandler,
     props.selectedFileHandler,
     props.selectedFileHandlerText,
     props.sort,

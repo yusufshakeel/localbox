@@ -8,22 +8,29 @@ import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
-import {hasPermissions} from '@/utils/permissions';
+import {hasPermissions, isLoggedInSessionForAdmin} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
 import {Image as ImageIcon} from 'lucide-react';
+import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
+import DeleteFile from '@/components/admins/DeleteFile';
 
 function Images() {
   const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
+  const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
       setSelectedFile(file);
     }
+  };
+
+  const deleteFileHandler = (dir: string, filename: string) => {
+    setFileToDelete({dir, filename});
   };
   
   return (
@@ -31,7 +38,7 @@ function Images() {
       <div className="grid grid-cols-12 gap-4">
         {
           hasPermissions(
-            session?.user?.permissions,
+            session,
             [`${Pages.images.id}:${PermissionsType.AUTHORIZED_USE}`]
           ) &&
             <div className="col-span-12 lg:col-span-5 mb-10">
@@ -39,13 +46,14 @@ function Images() {
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.images}
                 acceptFileType={AcceptFileType.image}/>
+              <UserCannotDeleteUploadedFile session={session}/>
             </div>
         }
       </div>
       <div className="grid grid-cols-12 gap-4">
         {
           hasPermissions(
-            session?.user?.permissions,
+            session,
             [`${Pages.images.id}:${PermissionsType.AUTHORIZED_VIEW}`]
           ) && (
             <>
@@ -80,6 +88,11 @@ function Images() {
                 <ListDirectoryFiles
                   dir={PublicFolders.images}
                   sort={'DESC'}
+                  deleteFileHandler={
+                    isLoggedInSessionForAdmin(session)
+                      ? deleteFileHandler
+                      : undefined
+                  }
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText="View"
                   lastUploadAt={lastUploadAt}
@@ -89,6 +102,10 @@ function Images() {
           )
         }
       </div>
+      {
+        isLoggedInSessionForAdmin(session)
+        && <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
+      }
     </BaseLayout>
   );
 }

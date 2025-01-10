@@ -6,17 +6,20 @@ import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
-import {hasPermissions} from '@/utils/permissions';
+import {hasPermissions, isLoggedInSessionForAdmin} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
 import {Video} from 'lucide-react';
+import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
+import DeleteFile from '@/components/admins/DeleteFile';
 
 function Videos() {
   const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
+  const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -24,12 +27,16 @@ function Videos() {
     }
   };
 
+  const deleteFileHandler = (dir: string, filename: string) => {
+    setFileToDelete({dir, filename});
+  };
+
   return (
     <BaseLayout pageTitle={Pages.videos.title}>
       <div className="grid grid-cols-12 gap-4">
         {
           hasPermissions(
-            session?.user?.permissions,
+            session,
             [`${Pages.videos.id}:${PermissionsType.AUTHORIZED_USE}`]
           ) &&
             <div className="col-span-12 lg:col-span-5 mb-10">
@@ -37,13 +44,14 @@ function Videos() {
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.videos}
                 acceptFileType={AcceptFileType.video}/>
+              <UserCannotDeleteUploadedFile session={session}/>
             </div>
         }
       </div>
       <div className="grid grid-cols-12 gap-4">
         {
           hasPermissions(
-            session?.user?.permissions,
+            session,
             [`${Pages.videos.id}:${PermissionsType.AUTHORIZED_VIEW}`]
           ) && (
             <>
@@ -74,6 +82,11 @@ function Videos() {
                 <ListDirectoryFiles
                   dir={PublicFolders.videos}
                   sort={'DESC'}
+                  deleteFileHandler={
+                    isLoggedInSessionForAdmin(session)
+                      ? deleteFileHandler
+                      : undefined
+                  }
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText='Play'
                   lastUploadAt={lastUploadAt}
@@ -83,6 +96,10 @@ function Videos() {
           )
         }
       </div>
+      {
+        isLoggedInSessionForAdmin(session)
+        && <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
+      }
     </BaseLayout>
   );
 }

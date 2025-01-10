@@ -19,9 +19,8 @@ import Link from 'next/link';
 import {SetAppSidebar} from '@/components/setup-app-sidebar';
 import {useSession} from 'next-auth/react';
 import {handleSignOut} from '@/services/auth-service';
-import {UserType} from '@/types/users';
 import {Pages} from '@/configs/pages';
-import {hasPermissions} from '@/utils/permissions';
+import {hasPermissions, isLoggedInSessionForAdmin} from '@/utils/permissions';
 
 export default function BaseLayout({
   children,
@@ -73,13 +72,13 @@ export default function BaseLayout({
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {
-                              hasPermissions(session.user.permissions, Pages.profile.permissions) &&
+                              hasPermissions(session, Pages.profile.permissions) &&
                               <DropdownMenuItem asChild>
                                 <Link href={Pages.profile.link}>Profile</Link>
                               </DropdownMenuItem>
                             }
                             {
-                              session?.user?.type === UserType.admin &&
+                              isLoggedInSessionForAdmin(session) &&
                               <DropdownMenuItem asChild>
                                 <Link href={Pages.adminsDashboard.link}>Admin Dashboard</Link>
                               </DropdownMenuItem>
