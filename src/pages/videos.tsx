@@ -44,7 +44,7 @@ function Videos() {
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.videos}
                 acceptFileType={AcceptFileType.video}/>
-              <UserCannotDeleteUploadedFile session={session}/>
+              <UserCannotDeleteUploadedFile/>
             </div>
         }
       </div>

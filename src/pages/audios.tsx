@@ -46,7 +46,7 @@ function Audios() {
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.audios}
                 acceptFileType={AcceptFileType.audio}/>
-              <UserCannotDeleteUploadedFile session={session}/>
+              <UserCannotDeleteUploadedFile/>
             </div>
         }
       </div>
