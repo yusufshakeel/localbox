@@ -9,34 +9,44 @@ import {
 } from '@/configs/auth';
 import {UserStatus} from '@/types/users';
 
-export const userCreateSchema = z.object({
-  username: z.string({ required_error: 'Username is required' })
+const getUsernameZodString = () => {
+  const zodString = z.string({ required_error: 'Username is required' });
+  return zodString
     .min(AUTH_USERNAME_MIN_LENGTH, `Username must have at least ${AUTH_USERNAME_MIN_LENGTH} characters`)
     .max(AUTH_USERNAME_MAX_LENGTH, `Username cannot have more than ${AUTH_USERNAME_MAX_LENGTH} characters`)
-    .regex(/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric'),
-  displayName: z.string({ required_error: 'Display name is required' })
+    .regex(/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric');
+};
+
+const getDisplayNameZodString = () => {
+  const zodString = z.string({ required_error: 'Display name is required' });
+  return zodString
     .min(AUTH_DISPLAY_NAME_MIN_LENGTH, `Display name must have at least ${AUTH_DISPLAY_NAME_MIN_LENGTH} characters`)
-    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`),
-  password: z.string({ required_error: 'Password is required' })
+    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`);
+};
+
+const getPasswordZodString = () => {
+  const zodString = z.string({ required_error: 'Password is required' });
+  return zodString
     .min(AUTH_PASSWORD_MIN_LENGTH, `Password must have at least ${AUTH_PASSWORD_MIN_LENGTH} characters`)
     .max(AUTH_PASSWORD_MAX_LENGTH, `Password cannot have more than ${AUTH_PASSWORD_MAX_LENGTH} characters`)
+    .regex(/[a-zA-Z]/, 'Password must contain at least one letter.')
+    .regex(/\d/, 'Password must contain at least one digit.');
+};
+
+export const userCreateSchema = z.object({
+  username: getUsernameZodString(),
+  displayName: getDisplayNameZodString(),
+  password: getPasswordZodString()
 });
 
 export const userUpdateSchema = z.object({
-  username: z.string()
-    .min(AUTH_USERNAME_MIN_LENGTH, `Username must have at least ${AUTH_USERNAME_MIN_LENGTH} characters`)
-    .max(AUTH_USERNAME_MAX_LENGTH, `Username cannot have more than ${AUTH_USERNAME_MAX_LENGTH} characters`)
-    .regex(/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric'),
-  displayName: z.string()
-    .min(AUTH_DISPLAY_NAME_MIN_LENGTH, `Display name must have at least ${AUTH_DISPLAY_NAME_MIN_LENGTH} characters`)
-    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`),
+  username: getUsernameZodString(),
+  displayName: getDisplayNameZodString(),
   status: z.enum([UserStatus.active, UserStatus.suspend])
 });
 
 export const userUpdatePasswordSchema = z.object({
-  password: z.string()
-    .min(AUTH_PASSWORD_MIN_LENGTH, `Password must have at least ${AUTH_PASSWORD_MIN_LENGTH} characters`)
-    .max(AUTH_PASSWORD_MAX_LENGTH, `Password cannot have more than ${AUTH_PASSWORD_MAX_LENGTH} characters`)
+  password: getPasswordZodString()
 });
 
 export const userUpdatePermissionsSchema = z.object({
@@ -44,7 +54,5 @@ export const userUpdatePermissionsSchema = z.object({
 });
 
 export const userUpdateProfileDetailsSchema = z.object({
-  displayName: z.string()
-    .min(AUTH_DISPLAY_NAME_MIN_LENGTH, `Display name must have at least ${AUTH_DISPLAY_NAME_MIN_LENGTH} characters`)
-    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`)
+  displayName: getDisplayNameZodString()
 });

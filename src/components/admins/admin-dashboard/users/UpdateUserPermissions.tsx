@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {
   Dialog,
-  DialogContent, DialogDescription,
+  DialogContent, DialogDescription, DialogFooter,
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog';
@@ -112,7 +112,7 @@ export default function UpdateUserPermissions(props: any) {
           { errorMessage && <AlertError message={errorMessage}/> }
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="max-h-[300px] p-3 overflow-y-auto">
+              <div className="max-h-[200px] p-3 overflow-y-auto">
                 <FormField
                   control={form.control}
                   name="permissions"
@@ -174,6 +174,14 @@ export default function UpdateUserPermissions(props: any) {
             </form>
           </Form>
         </div>
+        <DialogFooter>
+          <div className="my-3 text-sm text-muted-foreground">
+            <p>PUBLIC: Anyone can access</p>
+            <p>AUTHORIZED_VIEW: Logged in user can only view.</p>
+            <p>AUTHORIZED_USE: A logged in user can perform actions like uploading files,
+              sending TempChats messages, etc.</p>
+          </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
