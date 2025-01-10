@@ -45,12 +45,36 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
     }
   },
   {
+    accessorKey: 'displayName',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          <span className="font-bold">Display Name</span>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    }
+  },
+  {
     accessorKey: 'status',
     header: 'Account Status'
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated At',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          <span className="font-bold">Updated At</span>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const { updatedAt } = row.original;
       return updatedAt ? new Date(updatedAt).toLocaleString(): '';

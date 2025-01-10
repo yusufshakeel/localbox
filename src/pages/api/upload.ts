@@ -8,8 +8,8 @@ import {getISOStringDate} from '@/utils/date';
 import {HttpMethod} from '@/types/api';
 import {hasApiPrivileges} from '@/services/api-service';
 import {Pages} from '@/configs/pages';
-import {UserType} from '@/types/users';
 import {PermissionsType} from '@/types/permissions';
+import {isLoggedInSessionForAdmin, isLoggedInSessionForUser} from '@/utils/permissions';
 
 export default async function handler(
   req: NextApiRequest,
@@ -30,7 +30,7 @@ export default async function handler(
     const dir = req.query.dir || PublicFolders.uploads;
     const allowedFolders = [PublicFolders.uploads, PublicFolders.tempChats];
 
-    if (session.user.type === UserType.admin) {
+    if (isLoggedInSessionForAdmin(session)) {
       allowedFolders.push(
         PublicFolders.audios,
         PublicFolders.videos,
@@ -38,20 +38,22 @@ export default async function handler(
         PublicFolders.documents
       );
     }
-    else if (session.user.type === UserType.user) {
-      if (session.user.permissions.includes(`${Pages.audios.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+    else if (isLoggedInSessionForUser(session)) {
+      const permissions = session.user.permissions;
+
+      if (permissions.includes(`${Pages.audios.id}:${PermissionsType.AUTHORIZED_USE}`)) {
         allowedFolders.push(PublicFolders.audios);
       }
 
-      if (session.user.permissions.includes(`${Pages.videos.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+      if (permissions.includes(`${Pages.videos.id}:${PermissionsType.AUTHORIZED_USE}`)) {
         allowedFolders.push(PublicFolders.videos);
       }
 
-      if (session.user.permissions.includes(`${Pages.images.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+      if (permissions.includes(`${Pages.images.id}:${PermissionsType.AUTHORIZED_USE}`)) {
         allowedFolders.push(PublicFolders.images);
       }
 
-      if (session.user.permissions.includes(`${Pages.documents.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+      if (permissions.includes(`${Pages.documents.id}:${PermissionsType.AUTHORIZED_USE}`)) {
         allowedFolders.push(PublicFolders.documents);
       }
     }
@@ -68,7 +70,8 @@ export default async function handler(
       storage: multer.diskStorage({
         destination: uploadsFolder,
         filename: (req, file, cb) => {
-          uploadedFileName = `${getISOStringDate()}-${file.originalname.replace(/[^a-z0-9.]|\s+/gmi, '-').replace(/-{2,}/gmi,'-')}`;
+          const formattedFilename = file.originalname.replace(/[^a-z0-9.]|\s+/gmi, '-').replace(/-{2,}/gmi,'-');
+          uploadedFileName = `${getISOStringDate()}-__${session.user.username}__-${formattedFilename}`;
           cb(null, uploadedFileName);
         }
       })
