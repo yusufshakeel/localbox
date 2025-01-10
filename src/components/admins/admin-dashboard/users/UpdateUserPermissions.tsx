@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {
   Dialog,
-  DialogContent, DialogDescription, DialogFooter,
+  DialogContent, DialogDescription,
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog';
@@ -174,14 +174,12 @@ export default function UpdateUserPermissions(props: any) {
             </form>
           </Form>
         </div>
-        <DialogFooter>
-          <div className="my-3 text-sm text-muted-foreground">
-            <p><strong>PUBLIC:</strong> Anyone can access</p>
-            <p><strong>AUTHORIZED_VIEW:</strong> Logged in user can only view.</p>
-            <p><strong>AUTHORIZED_USE:</strong> A logged in user can perform actions like edit
-              their profile, uploading files, sending TempChats messages, etc.</p>
-          </div>
-        </DialogFooter>
+        <div className="my-3 text-sm text-muted-foreground">
+          <p><strong>PUBLIC:</strong> Anyone can access</p>
+          <p><strong>AUTHORIZED_VIEW:</strong> Logged in user can only view.</p>
+          <p><strong>AUTHORIZED_USE:</strong> A logged in user can perform actions like edit
+              their profile, upload files, etc.</p>
+        </div>
       </DialogContent>
     </Dialog>
   );

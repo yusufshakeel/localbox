@@ -125,6 +125,10 @@ export default function CreateUser(props: any) {
             </form>
           </Form>
         </div>
+        <div className="my-3 text-sm text-muted-foreground">
+          <p>You need to set the permissions after creating the user account.</p>
+          <p>By default, a user will have the least permissions.</p>
+        </div>
       </DialogContent>
     </Dialog>
   );
