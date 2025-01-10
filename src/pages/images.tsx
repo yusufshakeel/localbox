@@ -45,7 +45,7 @@ function Images() {
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.images}
                 acceptFileType={AcceptFileType.image}/>
-              <UserCannotDeleteUploadedFile session={session}/>
+              <UserCannotDeleteUploadedFile/>
             </div>
         }
       </div>

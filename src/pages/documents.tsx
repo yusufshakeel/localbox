@@ -34,7 +34,7 @@ function Documents() {
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.documents}
                 acceptFileType={AcceptFileType.document}/>
-              <UserCannotDeleteUploadedFile session={session}/>
+              <UserCannotDeleteUploadedFile/>
             </div>
         }
       </div>
