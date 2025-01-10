@@ -10,7 +10,7 @@ import {useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
 import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
-import {hasPermissions} from '@/utils/permissions';
+import {hasPermissions, isLoggedInSessionForAdmin} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import UpdatePassword from '@/components/profile/UpdatePassword';
 import {useEffect, useState} from 'react';
@@ -108,16 +108,21 @@ function ProfilePage() {
                     <TableCell>Updated At</TableCell>
                     <TableCell>{new Date(userDetails.updatedAt).toLocaleString()}</TableCell>
                   </TableRow>
-                  <TableRow>
-                    <TableCell>Permissions</TableCell>
-                    <TableCell>
-                      {
-                        userDetails.permissions.sort().map((permission: string) => {
-                          return <p key={permission}><code>{permission}</code></p>;
-                        })
-                      }
-                    </TableCell>
-                  </TableRow>
+                  {
+                    isLoggedInSessionForAdmin({ user: userDetails })
+                    && (
+                      <TableRow>
+                        <TableCell>Permissions</TableCell>
+                        <TableCell>
+                          {
+                            userDetails.permissions.sort().map((permission: string) => {
+                              return <p key={permission}><code>{permission}</code></p>;
+                            })
+                          }
+                        </TableCell>
+                      </TableRow>
+                    )
+                  }
                 </TableBody>
               </Table>
             )

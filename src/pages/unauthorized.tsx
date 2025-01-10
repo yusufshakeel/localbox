@@ -11,7 +11,7 @@ export default function UnauthorizedPage() {
         <h1 className="text-4xl text-destructive flex items-center space-x-2">
           Unauthorized!
         </h1>
-        <p>You do not have permissions.</p>
+        <p>Contact the Admin to grant you the necessary permissions.</p>
         <div>
           <Link href={Pages.home.link}>
             <Button variant="secondary">

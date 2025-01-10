@@ -68,7 +68,7 @@ export default function BaseLayout({
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>
-                              Welcome, {session.user.displayName}
+                              {session.user.displayName}
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {
