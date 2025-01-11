@@ -8,15 +8,19 @@ import {getISOStringDate} from '@/utils/date';
 import {UserStatus} from '@/types/users';
 import passwordService from '@/services/password-service';
 
-async function getHandler(req: NextApiRequest, res: NextApiResponse) {
+async function getHandler(req: NextApiRequest, res: NextApiResponse, session: any) {
   if (!req.query.userId) {
     return res.status(401).json({ error: 'User Id is missing' });
   }
   const where = { id: req.query.userId, status: UserStatus.active };
 
+  const attributes = session.user.id === req.query.userId
+    ? ['id', 'username', 'displayName', 'type', 'status', 'permissions', 'createdAt', 'updatedAt']
+    : ['id', 'username', 'displayName', 'type', 'createdAt'];
+
   const userExists = await db.query.selectAsync(UsersCollectionName, {
     where,
-    attributes: ['id', 'username', 'displayName', 'type', 'status', 'permissions', 'createdAt', 'updatedAt']
+    attributes
   });
   if (userExists.length !== 1) {
     return res.status(400).json({message: 'User not found'});
@@ -81,7 +85,7 @@ export default async function handler(
     }
 
     if (req.method === HttpMethod.GET) {
-      return await getHandler(req, res);
+      return await getHandler(req, res, session);
     }
 
     if (req.method === HttpMethod.PATCH) {
