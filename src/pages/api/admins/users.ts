@@ -11,6 +11,7 @@ import {
 } from '@/validations/user-validation';
 import {getISOStringDate} from '@/utils/date';
 import passwordService from '@/services/password-service';
+import {Pages} from '@/configs/pages';
 
 async function getHandler(
   req: NextApiRequest,
@@ -88,6 +89,17 @@ async function patchHandler(
   };
   if ((parsedData.data as any).password) {
     dataToUpdate['password'] = passwordService.hashPassword((parsedData.data as any).password);
+  }
+
+  if ((parsedData.data as any).permissions) {
+    const permissionsToUpdate = (parsedData.data as any).permissions;
+    const listOfPermissionsForUser = Object.values(Pages)
+      .filter(v => [UserType.any, UserType.user].some(p => v.pageFor.includes(p)))
+      .map(v => v.permissions)
+      .flat(2);
+    if (permissionsToUpdate.some((p: string) => !listOfPermissionsForUser.includes(p))) {
+      return res.status(400).json({message: 'Unknown permission'});
+    }
   }
 
   const updatedRows = await db.query.updateAsync(UsersCollectionName, dataToUpdate, {where});
