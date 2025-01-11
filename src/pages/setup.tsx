@@ -13,7 +13,7 @@ import {setupPages} from '@/setup/pages';
 import {Pages} from '@/configs/pages';
 
 export default function Setup(props: any) {
-  const  pageTitle = Pages.documents.title;
+  const  pageTitle = Pages.setup.title;
 
   if(props.errorMessage) {
     return (
