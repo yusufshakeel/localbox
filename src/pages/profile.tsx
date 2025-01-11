@@ -101,11 +101,11 @@ function ProfilePage() {
                     <TableCell>{userDetails.type}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>Created At</TableCell>
+                    <TableCell>Account created at</TableCell>
                     <TableCell>{new Date(userDetails.createdAt).toLocaleString()}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>Updated At</TableCell>
+                    <TableCell>Account updated at</TableCell>
                     <TableCell>{new Date(userDetails.updatedAt).toLocaleString()}</TableCell>
                   </TableRow>
                   {
