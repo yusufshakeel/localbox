@@ -112,7 +112,7 @@ export default function UpdateUserPermissions(props: any) {
           { errorMessage && <AlertError message={errorMessage}/> }
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="max-h-[150px] p-3 overflow-y-auto">
+              <div className="h-[50vh] overflow-y-auto">
                 <FormField
                   control={form.control}
                   name="permissions"
@@ -158,8 +158,10 @@ export default function UpdateUserPermissions(props: any) {
 
                           return (
                             <div key={page.id}>
-                              <h1>Page: {page.title}</h1>
-                              {permissions}
+                              <h1 className="mb-1">Page: {page.title}</h1>
+                              <div className="mb-5 p-2">
+                                {permissions}
+                              </div>
                             </div>
                           );
                         })
