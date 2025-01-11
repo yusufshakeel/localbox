@@ -66,8 +66,7 @@ function Videos() {
                             <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
                             Your browser does not support the video tag.
                           </video>
-                          <p
-                            className="my-3 text-center">{getFilename(selectedFile).substring(0, 30)}</p>
+                          <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
                         </>
                       )
                       : <div className="aspect-video rounded-xl bg-muted/50">

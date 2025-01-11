@@ -15,6 +15,7 @@ import {AcceptFileType} from '@/types/file';
 import {Image as ImageIcon} from 'lucide-react';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
 import DeleteFile from '@/components/admins/DeleteFile';
+import {getFilename} from '@/utils/filename';
 
 function Images() {
   const {data: session} = useSession() as any;
@@ -67,7 +68,7 @@ function Images() {
                           className="img-fluid ms-auto me-auto"
                           src={`/images/${encodeURIComponent(selectedFile)}`}
                           alt={selectedFile}/>
-                        <p className="my-3 text-center">{selectedFile}</p>
+                        <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
                         <p className="my-3 text-center">
                           <Button variant="secondary"
                             onClick={() => handleDownload('images', selectedFile)}>

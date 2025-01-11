@@ -67,8 +67,7 @@ function Audios() {
                           <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
                           Your browser does not support the audio tag.
                         </audio>
-                        <p
-                          className="my-5 text-center truncate">{getFilename(selectedFile).substring(0, 30)}</p>
+                        <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
                       </div>
                     )
                     : <div className="aspect-video rounded-xl bg-muted/50">
