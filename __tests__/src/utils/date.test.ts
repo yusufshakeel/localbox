@@ -1,9 +1,14 @@
-import {formatDate, getISOStringDate} from '@/utils/date';
+import {formatDate, getEpochTimestampInMilliseconds, getISOStringDate} from '@/utils/date';
 
 describe('Testing date util', () => {
   describe('Testing format date', () => {
     it('Should be able to format date', () => {
       expect(formatDate(1734261142000)).toBe('15 Dec 2024 04:42:22 pm');
+    });
+
+    it('Should return empty string when timestamp is invalid', () => {
+      expect(formatDate('haha')).toBe('');
+      expect(formatDate('')).toBe('');
     });
   });
 
@@ -18,6 +23,17 @@ describe('Testing date util', () => {
 
       // Restore the original Date implementation
       jest.restoreAllMocks();
+    });
+
+    it('should return ISO string date from the passed date', () => {
+      expect(getISOStringDate('2025-01-01T12:34:56')).toBe('2025-01-01T07:04:56.000Z');
+      expect(getISOStringDate(1735734896000)).toBe('2025-01-01T12:34:56.000Z');
+    });
+  });
+
+  describe('getEpochTimestampInMilliseconds', () => {
+    it('should be able to get epoch timestamp in milliseconds', () => {
+      expect(getEpochTimestampInMilliseconds('2025-01-01T12:34:56Z')).toBe(1735734896000);
     });
   });
 });

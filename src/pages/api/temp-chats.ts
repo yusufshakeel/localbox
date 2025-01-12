@@ -5,6 +5,7 @@ import { TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS } from '@/configs/temp-chats';
 import {Op} from 'minivium';
 import {db, TempChatsMessagesCollectionName} from '@/configs/database/temp-chats-messages';
 import {PublicFolder, PublicFolders} from '@/configs/folders';
+import {getEpochTimestampInMilliseconds, getISOStringDate} from '@/utils/date';
 
 // Remove expired messages
 const cleanupExpiredMessages = async () => {
@@ -28,10 +29,11 @@ const cleanupOlderFiles = async () => {
     for (const file of files) {
       const filePath = path.join(tempChatsDir, file as string);
       const stats = await fs.stat(filePath);
-      if (now - new Date(stats.birthtime).getTime() > TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS) {
+      const fileAgeInMilliseconds = now - getEpochTimestampInMilliseconds(stats.birthtime);
+      if (fileAgeInMilliseconds > TEMP_CHATS_MESSAGE_TTL_IN_MILLISECONDS) {
         await fs.unlink(filePath);
         // eslint-disable-next-line
-        console.log('[temp-chats][cleanupOlderFiles] Deleted file:', { file, filePath, birthtime: new Date(stats.birthtime) });
+        console.log('[temp-chats][cleanupOlderFiles] Deleted file:', { file, filePath, birthtime: getISOStringDate(stats.birthtime) });
       }
     }
   } catch (err: any) {

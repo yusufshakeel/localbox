@@ -16,6 +16,7 @@ import UpdatePassword from '@/components/profile/UpdatePassword';
 import {useEffect, useState} from 'react';
 import httpClient from '@/api-clients';
 import UpdateDetails from '@/components/profile/UpdateDetails';
+import {formatDate} from '@/utils/date';
 
 function ProfilePage() {
   const {data: session} = useSession() as any;
@@ -102,11 +103,11 @@ function ProfilePage() {
                   </TableRow>
                   <TableRow>
                     <TableCell>Account created at</TableCell>
-                    <TableCell>{new Date(userDetails.createdAt).toLocaleString()}</TableCell>
+                    <TableCell>{formatDate(userDetails.createdAt)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Account updated at</TableCell>
-                    <TableCell>{new Date(userDetails.updatedAt).toLocaleString()}</TableCell>
+                    <TableCell>{formatDate(userDetails.updatedAt)}</TableCell>
                   </TableRow>
                   {
                     isLoggedInSessionForAdmin({ user: userDetails })
