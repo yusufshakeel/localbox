@@ -13,7 +13,7 @@ Features:
 * User management (Authentication and Authorization)
 * Dark Mode
 
-![img-v0.7.0.png](public/assets/img-v0.7.0.png)
+![img-v0.7.2.png](public/assets/img-v0.7.2.png)
 
 ## Table of Content
 
