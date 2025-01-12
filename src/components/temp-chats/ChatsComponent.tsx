@@ -4,6 +4,12 @@ import {
   Dialog,
   DialogContent
 } from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 import {MessageType} from '@/hooks/temp-chats/useChattingEffect';
 import {getFilename} from '@/utils/filename';
 import useWindowEffect from '@/hooks/useWindowEffect';
@@ -11,6 +17,9 @@ import {formatDate} from '@/utils/date';
 import showToast from '@/utils/show-toast';
 import httpClient from '@/api-clients';
 import {Avatar, AvatarFallback} from '@/components/ui/avatar';
+import {Button} from '@/components/ui/button';
+import {handleDownload} from '@/utils/download';
+import {EllipsisVertical} from 'lucide-react';
 
 export type PropType = {
   messages: MessageType[];
@@ -78,10 +87,20 @@ export default function ChatsComponent(props: PropType) {
             const fileName = getFilename(msg.message);
             const message =
             msg.type === 'file'
-              ? <div className="my-1">
-                <a className="ys-a-link text-blue-700 font-bold" href={`/temp-chats/${encodeURIComponent(msg.message)}`} download>
-                  {fileName}
-                </a>
+              ? <div className="mt-2">
+                <span className="me-3">{fileName}</span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Button variant='ghost'>
+                      <EllipsisVertical/>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => handleDownload('temp-chats', msg.message)}>
+                      Download
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
               : <span>{msg.message}</span>;
 
