@@ -58,8 +58,9 @@ export default function DeleteUser(props: any) {
         </DialogHeader>
         <div>
           { errorMessage && <AlertError message={errorMessage}/> }
-          <p>You are about to delete user account: {username}</p>
-          <p>This is an irreversible action. Do you wish to proceed?</p>
+          <p>You are about to delete user account:</p>
+          <p><strong>{username}</strong></p>
+          <p className="my-5">This is an irreversible action. Do you wish to proceed?</p>
         </div>
         <DialogFooter>
           <Button variant="destructive" className="me-3" onClick={handleDelete}>Yes, delete the account</Button>
