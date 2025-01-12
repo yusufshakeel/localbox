@@ -1,5 +1,5 @@
 import BaseLayout from '@/layouts/BaseLayout';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {getFilename} from '@/utils/filename';
 import {PublicFolders} from '@/configs/folders';
@@ -32,6 +32,12 @@ function Audios() {
   const deleteFileHandler = (dir: string, filename: string) => {
     setFileToDelete({dir, filename});
   };
+
+  useEffect(() => {
+    if (lastUploadAt && selectedFile === fileToDelete?.filename) {
+      setSelectedFile('');
+    }
+  }, [fileToDelete?.filename, lastUploadAt, selectedFile]);
   
   return (
     <BaseLayout pageTitle={Pages.audios.title}>

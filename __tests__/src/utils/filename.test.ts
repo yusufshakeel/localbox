@@ -1,4 +1,4 @@
-import {getFilename, getUsernameFromFilename} from '@/utils/filename';
+import {getFilename, getTimestampFromFilename, getUsernameFromFilename} from '@/utils/filename';
 
 describe('Testing filename util', () => {
   describe('Testing getFilename', () => {
@@ -49,6 +49,26 @@ describe('Testing filename util', () => {
     describe('When filename starts with something else', () => {
       it('Should return empty string', () => {
         expect(getUsernameFromFilename('hello-world.txt')).toBe('');
+      });
+    });
+  });
+
+  describe('Testing getTimestampFromFilename', () => {
+    describe('When filename starts with epoch timestamp', () => {
+      it('should return the timestamp', () => {
+        expect(getTimestampFromFilename('1733659240385-hello-world.txt')).toBe('1733659240385');
+      });
+    });
+
+    describe('When filename starts with ISO timestamp', () => {
+      it('should return the ISO timestamp', () => {
+        expect(getTimestampFromFilename('2024-12-08T12:01:42.922Z-hello-world.txt')).toBe('2024-12-08T12:01:42.922Z');
+      });
+    });
+
+    describe('When filename starts with something else', () => {
+      it('should return empty string', () => {
+        expect(getTimestampFromFilename('hello-world.txt')).toBe('');
       });
     });
   });

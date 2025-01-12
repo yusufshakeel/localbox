@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import BaseLayout from '@/layouts/BaseLayout';
 import ListDirectoryFiles from '@/components/ListDirectoryFiles';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
@@ -32,6 +32,12 @@ function Images() {
   const deleteFileHandler = (dir: string, filename: string) => {
     setFileToDelete({dir, filename});
   };
+
+  useEffect(() => {
+    if (lastUploadAt && selectedFile === fileToDelete?.filename) {
+      setSelectedFile('');
+    }
+  }, [fileToDelete?.filename, lastUploadAt, selectedFile]);
   
   return (
     <BaseLayout pageTitle={Pages.images.title}>
@@ -68,7 +74,7 @@ function Images() {
                           className="img-fluid ms-auto me-auto"
                           src={`/images/${encodeURIComponent(selectedFile)}`}
                           alt={selectedFile}/>
-                        <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
+                        <p className="my-5 text-center">{getFilename(selectedFile)}</p>
                         <p className="my-3 text-center">
                           <Button variant="secondary"
                             onClick={() => handleDownload('images', selectedFile)}>

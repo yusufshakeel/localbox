@@ -5,16 +5,18 @@ import httpClient from '@/api-clients';
 import {FilesApiResponse} from '@/types/api-responses';
 import showToast from '@/utils/show-toast';
 import {DataTable} from '@/components/data-table';
-import {getFilename, getUsernameFromFilename} from '@/utils/filename';
+import {getFilename, getTimestampFromFilename, getUsernameFromFilename} from '@/utils/filename';
 import {Button} from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem, DropdownMenuSeparator,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
+import {formatDate} from '@/utils/date';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -22,6 +24,7 @@ type FileSchemaForColumns = {
   dir: string
   filename: string,
   usernameFromFilename: string,
+  timestampFromFilename: string,
   deleteFileHandler?: (dir: string, filename: string) => void
   selectedFileHandler?: (filename: string) => void
   selectedFileHandlerText?: string
@@ -53,8 +56,8 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
           selectedFileHandler?.(filename);
         }
       };
-      return <div className="font-medium" onClick={onClickHandler}>
-        {getFilename(filename)}
+      return <div className="font-medium" onClick={onClickHandler} title={getFilename(filename)}>
+        {getFilename(filename).substring(0, 30)}
       </div>;
     }
   },
@@ -70,12 +73,20 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
-    },
-    cell: ({ row }) => {
-      const { filename } = row.original;
-      return <div className="font-medium">
-        {getUsernameFromFilename(filename)}
-      </div>;
+    }
+  },
+  {
+    accessorKey: 'timestampFromFilename',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          <span className="font-bold">Uploaded At</span>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     }
   },
   {
@@ -158,7 +169,8 @@ export default function ListDirectoryFiles(props: PropType) {
             selectedFileHandler: props.selectedFileHandler,
             selectedFileHandlerText: props.selectedFileHandlerText,
             filename,
-            usernameFromFilename: filename
+            usernameFromFilename: getUsernameFromFilename(filename),
+            timestampFromFilename: formatDate(getTimestampFromFilename(filename))
           };
         }));
       }

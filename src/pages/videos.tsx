@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import BaseLayout from '@/layouts/BaseLayout';
 import {getFilename} from '@/utils/filename';
@@ -20,6 +20,12 @@ function Videos() {
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
   const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
+
+  useEffect(() => {
+    if (lastUploadAt && selectedFile === fileToDelete?.filename) {
+      setSelectedFile('');
+    }
+  }, [fileToDelete?.filename, lastUploadAt, selectedFile]);
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
