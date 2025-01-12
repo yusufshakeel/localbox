@@ -11,6 +11,7 @@ import {
   DropdownMenuItem, DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import {formatDate} from '@/utils/date';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -77,7 +78,7 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
     },
     cell: ({ row }) => {
       const { updatedAt } = row.original;
-      return updatedAt ? new Date(updatedAt).toLocaleString(): '';
+      return updatedAt ? formatDate(updatedAt) : '';
     }
   },
   {
