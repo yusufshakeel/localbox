@@ -6,6 +6,7 @@ import {MessageBodyType} from '@/hooks/temp-chats/useChattingEffect';
 import showToast from '@/utils/show-toast';
 import httpClient from '@/api-clients';
 import {FileUploadApiResponse} from '@/types/api-responses';
+import {TEMP_CHATS_MESSAGE_MAX_LENGTH} from '@/configs/temp-chats';
 
 export type PropType = {
   userId: string;
@@ -71,14 +72,19 @@ export default function InputComponent(props: PropType) {
 
   return (
     <div id="chat-input">
-      <Textarea
-        className="mb-5"
-        rows={3}
-        style={{resize: 'none'}}
-        placeholder="Enter message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+      <div className="relative">
+        <Textarea
+          className="mb-2 resize-none pr-16"
+          rows={3}
+          placeholder="Enter message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          maxLength={TEMP_CHATS_MESSAGE_MAX_LENGTH}
+        />
+        <div className="absolute bottom-2 right-2 text-xs text-gray-500 pointer-events-none">
+          {message.length}
+        </div>
+      </div>
       <Button className="me-3"
         variant="default"
         onClick={sendHandler}>
@@ -97,7 +103,8 @@ export default function InputComponent(props: PropType) {
         onClick={event => {
           (event.target as HTMLInputElement).value = '';
         }}
-        style={{display: 'none'}}/>
+        style={{display: 'none'}}
+      />
     </div>
   );
 }
