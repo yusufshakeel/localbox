@@ -104,8 +104,9 @@ export default function InfoPage() {
 
           <Image src="/assets/server-clients.png?v=1"
             className="my-3"
-            width={320}
-            height={320}
+            width={773}
+            height={704}
+            priority
             alt=""/>
 
           <h3 className="font-bold text-2xl my-3">What is the server address?</h3>
