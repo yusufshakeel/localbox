@@ -1,7 +1,7 @@
 # localbox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
-![Static Badge](https://img.shields.io/badge/version-v0.7.6-blue)
+![Static Badge](https://img.shields.io/badge/version-v0.7.7-blue)
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
@@ -22,7 +22,7 @@ Features:
 * [Minimum Requirements](#minimum-requirements)
 * [Getting Started](#getting-started)
 * [First time setup](#first-time-setup)
-* [Steps to run the setup again](#steps-to-run-the-setup-again)
+* [Rerun setup](#rerun-setup)
 * [Get Updates](#get-updates)
 * [Folders](#folders)
 * [License](#license)
@@ -61,17 +61,23 @@ Hardware:
 
 ## Getting Started
 
+### Clone
+
 * Clone this repository from [GitHub](https://github.com/yusufshakeel/localbox).
 
 ```shell
 git clone https://github.com/yusufshakeel/localbox.git
 ```
 
+### Install dependencies
+
 * Go inside the cloned directory and install the dependencies
 
 ```shell
 npm i
 ```
+
+### Bootstrap
 
 * Now, run the following command in the terminal to bootstrap the project.
 
@@ -81,6 +87,8 @@ This will create files and folders that are needed by the application.
 npm run bootstrap
 ```
 
+### Build
+
 * Now, build the application by running the following command in the terminal.
 
 This will build the application.
@@ -88,6 +96,8 @@ This will build the application.
 ```bash
 npm run build
 ```
+
+### Start the server
 
 * You are now ready to start your localbox server.
 
@@ -118,7 +128,7 @@ Password: root1234
 ```
 Change the password of the **admin** account after logging in.
 
-## Steps to run the setup again
+## Rerun setup
 
 * Delete the `setup.lock` file from the `/private` folder.
 * Run the server `npm run start` or `npm run dev`
@@ -126,11 +136,15 @@ Change the password of the **admin** account after logging in.
 
 ## Get Updates
 
-Just pull the latest **main** branch.
+Pull the latest **main** branch changes to your local **main** branch.
 
 ```shell
 git pull origin main
 ```
+
+If you are pulling a newer version then run the [install dependencies](#install-dependencies), 
+[bootstrap](#bootstrap), [build](#build) and the 
+[rerun setup](#rerun-setup) steps again.
 
 ## Folders
 
