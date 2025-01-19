@@ -18,12 +18,12 @@ import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {userUpdateSchema} from '@/validations/user-validation';
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
-import {Input} from '@/components/ui/input';
 import httpClient from '@/api-clients';
 import showToast from '@/utils/show-toast';
 import {AlertError} from '@/components/alerts';
 import {getISOStringDate} from '@/utils/date';
 import {UserStatus} from '@/types/users';
+import {TextInputField} from '@/components/form/input-field';
 
 export default function UpdateUser(props: any) {
   const [open, setOpen] = useState(false);
@@ -83,36 +83,16 @@ export default function UpdateUser(props: any) {
           { errorMessage && <AlertError message={errorMessage}/> }
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              <FormField
-                control={form.control}
+              <TextInputField
+                form={form}
                 name="displayName"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Update display name</FormLabel>
-                    <FormControl>
-                      <Input type="text"
-                        autoComplete="off"
-                        {...field}/>
-                    </FormControl>
-                    <FormMessage/>
-                  </FormItem>
-                )}
+                label="Update display name"
               />
 
-              <FormField
-                control={form.control}
+              <TextInputField
+                form={form}
                 name="username"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Update username</FormLabel>
-                    <FormControl>
-                      <Input type="text"
-                        autoComplete="off"
-                        {...field}/>
-                    </FormControl>
-                    <FormMessage/>
-                  </FormItem>
-                )}
+                label="Update username"
               />
 
               <FormField
