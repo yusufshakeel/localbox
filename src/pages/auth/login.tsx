@@ -5,15 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import BaseLayout from '@/layouts/BaseLayout';
 import type {
   GetServerSidePropsContext,
@@ -25,6 +17,7 @@ import {handleCredentialsSignIn} from '@/services/auth-service';
 import LoadingSpinner from '@/components/loading';
 import {loginSchema} from '@/validations/login-validation';
 import {Pages} from '@/configs/pages';
+import {PasswordInputField, TextInputField} from '@/components/form/input-field';
 
 export default function LogInPage({
   csrfToken
@@ -88,34 +81,16 @@ export default function LogInPage({
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                   <input name="csrfToken" type="hidden" defaultValue={csrfToken}/>
-                  <FormField
-                    control={form.control}
+
+                  <TextInputField
+                    form={form}
                     name="username"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Username</FormLabel>
-                        <FormControl>
-                          <Input type="text"
-                            autoComplete="off"
-                            {...field}/>
-                        </FormControl>
-                        <FormMessage/>
-                      </FormItem>
-                    )}
+                    label="Username"
                   />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input type="password"
-                            {...field}/>
-                        </FormControl>
-                        <FormMessage/>
-                      </FormItem>
-                    )}
+                  <PasswordInputField
+                    form={form}
+                    name='password'
+                    label='Password'
                   />
 
                   <Button type="submit">Log in</Button>

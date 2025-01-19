@@ -10,12 +10,12 @@ import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {userUpdateProfileDetailsSchema} from '@/validations/user-validation';
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
-import {Input} from '@/components/ui/input';
+import {Form} from '@/components/ui/form';
 import httpClient from '@/api-clients';
 import showToast from '@/utils/show-toast';
 import {AlertError} from '@/components/alerts';
 import {getISOStringDate} from '@/utils/date';
+import {TextInputField} from '@/components/form/input-field';
 
 export default function UpdateDetails(props: any) {
   const [open, setOpen] = useState(false);
@@ -72,20 +72,10 @@ export default function UpdateDetails(props: any) {
           { errorMessage && <AlertError message={errorMessage}/> }
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              <FormField
-                control={form.control}
+              <TextInputField
+                form={form}
                 name="displayName"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Update display name</FormLabel>
-                    <FormControl>
-                      <Input type="text"
-                        autoComplete="off"
-                        {...field}/>
-                    </FormControl>
-                    <FormMessage/>
-                  </FormItem>
-                )}
+                label="Update display name"
               />
 
               <Button type="submit" className="me-3">Update</Button>
