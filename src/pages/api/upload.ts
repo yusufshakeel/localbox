@@ -73,12 +73,17 @@ export default async function handler(
     let uploadLimit = {};
 
     if (session.user.type === UserType.user) {
-      const config = await db.query.selectAsync(ConfigsCollectionName, {
-        where: { key: 'FILE_UPLOAD_MAX_SIZE_IN_BYTES' }
-      });
-      if (config.length === 1) {
-        allowedFileSizeInBytes = +config[0].value;
-        uploadLimit = { limits: { fileSize: allowedFileSizeInBytes } };
+      try {
+        const config = await db.query.selectAsync(ConfigsCollectionName, {
+          where: {key: 'FILE_UPLOAD_MAX_SIZE_IN_BYTES'}
+        });
+        if (config.length === 1) {
+          allowedFileSizeInBytes = +config[0].value;
+          uploadLimit = {limits: {fileSize: allowedFileSizeInBytes}};
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        // do nothing
       }
     }
 
@@ -102,7 +107,7 @@ export default async function handler(
     if (error.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({
         error: 'LIMIT_FILE_SIZE',
-        message: `Uploaded file size is too large. Allowed file size: ${humanReadableFileSize(allowedFileSizeInBytes)}`
+        message: `Allowed file size: ${humanReadableFileSize(allowedFileSizeInBytes)}`
       });
     }
     return res.status(500).json({ error: 'Something went wrong', message: error.message });

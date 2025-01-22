@@ -15,11 +15,13 @@ export function setupAdminAccount() {
     permissions: [PermissionsType.ADMIN]
   };
   const where = { where: { username: adminUser.username } };
-  if (Users.query.select(UsersCollectionName, where).length) {
+  const existingAdmins = Users.query.select(UsersCollectionName, where);
+  if (existingAdmins.length) {
     Users.query.update(
       UsersCollectionName,
       {
-        ...adminUser,
+        ...existingAdmins[0],
+        permissions: adminUser.permissions,
         updatedAt: getISOStringDate()
       },
       where
