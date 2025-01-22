@@ -4,7 +4,7 @@ import {hasApiPrivileges} from '@/services/api-service';
 import {Pages} from '@/configs/pages';
 import {ConfigsCollectionName, db} from '@/configs/database/configs';
 
-async function getHandler(req: NextApiRequest, res: NextApiResponse) {
+async function getHandler(req: NextApiRequest, res: NextApiResponse, session: any) {
   const allowedKeys = [
     'FILE_UPLOAD_MAX_SIZE_IN_BYTES'
   ];
@@ -24,7 +24,7 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
     ]
   });
 
-  return res.status(200).json({configs});
+  return res.status(200).json({user: session.user, configs});
 }
 
 export default async function handler(
@@ -41,7 +41,7 @@ export default async function handler(
     }
 
     if (req.method === HttpMethod.GET) {
-      return await getHandler(req, res);
+      return await getHandler(req, res, session);
     }
   } catch (error: any) {
     return res.status(500).json({message: error.message});
