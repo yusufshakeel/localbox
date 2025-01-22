@@ -6,8 +6,10 @@ jest.mock('../../../src/api-clients'); // Mocking httpClient
 
 describe('useFileUploadEffect', () => {
   let postSpy: any;
+  let getSpy: any;
 
   beforeAll(() => {
+    getSpy = jest.spyOn(httpClient, 'get');
     postSpy = jest.spyOn(httpClient, 'post');
   });
 
@@ -15,7 +17,35 @@ describe('useFileUploadEffect', () => {
     jest.clearAllMocks();
   });
 
+  it('Should not upload when file size exceeds the allowed file size', async () => {
+    getSpy.mockResolvedValue({
+      statusCode: 200,
+      data: {
+        configs: [
+          {
+            key: 'FILE_UPLOAD_MAX_SIZE_IN_BYTES',
+            value: 1
+          }
+        ]
+      }
+    });
+
+    const { result } = renderHook(() => useFileUploadEffect());
+
+    const formData = new FormData();
+    formData.append('file', new Blob(['Very big file'], { type: 'text/plain' }));
+
+    await act(async () => {
+      await result.current.handleFileUpload(formData);
+    });
+
+    expect(result.current.file).toBe('');
+    expect(result.current.error).toBe('Allowed file size: 1 Byte');
+  });
+
   it('Should initialize with empty file and error state', () => {
+    getSpy.mockResolvedValue();
+
     const { result } = renderHook(() => useFileUploadEffect());
 
     expect(result.current.file).toBe('');
@@ -23,6 +53,10 @@ describe('useFileUploadEffect', () => {
   });
 
   it('Should handle successful file upload', async () => {
+    getSpy.mockResolvedValue({
+      statusCode: 200
+    });
+
     const mockResponse = {
       statusCode: 200,
       data: {
@@ -45,6 +79,10 @@ describe('useFileUploadEffect', () => {
   });
 
   it('Should handle failed file upload due to server error', async () => {
+    getSpy.mockResolvedValue({
+      statusCode: 200
+    });
+
     const mockError = new Error('Failed to upload file');
     postSpy.mockRejectedValue(mockError);
 
@@ -62,6 +100,10 @@ describe('useFileUploadEffect', () => {
   });
 
   it('Should handle failed file upload due to server response status', async () => {
+    getSpy.mockResolvedValue({
+      statusCode: 200
+    });
+
     const mockResponse = {
       statusCode: 500,
       data: null
@@ -82,6 +124,10 @@ describe('useFileUploadEffect', () => {
   });
 
   it('Should handle failed file upload due to server response status >= 400', async () => {
+    getSpy.mockResolvedValue({
+      statusCode: 200
+    });
+
     const mockResponse = {
       statusCode: 400,
       message: 'File too large'
@@ -102,6 +148,10 @@ describe('useFileUploadEffect', () => {
   });
 
   it('Should respect the provided directory option', async () => {
+    getSpy.mockResolvedValue({
+      statusCode: 200
+    });
+
     const mockResponse = {
       statusCode: 200,
       data: {

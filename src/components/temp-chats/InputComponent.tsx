@@ -7,12 +7,12 @@ import showToast from '@/utils/show-toast';
 import httpClient from '@/api-clients';
 import {FileUploadApiResponse} from '@/types/api-responses';
 import {TEMP_CHATS_MESSAGE_MAX_LENGTH} from '@/configs/temp-chats';
+import {humanReadableFileSize} from '@/utils/filesize';
 
 export type PropType = {
   userId: string;
   displayName: string;
   sendMessage: (message: MessageBodyType) => void;
-  allowedFileSizeInBytes?: number
 }
 
 export default function InputComponent(props: PropType) {
@@ -33,18 +33,25 @@ export default function InputComponent(props: PropType) {
     try {
       const file = event.target.files[0];
 
-      if (props.allowedFileSizeInBytes && file.size > props.allowedFileSizeInBytes) {
-        showToast({
-          content: `Cannot attach large files.`,
-          type: 'error'
-        });
-        return;
-      }
-
       const formData = new FormData();
       formData.append('file', file);
 
       try {
+        const configResponse: any = await httpClient.get({
+          url: '/api/configs',
+          params: { key: 'FILE_UPLOAD_MAX_SIZE_IN_BYTES' }
+        });
+        if (configResponse.statusCode === 200 && configResponse.data?.configs?.length) {
+          const allowedFileSizeInBytes = configResponse.data.configs[0].value;
+          if ((formData.get('file') as any)?.size > allowedFileSizeInBytes) {
+            showToast({
+              content: `Allowed file size: ${humanReadableFileSize(allowedFileSizeInBytes)}`,
+              type: 'error'
+            });
+            return;
+          }
+        }
+
         const response = await httpClient.post<FileUploadApiResponse>({
           url: '/api/upload',
           params: { dir: 'temp-chats' },

@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import httpClient from '@/api-clients';
 import useUploadProgressEffect from '@/hooks/useUploadProgressEffect';
+import {humanReadableFileSize} from '@/utils/filesize';
 
 export type OptionType = {
   dir?: string
@@ -16,6 +17,18 @@ const useFileUploadEffect = (option: OptionType = {dir: 'uploads'}) => {
     setFile('');
     setProgress(0);
     try {
+      const configResponse: any = await httpClient.get({
+        url: '/api/configs',
+        params: { key: 'FILE_UPLOAD_MAX_SIZE_IN_BYTES' }
+      });
+      if (configResponse.statusCode === 200 && configResponse.data?.configs?.length) {
+        const allowedFileSizeInBytes = configResponse.data.configs[0].value;
+        if ((formData.get('file') as any)?.size > allowedFileSizeInBytes) {
+          setError(`Allowed file size: ${humanReadableFileSize(allowedFileSizeInBytes)}`);
+          return;
+        }
+      }
+
       const response = await httpClient.post<any>({
         url: `/api/upload`,
         body: formData,
