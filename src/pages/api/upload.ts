@@ -10,11 +10,15 @@ import {hasApiPrivileges} from '@/services/api-service';
 import {Pages} from '@/configs/pages';
 import {PermissionsType} from '@/types/permissions';
 import {isLoggedInSessionForAdmin, isLoggedInSessionForUser} from '@/utils/permissions';
+import {UserType} from '@/types/users';
+import {db, ConfigsCollectionName} from '@/configs/database/configs';
+import {humanReadableFileSize} from '@/utils/filesize';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<FileUploadApiResponse>
 ) {
+  let allowedFileSizeInBytes = 0;
   try {
     const allowedMethods = [HttpMethod.POST];
     const session = await hasApiPrivileges(req, res, {
@@ -66,7 +70,20 @@ export default async function handler(
 
     let uploadedFileName = '';
 
+    let uploadLimit = {};
+
+    if (session.user.type === UserType.user) {
+      const config = await db.query.selectAsync(ConfigsCollectionName, {
+        where: { key: 'FILE_UPLOAD_MAX_SIZE_IN_BYTES' }
+      });
+      if (config.length === 1) {
+        allowedFileSizeInBytes = +config[0].value;
+        uploadLimit = { limits: { fileSize: allowedFileSizeInBytes } };
+      }
+    }
+
     const upload = multer({
+      ...uploadLimit,
       storage: multer.diskStorage({
         destination: uploadsFolder,
         filename: (req, file, cb) => {
@@ -82,6 +99,12 @@ export default async function handler(
     await uploadMiddleware(req as any, res as any);
     return res.status(200).json({ message: 'File uploaded successfully', uploadedFileName });
   } catch (error: any) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({
+        error: 'LIMIT_FILE_SIZE',
+        message: `Uploaded file size is too large. Allowed file size: ${humanReadableFileSize(allowedFileSizeInBytes)}`
+      });
+    }
     return res.status(500).json({ error: 'Something went wrong', message: error.message });
   }
 }

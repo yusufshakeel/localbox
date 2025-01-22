@@ -19,7 +19,7 @@ export class HttpClient {
     } catch (error: any) {
       return {
         statusCode: error.status,
-        error,
+        error: 'Something went wrong',
         message: error.response?.data?.message
       };
     }

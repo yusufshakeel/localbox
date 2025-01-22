@@ -23,8 +23,10 @@ const useFileUploadEffect = (option: OptionType = {dir: 'uploads'}) => {
         headers: {'Content-Type': 'multipart/form-data'},
         onUploadProgress
       });
-      if(response.statusCode === 200) {
+      if (response.statusCode === 200) {
         setFile(response.data.uploadedFileName);
+      } else if (response.statusCode >= 400 && response.message) {
+        setError(response.message);
       } else {
         setError('Failed to upload file');
       }

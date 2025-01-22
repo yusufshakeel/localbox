@@ -63,7 +63,7 @@ describe('HttpClient', () => {
       });
       expect(response).toEqual({
         statusCode: 500,
-        error: mockError,
+        error: 'Something went wrong',
         message: 'Something went wrong'
       });
     });

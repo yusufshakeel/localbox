@@ -47,14 +47,6 @@ export default function Setup(props: any) {
           }
         </div>
 
-        <h2 className="text-2xl">Configs</h2>
-        <div>
-          {
-            props.configs?.map((v: { key: string, value: string }) =>
-              <p key={v.key}>{v.key} = {v.value}</p>)
-          }
-        </div>
-
         <h2 className="text-2xl">Admin account created</h2>
         <div>
           <p>username: {props.adminUser?.username}</p>
