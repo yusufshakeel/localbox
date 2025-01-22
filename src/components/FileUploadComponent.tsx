@@ -5,27 +5,38 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {getISOStringDate} from '@/utils/date';
 import {AcceptFileType} from '@/types/file';
+import {humanReadableFileSize} from '@/utils/filesize';
 
 type PropType = {
   dir: string,
-  setLastUploadAt: (_: string) => void
   acceptFileType: string
+  setLastUploadAt?: (_: string) => void
+  allowedFileSizeInBytes?: number
 }
 
 export default function FileUploadComponent({
-  setLastUploadAt = () => {},
+  setLastUploadAt,
   dir,
-  acceptFileType = AcceptFileType.any
+  acceptFileType = AcceptFileType.any,
+  allowedFileSizeInBytes
 }: PropType
 ) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
+      setErrorMessage(null);
+
+      if (allowedFileSizeInBytes && e.target.files[0].size > allowedFileSizeInBytes) {
+        setErrorMessage(
+          `File size: ${humanReadableFileSize(e.target.files[0].size)}. Allowed file size: ${humanReadableFileSize(allowedFileSizeInBytes)}`
+        );
+      }
     }
   };
 
@@ -37,6 +48,9 @@ export default function FileUploadComponent({
   };
 
   const handleUpload = async () => {
+    if (allowedFileSizeInBytes && selectedFile && selectedFile.size > allowedFileSizeInBytes) {
+      return;
+    }
     if (selectedFile) {
       const formData = new FormData();
       formData.append('file', selectedFile);
@@ -73,7 +87,8 @@ export default function FileUploadComponent({
         <Button variant="secondary" className="mr-3" data-testid="reset-btn" onClick={handleReset}>
           Reset
         </Button>
-        {selectedFile && <span className="mr-3">Uploaded: {progress}%</span>}
+        {selectedFile && <p className="mr-3">Uploaded: {progress}%</p>}
+        {errorMessage && <p className="mr-3 text-red-500 font-bold">{errorMessage}</p>}
       </div>
     </div>
   );

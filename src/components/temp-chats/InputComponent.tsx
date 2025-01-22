@@ -12,6 +12,7 @@ export type PropType = {
   userId: string;
   displayName: string;
   sendMessage: (message: MessageBodyType) => void;
+  allowedFileSizeInBytes?: number
 }
 
 export default function InputComponent(props: PropType) {
@@ -31,6 +32,14 @@ export default function InputComponent(props: PropType) {
 
     try {
       const file = event.target.files[0];
+
+      if (props.allowedFileSizeInBytes && file.size > props.allowedFileSizeInBytes) {
+        showToast({
+          content: `Cannot attach large files.`,
+          type: 'error'
+        });
+        return;
+      }
 
       const formData = new FormData();
       formData.append('file', file);

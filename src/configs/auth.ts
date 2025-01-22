@@ -1,4 +1,5 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
+
 export const PASSWORD_SALT_ROUND = 12;
 
 export const AUTH_USERNAME_MIN_LENGTH = 3;

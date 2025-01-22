@@ -26,14 +26,14 @@ describe('FileUploadComponent', () => {
   });
 
   it('Renders the component', () => {
-    render(<FileUploadComponent setLastUploadAt={jest.fn()}/>);
+    render(<FileUploadComponent setLastUploadAt={jest.fn()} dir='uploads' acceptFileType='*'/>);
     expect(screen.getByTestId('upload-btn')).toBeInTheDocument();
     expect(screen.getByTestId('reset-btn')).toBeInTheDocument();
     expect(screen.getByTestId('file-input')).toBeInTheDocument();
   });
 
   it('Allows the user to select a file', () => {
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent setLastUploadAt={jest.fn()} dir='uploads' acceptFileType='*' />);
     const fileInput: any = screen.getByTestId('file-input');
 
     const testFile = new File(['test content'], 'testFile.txt', { type: 'text/plain' });
@@ -43,8 +43,20 @@ describe('FileUploadComponent', () => {
     expect(fileInput.files!.length).toBe(1);
   });
 
+  it('Show error when selected file size is greater than the allowed file size', () => {
+    const renderResult = render(<FileUploadComponent setLastUploadAt={jest.fn()} dir='uploads' acceptFileType='*' allowedFileSizeInBytes={1}/>);
+    const fileInput: any = screen.getByTestId('file-input');
+
+    const testFile = new File(['Very large file'], 'testFile.txt', { type: 'text/plain' });
+    fireEvent.change(fileInput, { target: { files: [testFile] } });
+
+    expect(fileInput.files![0]).toEqual(testFile);
+    expect(fileInput.files!.length).toBe(1);
+    expect(renderResult.getByText('File size: 15 Bytes. Allowed file size: 1 Byte')).toBeTruthy();
+  });
+
   it('Calls handleFileUpload when the upload button is clicked', async () => {
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent setLastUploadAt={jest.fn()} dir='uploads' acceptFileType='*' />);
     const fileInput: any = screen.getByTestId('file-input');
     const uploadButton: any = screen.getByTestId('upload-btn');
 
@@ -57,8 +69,22 @@ describe('FileUploadComponent', () => {
     });
   });
 
+  it('Should not upload file when file size is greater than the allowed file size', async () => {
+    render(<FileUploadComponent setLastUploadAt={jest.fn()} dir='uploads' acceptFileType='*' allowedFileSizeInBytes={1} />);
+    const fileInput: any = screen.getByTestId('file-input');
+    const uploadButton: any = screen.getByTestId('upload-btn');
+
+    const testFile = new File(['test content'], 'testFile.txt', { type: 'text/plain' });
+    fireEvent.change(fileInput, { target: { files: [testFile] } });
+    fireEvent.click(uploadButton);
+
+    await waitFor(() => {
+      expect(mockHandleFileUpload).not.toHaveBeenCalledWith();
+    });
+  });
+
   it('Resets the file input when the reset button is clicked', () => {
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent setLastUploadAt={jest.fn()} dir='uploads' acceptFileType='*' />);
     const fileInput: any = screen.getByTestId('file-input');
     const resetButton: any = screen.getByTestId('reset-btn');
 
@@ -76,7 +102,7 @@ describe('FileUploadComponent', () => {
       handleFileUpload: mockHandleFileUpload
     });
 
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent setLastUploadAt={jest.fn()} dir='uploads' acceptFileType='*' />);
     await waitFor(() => {
       expect(showToast).toHaveBeenCalledWith({
         type: 'success',
@@ -93,7 +119,7 @@ describe('FileUploadComponent', () => {
       handleFileUpload: mockHandleFileUpload
     });
 
-    render(<FileUploadComponent />);
+    render(<FileUploadComponent setLastUploadAt={jest.fn()} dir='uploads' acceptFileType='*' />);
     await waitFor(() => {
       expect(showToast).toHaveBeenCalledWith({
         type: 'error',

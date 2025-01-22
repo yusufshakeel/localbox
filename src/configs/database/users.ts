@@ -1,4 +1,5 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
+
 import {minivium, SchemaRegistry} from 'minivium';
 import path from 'path';
 import {DATABASE_DIR, DB_COLLECTIONS} from '@/configs/database/index';
