@@ -5,20 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {getISOStringDate} from '@/utils/date';
 import {AcceptFileType} from '@/types/file';
-import {humanReadableFileSize} from '@/utils/filesize';
 
 type PropType = {
   dir: string,
   acceptFileType: string
   setLastUploadAt?: (_: string) => void
-  allowedFileSizeInBytes?: number
 }
 
 export default function FileUploadComponent({
   setLastUploadAt,
   dir,
-  acceptFileType = AcceptFileType.any,
-  allowedFileSizeInBytes
+  acceptFileType = AcceptFileType.any
 }: PropType
 ) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -31,12 +28,6 @@ export default function FileUploadComponent({
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
       setErrorMessage(null);
-
-      if (allowedFileSizeInBytes && e.target.files[0].size > allowedFileSizeInBytes) {
-        setErrorMessage(
-          `File size: ${humanReadableFileSize(e.target.files[0].size)}. Allowed file size: ${humanReadableFileSize(allowedFileSizeInBytes)}`
-        );
-      }
     }
   };
 
@@ -48,9 +39,6 @@ export default function FileUploadComponent({
   };
 
   const handleUpload = async () => {
-    if (allowedFileSizeInBytes && selectedFile && selectedFile.size > allowedFileSizeInBytes) {
-      return;
-    }
     if (selectedFile) {
       const formData = new FormData();
       formData.append('file', selectedFile);
