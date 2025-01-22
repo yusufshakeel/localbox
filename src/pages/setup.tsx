@@ -11,6 +11,7 @@ import Link from 'next/link';
 import {getISOStringDate} from '@/utils/date';
 import {setupPages} from '@/setup/pages';
 import {Pages} from '@/configs/pages';
+import {setupConfigs} from '@/setup/configs';
 
 export default function Setup(props: any) {
   const  pageTitle = Pages.setup.title;
@@ -35,14 +36,22 @@ export default function Setup(props: any) {
         <h2 className="text-2xl"><code>.env</code> file created</h2>
         <div>File path: <span>{props.envFilePath}</span></div>
 
-        <h2 className="text-2xl">Database collections created</h2>
+        <h2 className="text-2xl">Database collections</h2>
         <div>{props.dbCollections?.map((v: string) => <p key={v}>{v}</p>)}</div>
 
-        <h2 className="text-2xl">Pages collection configured</h2>
+        <h2 className="text-2xl">Pages</h2>
         <div>
           {
             props.pages?.map((v: { link: string, title: string }) =>
               <p key={v.link}>{v.title}</p>)
+          }
+        </div>
+
+        <h2 className="text-2xl">Configs</h2>
+        <div>
+          {
+            props.configs?.map((v: { key: string, value: string }) =>
+              <p key={v.key}>{v.key} = {v.value}</p>)
           }
         </div>
 
@@ -82,6 +91,7 @@ export function getServerSideProps() {
     const {dbCollections} = initDbCollections();
     const adminUser = setupAdminAccount();
     const pages = setupPages();
+    const configs = setupConfigs();
 
     fs.writeFileSync(filePath, `Last updated at: ${getISOStringDate()}`, 'utf8');
 
@@ -90,7 +100,8 @@ export function getServerSideProps() {
         dbCollections,
         adminUser,
         envFilePath,
-        pages
+        pages,
+        configs
       }
     };
   } catch (error: any) {

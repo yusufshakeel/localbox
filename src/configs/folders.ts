@@ -1,4 +1,5 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
+
 export const PublicFolder = 'public';
 
 export enum PublicFolders {

@@ -17,15 +17,19 @@ function AdminDashboardPage() {
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 mb-10">
           <Tabs defaultValue="users">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="users">Users</TabsTrigger>
               <TabsTrigger value="pages">Pages</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
             <TabsContent value="users">
               <UserManagementComponent/>
             </TabsContent>
             <TabsContent value="pages">
               <PageManagementComponent/>
+            </TabsContent>
+            <TabsContent value="settings">
+              <UserManagementComponent/>
             </TabsContent>
           </Tabs>
         </div>

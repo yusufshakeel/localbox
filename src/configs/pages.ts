@@ -1,4 +1,5 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
+
 import {Home, Upload, Image, Music, Video, File, MessageCircle, Info} from 'lucide-react';
 import {PermissionsType} from '@/types/permissions';
 import {UserType} from '@/types/users';
