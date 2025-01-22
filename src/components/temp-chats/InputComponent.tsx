@@ -59,6 +59,11 @@ export default function InputComponent(props: PropType) {
             message: response.data!.uploadedFileName,
             type: 'file'
           });
+        } else if (response.statusCode >= 400 && response.message) {
+          showToast({
+            content: response.message,
+            type: 'error'
+          });
         } else {
           showToast({
             content:'Failed to open file.',

@@ -10,6 +10,7 @@ import {UserType} from '@/types/users';
 import UserManagementComponent from '../../components/admins/admin-dashboard/users';
 import PageManagementComponent from '@/components/admins/admin-dashboard/pages';
 import {Pages} from '@/configs/pages';
+import ConfigsComponent from '../../components/admins/admin-dashboard/configs';
 
 function AdminDashboardPage() {
   return (
@@ -20,7 +21,7 @@ function AdminDashboardPage() {
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="users">Users</TabsTrigger>
               <TabsTrigger value="pages">Pages</TabsTrigger>
-              <TabsTrigger value="settings">Settings</TabsTrigger>
+              <TabsTrigger value="configs">Configs</TabsTrigger>
             </TabsList>
             <TabsContent value="users">
               <UserManagementComponent/>
@@ -28,8 +29,8 @@ function AdminDashboardPage() {
             <TabsContent value="pages">
               <PageManagementComponent/>
             </TabsContent>
-            <TabsContent value="settings">
-              <UserManagementComponent/>
+            <TabsContent value="configs">
+              <ConfigsComponent/>
             </TabsContent>
           </Tabs>
         </div>

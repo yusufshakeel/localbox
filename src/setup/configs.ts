@@ -20,23 +20,8 @@ export function setupConfigs() {
       };
     });
 
-  const rowsToUpdate = Configs
-    .filter(v => alreadyExistingConfigKeys.includes(v.key))
-    .map(({key, value}) => {
-      return {
-        key,
-        value
-      };
-    });
-
   if (rowsToInsert.length) {
     db.query.bulkInsert(ConfigsCollectionName, rowsToInsert);
-  }
-
-  if (rowsToUpdate.length) {
-    rowsToUpdate.map(rowToUpdate =>
-      db.query.update(ConfigsCollectionName, rowToUpdate, { where: { key: rowToUpdate.key } })
-    );
   }
 
   return Configs.map(({ key, value }) => ({ key, value }));

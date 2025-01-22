@@ -87,8 +87,8 @@ export default function FileUploadComponent({
         <Button variant="secondary" className="mr-3" data-testid="reset-btn" onClick={handleReset}>
           Reset
         </Button>
-        {selectedFile && <p className="mr-3">Uploaded: {progress}%</p>}
-        {errorMessage && <p className="mr-3 text-red-500 font-bold">{errorMessage}</p>}
+        {selectedFile && <p className="my-1">Uploaded: {progress}%</p>}
+        {errorMessage && <p className="my-1 text-red-500 font-bold">{errorMessage}</p>}
       </div>
     </div>
   );

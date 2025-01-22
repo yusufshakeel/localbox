@@ -87,7 +87,7 @@ export default function ChatsComponent(props: PropType) {
             const fileName = getFilename(msg.message);
             const message =
             msg.type === 'file'
-              ? <div className="mt-2">
+              ? <div className="mt-2 float-end">
                 <span className="me-3">{fileName}</span>
                 <DropdownMenu>
                   <DropdownMenuTrigger>

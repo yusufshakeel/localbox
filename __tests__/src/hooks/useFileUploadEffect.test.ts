@@ -81,6 +81,26 @@ describe('useFileUploadEffect', () => {
     expect(result.current.error).toBe('Failed to upload file');
   });
 
+  it('Should handle failed file upload due to server response status >= 400', async () => {
+    const mockResponse = {
+      statusCode: 400,
+      message: 'File too large'
+    };
+    postSpy.mockResolvedValue(mockResponse);
+
+    const { result } = renderHook(() => useFileUploadEffect());
+
+    const formData = new FormData();
+    formData.append('file', new Blob(['file contents'], { type: 'image/png' }));
+
+    await act(async () => {
+      await result.current.handleFileUpload(formData);
+    });
+
+    expect(result.current.file).toBe('');
+    expect(result.current.error).toBe('File too large');
+  });
+
   it('Should respect the provided directory option', async () => {
     const mockResponse = {
       statusCode: 200,
