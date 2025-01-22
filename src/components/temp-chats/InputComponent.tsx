@@ -8,6 +8,7 @@ import httpClient from '@/api-clients';
 import {FileUploadApiResponse} from '@/types/api-responses';
 import {TEMP_CHATS_MESSAGE_MAX_LENGTH} from '@/configs/temp-chats';
 import {humanReadableFileSize} from '@/utils/filesize';
+import {UserType} from '@/types/users';
 
 export type PropType = {
   userId: string;
@@ -41,7 +42,10 @@ export default function InputComponent(props: PropType) {
           url: '/api/configs',
           params: { key: 'FILE_UPLOAD_MAX_SIZE_IN_BYTES' }
         });
-        if (configResponse.statusCode === 200 && configResponse.data?.configs?.length) {
+        if (configResponse.statusCode === 200
+          && configResponse.data?.user?.userType === UserType.user
+          && configResponse.data?.configs?.length
+        ) {
           const allowedFileSizeInBytes = configResponse.data.configs[0].value;
           if ((formData.get('file') as any)?.size > allowedFileSizeInBytes) {
             showToast({

@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import useFileUploadEffect, { OptionType } from '@/hooks/useFileUploadEffect';
 import httpClient from '@/api-clients';
+import {UserType} from '@/types/users';
 
 jest.mock('../../../src/api-clients'); // Mocking httpClient
 
@@ -21,6 +22,9 @@ describe('useFileUploadEffect', () => {
     getSpy.mockResolvedValue({
       statusCode: 200,
       data: {
+        user: {
+          userType: UserType.user
+        },
         configs: [
           {
             key: 'FILE_UPLOAD_MAX_SIZE_IN_BYTES',
