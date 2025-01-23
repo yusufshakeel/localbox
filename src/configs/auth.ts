@@ -1,5 +1,7 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
 
+export const AUTH_SESSION_MAX_AGE_IN_SECONDS = 15 * 60;
+
 export const PASSWORD_SALT_ROUND = 12;
 
 export const AUTH_USERNAME_MIN_LENGTH = 3;

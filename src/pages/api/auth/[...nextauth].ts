@@ -1,9 +1,51 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import {db, UsersCollectionName} from '@/configs/database/users';
+import {db as ConfigDb, ConfigsCollectionName} from '@/configs/database/configs';
 import {UserStatus} from '@/types/users';
 import passwordService from '@/services/password-service';
 import {loginSchema} from '@/validations/login-validation';
+import {Op} from 'minivium';
+import {AUTH_SESSION_MAX_AGE_IN_SECONDS} from '@/configs/auth';
+
+const getConfigs = () => {
+  const defaultConfig = {
+    AUTH_SESSION_MAX_AGE_IN_SECONDS: AUTH_SESSION_MAX_AGE_IN_SECONDS
+  };
+
+  try {
+    const configs = ConfigDb.query.select(ConfigsCollectionName, {
+      where: {
+        key: {
+          [Op.in]: [
+            'AUTH_SESSION_MAX_AGE_IN_SECONDS'
+          ]
+        }
+      }
+    });
+
+    if (configs.length === 0) {
+      // eslint-disable-next-line
+      console.log(`[nextauth][getConfigs] No configs found. Using defaults.`);
+      return defaultConfig;
+    }
+
+    const listOfConfigs = configs.reduce((acc, config) => {
+      return { ...acc, [config.key]: config.value };
+    }, {});
+
+    return {
+      ...listOfConfigs,
+      AUTH_SESSION_MAX_AGE_IN_SECONDS: +listOfConfigs.AUTH_SESSION_MAX_AGE_IN_SECONDS
+    };
+  } catch (err: any) {
+    // eslint-disable-next-line
+    console.log(`[nextauth][getConfigs] Failed to fetch configs. Error: ${err.message}`);
+    return defaultConfig;
+  }
+};
+
+const config = getConfigs();
 
 export const authOptions = {
   secret: process.env.AUTH_SECRET,
@@ -102,7 +144,7 @@ export const authOptions = {
     strategy: 'jwt' as any,
 
     // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 15 * 60, // 15 min
+    maxAge: config.AUTH_SESSION_MAX_AGE_IN_SECONDS,
 
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
@@ -116,7 +158,7 @@ export const authOptions = {
   jwt: {
     // The maximum age of the NextAuth.js issued JWT in seconds.
     // Defaults to `session.maxAge`.
-    maxAge: 15 * 60 // 15 min
+    maxAge: config.AUTH_SESSION_MAX_AGE_IN_SECONDS // 15 min
   },
   pages: {
     signIn: '/auth/login'
