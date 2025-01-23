@@ -9,6 +9,9 @@ export default function ConfigsComponent() {
 
   return (
     <div className="mt-5">
+      <p className="my-5 text-sm text-muted-foreground">
+        Some configuration changes may require a server restart.
+      </p>
       <UpdateConfig
         configToUpdate={configToUpdate}
         setLastConfigChangesAt={setLastConfigChangesAt}
