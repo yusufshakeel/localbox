@@ -20,14 +20,12 @@ export default function FileUploadComponent({
 ) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir });
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
-      setErrorMessage(null);
     }
   };
 
@@ -76,7 +74,6 @@ export default function FileUploadComponent({
           Reset
         </Button>
         {selectedFile && <p className="my-1">Uploaded: {progress}%</p>}
-        {errorMessage && <p className="my-1 text-red-500 font-bold">{errorMessage}</p>}
       </div>
     </div>
   );
