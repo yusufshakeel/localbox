@@ -5,14 +5,14 @@ import ListDirectoryFiles from '@/components/ListDirectoryFiles';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
-import {hasPermissions, isLoggedInSessionForAdmin} from '@/utils/permissions';
+import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
 import {Video} from 'lucide-react';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
-import DeleteFile from '@/components/admins/DeleteFile';
+import DeleteFile from '@/components/DeleteFile';
 
 function Videos() {
   const {data: session} = useSession() as any;
@@ -84,11 +84,8 @@ function Videos() {
                 <ListDirectoryFiles
                   dir={PublicFolders.videos}
                   sort={'DESC'}
-                  deleteFileHandler={
-                    isLoggedInSessionForAdmin(session)
-                      ? deleteFileHandler
-                      : undefined
-                  }
+                  deleteFileHandler={deleteFileHandler}
+                  session={session}
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText='Play'
                   lastUploadAt={lastUploadAt}
@@ -98,10 +95,7 @@ function Videos() {
           )
         }
       </div>
-      {
-        isLoggedInSessionForAdmin(session)
-        && <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
-      }
+      <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
     </BaseLayout>
   );
 }

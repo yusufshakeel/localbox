@@ -32,13 +32,17 @@ export default function DeleteFile(props: any) {
     try {
       setErrorMessage('');
       const response = await httpClient.delete({
-        url: '/api/admins/files',
+        url: '/api/files',
         body: { dir: props.fileToDelete?.dir, filename: props.fileToDelete?.filename }
       });
       if (response.statusCode === 200) {
         closeDialog();
         props.setLastUploadAt(getISOStringDate());
         showToast({ content: 'File deleted successfully', type: 'success', autoClose: 1000 });
+      } else if (response.statusCode >= 400 && response.message) {
+        showToast({ content: response.message, type: 'error' });
+      } else {
+        showToast({ content: 'Something went wrong', type: 'error' });
       }
     } catch (error: any) {
       showToast({ content: error.message, type: 'error' });

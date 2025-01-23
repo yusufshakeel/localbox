@@ -17,6 +17,10 @@ import {
 import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
 import {formatDate} from '@/utils/date';
+import {UserType} from '@/types/users';
+import { Pages } from '@/configs/pages';
+import {hasPermissions} from '@/utils/permissions';
+import {PermissionsType} from '@/types/permissions';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -27,7 +31,8 @@ type FileSchemaForColumns = {
   timestampFromFilename: string,
   deleteFileHandler?: (dir: string, filename: string) => void
   selectedFileHandler?: (filename: string) => void
-  selectedFileHandlerText?: string
+  selectedFileHandlerText?: string,
+  session: any
 }
 
 const columns: ColumnDef<FileSchemaForColumns>[] = [
@@ -98,8 +103,41 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
         filename,
         selectedFileHandlerText,
         selectedFileHandler,
-        deleteFileHandler
+        deleteFileHandler,
+        session
       } = row.original;
+
+      const getDeleteFileMenuItem = () => {
+        if (!deleteFileHandler) {
+          return;
+        }
+
+        const deleteMenuItem = (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-red-500"
+              onClick={() => deleteFileHandler(dir, filename)}>
+              Delete
+            </DropdownMenuItem>
+          </>
+        );
+
+        if (session.user.type === UserType.admin) {
+          return deleteMenuItem;
+        }
+
+        if (session.user.type === UserType.user) {
+          const page = Pages[dir as keyof typeof Pages].id;
+          const userHasPermissions = hasPermissions(
+            session,
+            [`${page}:${PermissionsType.AUTHORIZED_USE}`]
+          );
+
+          if (userHasPermissions && getUsernameFromFilename(filename) === session.user.username) {
+            return deleteMenuItem;
+          }
+        }
+      };
 
       return (
         <DropdownMenu>
@@ -123,17 +161,7 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
             <DropdownMenuItem onClick={() => handleDownload(dir, filename)}>
               Download
             </DropdownMenuItem>
-            {
-              deleteFileHandler && (
-                <>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-500"
-                    onClick={() => deleteFileHandler(dir, filename)}>
-                    Delete
-                  </DropdownMenuItem>
-                </>
-              )
-            }
+            {getDeleteFileMenuItem()}
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -150,6 +178,7 @@ export type PropType = {
   selectedFileHandlerText?: string,
   fetchAgain?: boolean,
   setFetchAgain?: (_: boolean) => void,
+  session?: any,
 }
 
 export default function ListDirectoryFiles(props: PropType) {
@@ -170,7 +199,8 @@ export default function ListDirectoryFiles(props: PropType) {
             selectedFileHandlerText: props.selectedFileHandlerText,
             filename,
             usernameFromFilename: getUsernameFromFilename(filename),
-            timestampFromFilename: formatDate(getTimestampFromFilename(filename))
+            timestampFromFilename: formatDate(getTimestampFromFilename(filename)),
+            session: props.session
           };
         }));
       }
@@ -183,7 +213,8 @@ export default function ListDirectoryFiles(props: PropType) {
     props.selectedFileHandler,
     props.selectedFileHandlerText,
     props.sort,
-    props.lastUploadAt
+    props.lastUploadAt,
+    props.session
   ]);
 
   return (

@@ -6,11 +6,11 @@ import {WithAuth} from '@/components/with-auth';
 import {useState} from 'react';
 import {Pages} from '@/configs/pages';
 import {useSession} from 'next-auth/react';
-import {hasPermissions, isLoggedInSessionForAdmin} from '@/utils/permissions';
+import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {AcceptFileType} from '@/types/file';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
-import DeleteFile from '@/components/admins/DeleteFile';
+import DeleteFile from '@/components/DeleteFile';
 
 function Uploads() {
   const {data: session} = useSession() as any;
@@ -48,20 +48,14 @@ function Uploads() {
               <ListDirectoryFiles
                 dir={PublicFolders.uploads}
                 sort={'DESC'}
-                deleteFileHandler={
-                  isLoggedInSessionForAdmin(session)
-                    ? deleteFileHandler
-                    : undefined
-                }
+                deleteFileHandler={deleteFileHandler}
+                session={session}
                 lastUploadAt={lastUploadAt}
               />
             </div>
         }
       </div>
-      {
-        isLoggedInSessionForAdmin(session)
-        && <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
-      }
+      <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
     </BaseLayout>
   );
 }
