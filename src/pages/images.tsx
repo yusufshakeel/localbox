@@ -7,14 +7,14 @@ import {handleDownload} from '@/utils/download';
 import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
-import {hasPermissions, isLoggedInSessionForAdmin} from '@/utils/permissions';
+import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
 import {Image as ImageIcon} from 'lucide-react';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
-import DeleteFile from '@/components/admins/DeleteFile';
+import DeleteFile from '@/components/DeleteFile';
 import {getFilename} from '@/utils/filename';
 
 function Images() {
@@ -94,11 +94,8 @@ function Images() {
                 <ListDirectoryFiles
                   dir={PublicFolders.images}
                   sort={'DESC'}
-                  deleteFileHandler={
-                    isLoggedInSessionForAdmin(session)
-                      ? deleteFileHandler
-                      : undefined
-                  }
+                  deleteFileHandler={deleteFileHandler}
+                  session={session}
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText="View"
                   lastUploadAt={lastUploadAt}
@@ -108,10 +105,7 @@ function Images() {
           )
         }
       </div>
-      {
-        isLoggedInSessionForAdmin(session)
-        && <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
-      }
+      <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
     </BaseLayout>
   );
 }

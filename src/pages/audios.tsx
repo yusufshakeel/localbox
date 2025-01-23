@@ -6,15 +6,14 @@ import {PublicFolders} from '@/configs/folders';
 import {WithAuth} from '@/components/with-auth';
 import {Pages} from '@/configs/pages';
 import {
-  hasPermissions,
-  isLoggedInSessionForAdmin
+  hasPermissions
 } from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {useSession} from 'next-auth/react';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
 import {Music} from 'lucide-react';
-import DeleteFile from '@/components/admins/DeleteFile';
+import DeleteFile from '@/components/DeleteFile';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
 
 function Audios() {
@@ -87,24 +86,18 @@ function Audios() {
                 <ListDirectoryFiles
                   dir={PublicFolders.audios}
                   sort={'DESC'}
-                  deleteFileHandler={
-                    isLoggedInSessionForAdmin(session)
-                      ? deleteFileHandler
-                      : undefined
-                  }
+                  deleteFileHandler={deleteFileHandler}
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText="Play"
                   lastUploadAt={lastUploadAt}
+                  session={session}
                 />
               </div>
             </>
           )
         }
       </div>
-      {
-        isLoggedInSessionForAdmin(session)
-        && <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
-      }
+      <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
     </BaseLayout>
   );
 }
