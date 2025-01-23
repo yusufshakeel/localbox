@@ -98,9 +98,11 @@ export default function LogInPage({
               </Form>
             </CardContent>
           </Card>
-          <div className="my-10 text-center">
+          <div className="my-5 text-center text-sm text-muted-foreground">
             <p>Don&apos;t have any account?</p>
             <p>Contact the admin for account creation.</p>
+            <p className="mt-5">Forgot Password?</p>
+            <p>Contact the admin to reset your password.</p>
           </div>
         </div>
       </div>
