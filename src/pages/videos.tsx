@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import BaseLayout from '@/layouts/BaseLayout';
 import {getFilename} from '@/utils/filename';
 import ListDirectoryFiles from '@/components/ListDirectoryFiles';
@@ -62,26 +61,24 @@ function Videos() {
           ) && (
             <>
               <div className="col-span-12 lg:col-span-5 mb-10">
-                <AspectRatio ratio={16 / 9}>
-                  {
-                    selectedFile?.length
-                      ? (
-                        <>
-                          <video controls key={selectedFile}
-                            autoPlay={true}>
-                            <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
+                {
+                  selectedFile?.length
+                    ? (
+                      <>
+                        <video controls key={selectedFile}
+                          autoPlay={true}>
+                          <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
                             Your browser does not support the video tag.
-                          </video>
-                          <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
-                        </>
-                      )
-                      : <div className="aspect-video rounded-xl bg-muted/50">
-                        <div className="flex items-center justify-center h-64">
-                          <Video className="w-12 h-12"/>
-                        </div>
+                        </video>
+                        <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
+                      </>
+                    )
+                    : <div className="aspect-video rounded-xl bg-muted/50">
+                      <div className="flex items-center justify-center h-64">
+                        <Video className="w-12 h-12"/>
                       </div>
-                  }
-                </AspectRatio>
+                    </div>
+                }
               </div>
               <div className="col-span-12 lg:col-span-7 mb-10">
                 <ListDirectoryFiles
