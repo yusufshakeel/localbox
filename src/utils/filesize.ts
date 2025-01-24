@@ -1,8 +1,10 @@
+import {TOTAL_BYTES_IN_ONE_KILO_BYTE} from '@/configs/uploads';
+
 export function humanReadableFileSize(sizeInBytes: number): string {
   if (sizeInBytes === 0) return '0 Bytes';
   else if (sizeInBytes === 1) return '1 Byte';
 
-  const k = 1000; // Define the base for kilobytes
+  const k = TOTAL_BYTES_IN_ONE_KILO_BYTE; // Define the base for kilobytes
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']; // Unit labels
   const i = Math.floor(Math.log(sizeInBytes) / Math.log(k)); // Determine the unit index
 
