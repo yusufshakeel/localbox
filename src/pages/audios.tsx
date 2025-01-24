@@ -46,7 +46,7 @@ function Audios() {
             session,
             [`${Pages.audios.id}:${PermissionsType.AUTHORIZED_USE}`]
           ) &&
-            <div className="col-span-12 lg:col-span-5 mb-10">
+            <div className="col-span-12 lg:col-span-5">
               <FileUploadComponent
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.audios}
@@ -62,7 +62,7 @@ function Audios() {
             [`${Pages.audios.id}:${PermissionsType.AUTHORIZED_VIEW}`]
           ) && (
             <>
-              <div className="col-span-12 lg:col-span-5 mb-10">
+              <div className="col-span-12 lg:col-span-5">
                 {
                   selectedFile?.length
                     ? (
@@ -82,7 +82,7 @@ function Audios() {
                     </div>
                 }
               </div>
-              <div className="col-span-12 lg:col-span-7 mb-10">
+              <div className="col-span-12 lg:col-span-7">
                 <ListDirectoryFiles
                   dir={PublicFolders.audios}
                   sort={'DESC'}
