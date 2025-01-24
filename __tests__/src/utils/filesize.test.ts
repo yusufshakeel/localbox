@@ -15,23 +15,23 @@ describe('Testing file size', () => {
     });
 
     it('should return N KB', () => {
-      expect(humanReadableFileSize(1000)).toBe('1 KB');
-      expect(humanReadableFileSize(1999)).toBe('1.999 KB');
+      expect(humanReadableFileSize(1024)).toBe('1 KB');
+      expect(humanReadableFileSize(1999)).toBe('1.952 KB');
     });
 
     it('should return N MB', () => {
-      expect(humanReadableFileSize(1000000)).toBe('1 MB');
-      expect(humanReadableFileSize(1999000)).toBe('1.999 MB');
+      expect(humanReadableFileSize(Math.pow(1024, 2))).toBe('1 MB');
+      expect(humanReadableFileSize(Math.pow(1024, 2) + 1000)).toBe('1.001 MB');
     });
 
     it('should return N GB', () => {
-      expect(humanReadableFileSize(1000000000)).toBe('1 GB');
-      expect(humanReadableFileSize(1999000000)).toBe('1.999 GB');
+      expect(humanReadableFileSize(Math.pow(1024, 3))).toBe('1 GB');
+      expect(humanReadableFileSize(Math.pow(1024, 3) + 1e6)).toBe('1.001 GB');
     });
 
     it('should return N TB', () => {
-      expect(humanReadableFileSize(1000000000000)).toBe('1 TB');
-      expect(humanReadableFileSize(1999000000000)).toBe('1.999 TB');
+      expect(humanReadableFileSize(Math.pow(1024, 4))).toBe('1 TB');
+      expect(humanReadableFileSize(Math.pow(1024, 4) + 1e9)).toBe('1.001 TB');
     });
   });
 });
