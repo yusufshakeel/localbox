@@ -91,6 +91,6 @@ export default function ListConfigs(props: any) {
   }, [props.setConfigToUpdate, props.lastConfigChangesAt]);
 
   return (
-    <DataTable columns={columns} data={configs} columnToSearch='key'/>
+    <DataTable columns={columns} data={configs}/>
   );
 }

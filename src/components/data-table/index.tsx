@@ -24,19 +24,16 @@ import { Input } from '@/components/ui/input';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[],
-  columnToSearch: string
+  data: TData[]
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
-  columnToSearch
+  data
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    []
-  );
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const table = useReactTable({
     data,
@@ -48,7 +45,14 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
-      columnFilters
+      columnFilters,
+      globalFilter
+    },
+    globalFilterFn: (rows: any, columnIds: any, filterValue) => {
+      const {original} = rows;
+      if (original[columnIds].toLowerCase().includes(filterValue.toLowerCase())) {
+        return rows;
+      }
     }
   });
 
@@ -57,10 +61,8 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center mb-4">
         <Input
           placeholder="🔍 Search..."
-          value={(table.getColumn(columnToSearch)?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn(columnToSearch)?.setFilterValue(event.target.value)
-          }
+          value={globalFilter}
+          onChange={(e) => setGlobalFilter(e.target.value)}
           className="max-w-sm"
         />
       </div>

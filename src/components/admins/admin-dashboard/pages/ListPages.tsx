@@ -78,6 +78,6 @@ export default function ListPages() {
   }, []);
 
   return (
-    <DataTable columns={columns} data={pages} columnToSearch='title'/>
+    <DataTable columns={columns} data={pages}/>
   );
 }
