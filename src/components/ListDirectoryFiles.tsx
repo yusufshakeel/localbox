@@ -27,6 +27,7 @@ import {PermissionsType} from '@/types/permissions';
 type FileSchemaForColumns = {
   dir: string
   filename: string,
+  displayFilename: string,
   usernameFromFilename: string,
   timestampFromFilename: string,
   deleteFileHandler?: (dir: string, filename: string) => void
@@ -37,7 +38,7 @@ type FileSchemaForColumns = {
 
 const columns: ColumnDef<FileSchemaForColumns>[] = [
   {
-    accessorKey: 'filename',
+    accessorKey: 'displayFilename',
     header: ({ column }) => {
       return (
         <Button
@@ -50,7 +51,7 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
       );
     },
     cell: ({ row }) => {
-      const { dir, filename, selectedFileHandler } = row.original;
+      const { dir, filename, displayFilename, selectedFileHandler } = row.original;
       const onClickHandler = () => {
         const allowedFolders = [
           PublicFolders.images,
@@ -61,8 +62,8 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
           selectedFileHandler?.(filename);
         }
       };
-      return <div className="font-medium" onClick={onClickHandler} title={getFilename(filename)}>
-        {getFilename(filename).substring(0, 30)}
+      return <div className="font-medium" onClick={onClickHandler} title={displayFilename}>
+        {displayFilename.substring(0, 30)}
       </div>;
     }
   },
@@ -198,6 +199,7 @@ export default function ListDirectoryFiles(props: PropType) {
             selectedFileHandler: props.selectedFileHandler,
             selectedFileHandlerText: props.selectedFileHandlerText,
             filename,
+            displayFilename: getFilename(filename),
             usernameFromFilename: getUsernameFromFilename(filename),
             timestampFromFilename: formatDate(getTimestampFromFilename(filename)),
             session: props.session
@@ -218,6 +220,6 @@ export default function ListDirectoryFiles(props: PropType) {
   ]);
 
   return (
-    <DataTable columns={columns} data={files} columnToSearch='filename'/>
+    <DataTable columns={columns} data={files}/>
   );
 }

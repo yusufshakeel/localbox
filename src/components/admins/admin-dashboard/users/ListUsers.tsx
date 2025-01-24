@@ -75,10 +75,6 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
-    },
-    cell: ({ row }) => {
-      const { updatedAt } = row.original;
-      return updatedAt ? formatDate(updatedAt) : '';
     }
   },
   {
@@ -155,6 +151,7 @@ export default function ListUsers(props: any) {
         setFiles(response.data.users.map((user: any) => {
           return {
             ...user,
+            updatedAt: user.updatedAt ? formatDate(user.updatedAt) : '',
             setUserAccountToDelete: props.setUserAccountToDelete,
             setUserAccountPasswordToUpdate: props.setUserAccountPasswordToUpdate,
             setUserAccountPermissionsToUpdate: props.setUserAccountPermissionsToUpdate,
@@ -173,6 +170,6 @@ export default function ListUsers(props: any) {
   ]);
 
   return (
-    <DataTable columns={columns} data={files} columnToSearch='username'/>
+    <DataTable columns={columns} data={files}/>
   );
 }
