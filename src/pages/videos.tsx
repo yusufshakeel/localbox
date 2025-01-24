@@ -44,7 +44,7 @@ function Videos() {
             session,
             [`${Pages.videos.id}:${PermissionsType.AUTHORIZED_USE}`]
           ) &&
-            <div className="col-span-12 lg:col-span-5 mb-10">
+            <div className="col-span-12 lg:col-span-5">
               <FileUploadComponent
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.videos}
@@ -60,7 +60,7 @@ function Videos() {
             [`${Pages.videos.id}:${PermissionsType.AUTHORIZED_VIEW}`]
           ) && (
             <>
-              <div className="col-span-12 lg:col-span-5 mb-10">
+              <div className="col-span-12 lg:col-span-5">
                 {
                   selectedFile?.length
                     ? (
@@ -80,7 +80,7 @@ function Videos() {
                     </div>
                 }
               </div>
-              <div className="col-span-12 lg:col-span-7 mb-10">
+              <div className="col-span-12 lg:col-span-7">
                 <ListDirectoryFiles
                   dir={PublicFolders.videos}
                   sort={'DESC'}

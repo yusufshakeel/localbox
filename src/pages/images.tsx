@@ -47,7 +47,7 @@ function Images() {
             session,
             [`${Pages.images.id}:${PermissionsType.AUTHORIZED_USE}`]
           ) &&
-            <div className="col-span-12 lg:col-span-5 mb-10">
+            <div className="col-span-12 lg:col-span-5">
               <FileUploadComponent
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.images}
@@ -63,7 +63,7 @@ function Images() {
             [`${Pages.images.id}:${PermissionsType.AUTHORIZED_VIEW}`]
           ) && (
             <>
-              <div className="col-span-12 lg:col-span-5 mb-10">
+              <div className="col-span-12 lg:col-span-5">
                 {
                   selectedFile?.length
                     ? (
@@ -90,7 +90,7 @@ function Images() {
                     </div>
                 }
               </div>
-              <div className="col-span-12 lg:col-span-7 mb-10">
+              <div className="col-span-12 lg:col-span-7">
                 <ListDirectoryFiles
                   dir={PublicFolders.images}
                   sort={'DESC'}

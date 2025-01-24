@@ -29,7 +29,7 @@ function Documents() {
             session,
             [`${Pages.documents.id}:${PermissionsType.AUTHORIZED_USE}`]
           ) &&
-            <div className="col-span-12 lg:col-span-5 mb-10">
+            <div className="col-span-12 lg:col-span-5">
               <FileUploadComponent
                 setLastUploadAt={setLastUploadAt}
                 dir={PublicFolders.documents}
@@ -44,7 +44,7 @@ function Documents() {
             session,
             [`${Pages.documents.id}:${PermissionsType.AUTHORIZED_VIEW}`]
           ) && (
-            <div className="col-span-12 lg:col-span-9 mb-10">
+            <div className="col-span-12 lg:col-span-9">
               <ListDirectoryFiles
                 dir={PublicFolders.documents}
                 sort={'DESC'}
