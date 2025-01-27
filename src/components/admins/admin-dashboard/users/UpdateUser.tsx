@@ -24,10 +24,13 @@ import {AlertError} from '@/components/alerts';
 import {getISOStringDate} from '@/utils/date';
 import {UserStatus} from '@/types/users';
 import {TextInputField} from '@/components/form/input-field';
+import {Pages} from '@/configs/pages';
+import {PermissionsType} from '@/types/permissions';
 
 export default function UpdateUser(props: any) {
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [showPersonalDriveStorageLimit, setShowPersonalDriveStorageLimit] = useState(false);
 
   const form = useForm<z.infer<typeof userUpdateSchema>>({
     resolver: zodResolver(userUpdateSchema),
@@ -42,6 +45,14 @@ export default function UpdateUser(props: any) {
       form.setValue('username', props.userAccountToUpdate.username);
       form.setValue('displayName', props.userAccountToUpdate.displayName);
       form.setValue('status', props.userAccountToUpdate.status);
+
+      if (props.userAccountToUpdate.permissions.includes(`${Pages.personalDrive.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+        form.setValue('personalDriveStorageLimit', props.userAccountToUpdate.personalDriveStorageLimit.toString() || '');
+        setShowPersonalDriveStorageLimit(true);
+      } else {
+        setShowPersonalDriveStorageLimit(false);
+      }
+
       setOpen(true);
     }
   }, [form, props.userAccountToUpdate]);
@@ -54,6 +65,21 @@ export default function UpdateUser(props: any) {
   async function onSubmit(values: z.infer<typeof userUpdateSchema>) {
     try {
       setErrorMessage('');
+
+      if (props.userAccountToUpdate.permissions.includes(`${Pages.personalDrive.id}:${PermissionsType.AUTHORIZED_USE}`)) {
+        const {personalDriveStorageLimit} = values;
+
+        if (!personalDriveStorageLimit) {
+          setErrorMessage('Personal Drive storage limit is required.');
+          return;
+        }
+
+        if (+personalDriveStorageLimit < 0) {
+          setErrorMessage('Personal Drive storage limit cannot be less than 0.');
+          return;
+        }
+      }
+
       const response = await httpClient.patch({
         url: '/api/admins/users',
         body: values,
@@ -94,6 +120,15 @@ export default function UpdateUser(props: any) {
                 name="username"
                 label="Update username"
               />
+
+              {
+                showPersonalDriveStorageLimit &&
+                <TextInputField
+                  form={form}
+                  name="personalDriveStorageLimit"
+                  label="Personal Drive - Update storage limit (in Bytes)"
+                />
+              }
 
               <FormField
                 control={form.control}

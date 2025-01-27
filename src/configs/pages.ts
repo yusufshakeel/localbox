@@ -1,6 +1,16 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
 
-import {Home, Upload, Image, Music, Video, File, MessageCircle, Info} from 'lucide-react';
+import {
+  Home,
+  Upload,
+  Image,
+  Music,
+  Video,
+  File,
+  MessageCircle,
+  Info,
+  HardDrive
+} from 'lucide-react';
 import {PermissionsType} from '@/types/permissions';
 import {UserType} from '@/types/users';
 
@@ -123,6 +133,15 @@ export const Pages = {
       PermissionsType.AUTHORIZED_VIEW
     ])
   },
+  'personalDrive': {
+    id: 'personalDrive',
+    link: '/personal-drive',
+    title: 'Personal Drive',
+    pageFor: [UserType.any],
+    permissions: permissionTag('personalDrive', [
+      PermissionsType.AUTHORIZED_USE
+    ])
+  },
   'unauthorized': {
     id: 'unauthorized',
     link: '/unauthorized',
@@ -134,13 +153,26 @@ export const Pages = {
   }
 };
 
-export const COMMON_PAGES = [
-  {icon: Home, title: Pages.home.title, link: Pages.home.link},
-  {icon: Upload, title: Pages.uploads.title, link: Pages.uploads.link},
-  {icon: Image, title: Pages.images.title, link: Pages.images.link},
-  {icon: Music, title: Pages.audios.title, link: Pages.audios.link},
-  {icon: Video, title: Pages.videos.title, link: Pages.videos.link},
-  {icon: File, title: Pages.documents.title, link: Pages.documents.link},
-  {icon: MessageCircle, title: Pages.tempChats.title, link: Pages.tempChats.link},
-  {icon: Info, title: Pages.info.title, link: Pages.info.link}
+export const HOME_PAGE = {
+  icon: Home,
+  title: Pages.home.title,
+  link: Pages.home.link,
+  permissions: Pages.home.permissions
+};
+
+export const INFO_PAGE = {
+  icon: Info,
+  title: Pages.info.title,
+  link: Pages.info.link,
+  permissions: Pages.info.permissions
+};
+
+export const PROTECTED_PAGES = [
+  { icon: HardDrive, ...Pages.personalDrive },
+  { icon: Upload, ...Pages.uploads },
+  { icon: Image, ...Pages.images },
+  { icon: Music, ...Pages.audios },
+  { icon: Video, ...Pages.videos },
+  { icon: File, ...Pages.documents },
+  { icon: MessageCircle, ...Pages.tempChats }
 ];

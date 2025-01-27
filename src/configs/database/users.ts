@@ -1,10 +1,7 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
 
 import {minivium, SchemaRegistry} from 'minivium';
-import path from 'path';
-import {DATABASE_DIR, DB_COLLECTIONS} from '@/configs/database/index';
-
-const dataDir = path.join(process.cwd(), DATABASE_DIR);
+import {dataDir, DB_COLLECTIONS} from '@/configs/database/index';
 
 const schemaRegistry = new SchemaRegistry({
   collections: [
@@ -18,6 +15,7 @@ const schemaRegistry = new SchemaRegistry({
         { name: 'status', isRequired: true },
         { name: 'type', isRequired: true },
         { name: 'permissions', isRequired: true },
+        { name: 'personalDriveStorageLimit' },
         { name: 'createdAt', isRequired: true },
         { name: 'updatedAt' }
       ]

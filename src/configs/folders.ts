@@ -14,5 +14,6 @@ export enum PublicFolders {
 export const PrivateFolder = 'private';
 
 export enum PrivateFolders {
-  db = 'db'
+  db = 'db',
+  personalDrive = 'personal-drive'
 }

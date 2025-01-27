@@ -1,8 +1,9 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {getServerSession} from 'next-auth/next';
 import {authOptions} from '@/pages/api/auth/[...nextauth]';
-import {UserType} from '@/types/users';
+import {UserStatus, UserType} from '@/types/users';
 import {PermissionsType} from '@/types/permissions';
+import {db, UsersCollectionName} from '@/configs/database/users';
 
 export function isAllowedMethod(
   req: NextApiRequest,
@@ -28,6 +29,14 @@ export async function isValidSessionWithPermissions(
   const { allowedUserTypes, allowedPermissions } = option;
 
   if (!session) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  const user = (await db.query.selectAsync(
+    UsersCollectionName,
+    { where: { id: session.user.id, status: UserStatus.active } }
+  ))?.[0];
+  if (!user) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 

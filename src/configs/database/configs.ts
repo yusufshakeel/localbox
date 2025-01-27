@@ -1,7 +1,7 @@
 // ================ DO NOT CHANGE THE FOLLOWING ====================
 
 import {minivium, SchemaRegistry} from 'minivium';
-import {dataDir, DB_COLLECTIONS} from '@/configs/database/index';
+import {dataDir, DB_COLLECTIONS} from '@/configs/database';
 
 const schemaRegistry = new SchemaRegistry({
   collections: [

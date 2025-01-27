@@ -54,11 +54,37 @@ const useFileUploadEffect = (option: OptionType = {dir: 'uploads'}) => {
     }
   };
 
+  const handlePersonalDriveFileUpload = async (formData: FormData) => {
+    setError('');
+    setFile('');
+    setProgress(0);
+    try {
+      const response = await httpClient.post<any>({
+        url: `/api/personal-drive`,
+        body: formData,
+        headers: {'Content-Type': 'multipart/form-data'},
+        onUploadProgress
+      });
+      if (response.statusCode === 200) {
+        setFile(response.data.uploadedFileName);
+      } else if (response.statusCode >= 400 && response.message) {
+        setError(response.message);
+      } else {
+        setError('Failed to upload file');
+      }
+    } catch (error: any) {
+      setError(`An error occurred: ${error.message}`);
+    } finally {
+      setProgress(0);
+    }
+  };
+
   return {
     file,
     error,
     progress,
-    handleFileUpload
+    handleFileUpload,
+    handlePersonalDriveFileUpload
   };
 };
 
