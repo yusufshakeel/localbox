@@ -7,19 +7,27 @@ import {getISOStringDate} from '@/utils/date';
 import {AcceptFileType} from '@/types/file';
 
 type PropType = {
-  dir: string,
+  dir?: string,
   acceptFileType: string
   setLastUploadAt?: (_: string) => void
+  isPersonalDriveFileUpload?: boolean
 }
 
 export default function FileUploadComponent({
   setLastUploadAt,
   dir,
-  acceptFileType = AcceptFileType.any
+  acceptFileType = AcceptFileType.any,
+  isPersonalDriveFileUpload = false
 }: PropType
 ) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const {file, handleFileUpload, error, progress} = useFileUploadEffect({ dir });
+  const {
+    file,
+    handleFileUpload,
+    handlePersonalDriveFileUpload,
+    error,
+    progress
+  } = useFileUploadEffect({ dir });
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -40,7 +48,11 @@ export default function FileUploadComponent({
     if (selectedFile) {
       const formData = new FormData();
       formData.append('file', selectedFile);
-      await handleFileUpload(formData);
+      if (isPersonalDriveFileUpload) {
+        await handlePersonalDriveFileUpload(formData);
+      } else {
+        await handleFileUpload(formData);
+      }
     }
   };
 

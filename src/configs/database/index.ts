@@ -10,6 +10,7 @@ export const dataDir = path.join(process.cwd(), DATABASE_DIR);
 export const DB_COLLECTIONS = {
   Configs: 'Configs',
   Pages: 'Pages',
+  PersonalDrive: 'PersonalDrive',
   TempChatsMessages: 'TempChatsMessages',
   Users: 'Users'
 };

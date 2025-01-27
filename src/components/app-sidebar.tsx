@@ -10,12 +10,13 @@ import {
   SidebarMenuItem, SidebarRail
 } from '@/components/ui/sidebar';
 import {Server} from 'lucide-react';
-import {COMMON_PAGES, Pages} from '@/configs/pages';
+import {PROTECTED_PAGES, Pages, HOME_PAGE, INFO_PAGE} from '@/configs/pages';
 import Link from 'next/link';
 import {useAppContext} from '@/context/AppContext';
 import {WEBSITE_NAME} from '@/constants';
 import {useSession} from 'next-auth/react';
 import {Avatar, AvatarFallback} from '@/components/ui/avatar';
+import {hasPermissions} from '@/utils/permissions';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const {ip, port, localServerAddress} = useAppContext();
@@ -43,16 +44,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {COMMON_PAGES.map((page) => (
-                <SidebarMenuItem key={page.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={page.link}>
-                      <page.icon />
-                      <span>{page.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href={HOME_PAGE.link}>
+                    <HOME_PAGE.icon />
+                    <span>{HOME_PAGE.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              {
+                PROTECTED_PAGES
+                  .filter(page => {
+                    return !session || hasPermissions(session, page.permissions);
+                  })
+                  .map((page) => (
+                    <SidebarMenuItem key={page.title}>
+                      <SidebarMenuButton asChild>
+                        <Link href={page.link}>
+                          <page.icon />
+                          <span>{page.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))
+              }
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href={INFO_PAGE.link}>
+                    <INFO_PAGE.icon />
+                    <span>{INFO_PAGE.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -77,7 +100,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarFooter>
             <SidebarMenu>
               <SidebarMenuItem>
-                <Link href={Pages.profile.link}>
+                <Link href={
+                  hasPermissions(session, Pages.profile.permissions)
+                    ? Pages.profile.link
+                    : Pages.home.link
+                }>
                   <SidebarMenuButton
                     size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"

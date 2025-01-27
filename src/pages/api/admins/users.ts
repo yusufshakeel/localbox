@@ -18,7 +18,17 @@ async function getHandler(
   res: NextApiResponse
 ) {
   const where = {type: UserType.user};
-  const attributes = ['id', 'username', 'displayName', 'type', 'status', 'permissions', 'createdAt', 'updatedAt'];
+  const attributes = [
+    'id',
+    'username',
+    'displayName',
+    'type',
+    'status',
+    'permissions',
+    'personalDriveStorageLimit',
+    'createdAt',
+    'updatedAt'
+  ];
   const users = await db.query.selectAsync(UsersCollectionName, {where, attributes});
   return res.status(200).json({users});
 }
@@ -87,6 +97,9 @@ async function patchHandler(
     ...parsedData.data,
     updatedAt: getISOStringDate()
   };
+  if ((parsedData.data as any).personalDriveStorageLimit) {
+    dataToUpdate['personalDriveStorageLimit'] = Number((parsedData.data as any).personalDriveStorageLimit);
+  }
   if ((parsedData.data as any).password) {
     dataToUpdate['password'] = passwordService.hashPassword((parsedData.data as any).password);
   }

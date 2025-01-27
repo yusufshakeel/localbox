@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "create:directories:public": "mkdirp public/uploads public/temp-chats public/videos public/audios public/images public/documents",
-    "create:directories:private": "mkdirp private/db",
+    "create:directories:private": "mkdirp private/db private/personal-drive",
     "bootstrap": "npm run create:directories:private && npm run create:directories:public",
     "dev": "next dev",
     "build": "next build",
