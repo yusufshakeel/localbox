@@ -10,6 +10,7 @@ import {UserType} from '@/types/users';
 import {PermissionsType} from '@/types/permissions';
 import {FILE_EXTENSIONS} from '@/configs/files';
 import {getFilename} from '@/utils/filename';
+import {db, UsersCollectionName} from '@/configs/database/users';
 
 async function getHandler(
   req: NextApiRequest,
@@ -25,7 +26,8 @@ async function getHandler(
   return res.status(200).json({
     userId: user.id,
     userType: user.type,
-    storageLimit: user.type === UserType.admin ? -1 : +user.personalDriveStorageLimit
+    storageLimit: user.type === UserType.admin ? -1 : +user.personalDriveStorageLimit,
+    storageUsed: +user.personalDriveStorageUsed || 0
   });
 }
 
@@ -72,6 +74,12 @@ async function getFilesHandler(
         return a.filename.localeCompare(b.filename);
       }
     });
+
+  await db.query.updateAsync(
+    UsersCollectionName,
+    { personalDriveStorageUsed: totalSize },
+    { where: { id: user.id } }
+  );
 
   return res.status(200).json({
     userType: user.type,

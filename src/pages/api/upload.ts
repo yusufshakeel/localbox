@@ -13,7 +13,6 @@ import {isLoggedInSessionForAdmin, isLoggedInSessionForUser} from '@/utils/permi
 import {UserType} from '@/types/users';
 import {db, ConfigsCollectionName} from '@/configs/database/configs';
 import {humanReadableFileSize} from '@/utils/filesize';
-import {readdir, stat} from 'fs/promises';
 
 async function uploadHandler(
   req: NextApiRequest,
@@ -131,15 +130,7 @@ async function personalDriveUploadHandler(
       process.cwd(), PrivateFolder, PrivateFolders.personalDrive, user.id
     );
 
-    const files = await readdir(personalDrivePath);
-
-    const filesDetails = await Promise.all(
-      files.map(file => stat(path.join(personalDrivePath, file)))
-    );
-
-    const totalSize = filesDetails.reduce((acc, curr) => {
-      return acc + curr.size;
-    }, 0);
+    const totalSize = +user.personalDriveStorageUsed;
 
     let uploadLimit = {};
 

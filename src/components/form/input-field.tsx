@@ -12,24 +12,6 @@ type FieldProps = {
   min?: number
 }
 
-const NumberInputField = ({ form, label, name, min }: FieldProps) => {
-  return (
-    <FormField
-      control={form.control}
-      name={name}
-      render={({field}) => (
-        <FormItem>
-          { label && <FormLabel>{label}</FormLabel> }
-          <FormControl>
-            <Input type="number" min={min} autoComplete="off" {...field}/>
-          </FormControl>
-          <FormMessage/>
-        </FormItem>
-      )}
-    />
-  );
-};
-
 const TextInputField = ({ form, label, name }: FieldProps) => {
   return (
     <FormField
@@ -80,4 +62,4 @@ const PasswordInputField = ({ form, label, name }: FieldProps) => {
   );
 };
 
-export { PasswordInputField, TextInputField, NumberInputField };
+export { PasswordInputField, TextInputField };
