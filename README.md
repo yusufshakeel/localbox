@@ -64,11 +64,13 @@ Software:
 
 Hardware:
 * Any modern/older laptop or desktop should work.
-  * I am using HP ProBook 6450b laptop from the year 2010.
-  * Specs:
-    * 320GB HDD
-    * 4GB RAM
-    * Ubuntu 20.04LTS.
+
+My setup:
+* Laptop: HP ProBook 6450b
+* Year: 2010
+* Storage: 320GB HDD
+* Memory: 4GB
+* OS: Ubuntu 20.04LTS
 
 ## Getting Started
 
