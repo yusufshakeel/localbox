@@ -189,13 +189,20 @@ export default async function handler(
 ) {
   try {
     const allowedMethods = [HttpMethod.POST];
+
     let requiredPermissions: string[] = [];
+
     if (req.query.isPersonalDriveFileUpload) {
       requiredPermissions = [
         `${Pages.personalDrive.id}:${PermissionsType.AUTHORIZED_USE}`
       ];
     } else if (req.query.dir) {
-      const pageId = Pages[req.query.dir as keyof typeof Pages].id;
+      let pageId = '';
+      if (req.query.dir === 'temp-chats') {
+        pageId = Pages.tempChats.id;
+      } else {
+        pageId = Pages[req.query.dir as keyof typeof Pages].id;
+      }
       requiredPermissions = [
         `${pageId}:${PermissionsType.AUTHORIZED_USE}`
       ];

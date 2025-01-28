@@ -9,6 +9,7 @@ import {readdir, stat, mkdir} from 'fs/promises';
 import {UserType} from '@/types/users';
 import {PermissionsType} from '@/types/permissions';
 import {FILE_EXTENSIONS} from '@/configs/files';
+import {getFilename} from '@/utils/filename';
 
 async function getHandler(
   req: NextApiRequest,
@@ -75,7 +76,7 @@ async function downloadHandler(
   }
 
   // Set headers for file download
-  res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+  res.setHeader('Content-Disposition', `attachment; filename=${getFilename(filename)}`);
   res.setHeader('Content-Type', 'application/octet-stream');
 
   // Stream the file to the client
