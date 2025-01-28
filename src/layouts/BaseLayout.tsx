@@ -80,7 +80,9 @@ export default function BaseLayout({
                             {
                               isLoggedInSessionForAdmin(session) &&
                               <DropdownMenuItem asChild>
-                                <Link href={Pages.adminsDashboard.link}>Admin Dashboard</Link>
+                                <Link href={Pages.adminsDashboard.link}>
+                                  {Pages.adminsDashboard.title}
+                                </Link>
                               </DropdownMenuItem>
                             }
                             <DropdownMenuSeparator />

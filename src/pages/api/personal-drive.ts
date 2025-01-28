@@ -14,6 +14,24 @@ import {getFilename} from '@/utils/filename';
 async function getHandler(
   req: NextApiRequest,
   res: NextApiResponse,
+  user: any
+) {
+  if (user.type === UserType.user) {
+    if (!user.personalDriveStorageLimit || +user.personalDriveStorageLimit <= 0) {
+      return res.status(400).json({ error: 'Personal Drive is not configured.' });
+    }
+  }
+
+  return res.status(200).json({
+    userId: user.id,
+    userType: user.type,
+    storageLimit: user.type === UserType.admin ? -1 : +user.personalDriveStorageLimit
+  });
+}
+
+async function getFilesHandler(
+  req: NextApiRequest,
+  res: NextApiResponse,
   personalDrivePath: string,
   user: any
 ) {
@@ -118,7 +136,11 @@ export default async function handler(
         return await downloadHandler(req, res, personalDrivePath, filename);
       }
 
-      return await getHandler(req, res, personalDrivePath, user);
+      if (req.query.fetchFiles) {
+        return await getFilesHandler(req, res, personalDrivePath, user);
+      }
+
+      return await getHandler(req, res, user);
     }
   } catch (error: any) {
     return res.status(500).json({message: error.message});
