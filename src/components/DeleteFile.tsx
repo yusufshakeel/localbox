@@ -18,10 +18,16 @@ export default function DeleteFile(props: any) {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
-    if (props.fileToDelete?.dir && props.fileToDelete?.filename) {
-      setOpen(true);
+    if (props.isPersonalDriveFileDelete) {
+      if (props.fileToDelete?.filename) {
+        setOpen(true);
+      }
+    } else {
+      if (props.fileToDelete?.dir && props.fileToDelete?.filename) {
+        setOpen(true);
+      }
     }
-  }, [props.fileToDelete]);
+  }, [props.fileToDelete, props.isPersonalDriveFileDelete]);
 
   const closeDialog = () => {
     setErrorMessage('');
@@ -33,7 +39,11 @@ export default function DeleteFile(props: any) {
       setErrorMessage('');
       const response = await httpClient.delete({
         url: '/api/files',
-        body: { dir: props.fileToDelete?.dir, filename: props.fileToDelete?.filename }
+        body: {
+          isPersonalDriveFileDelete: props.isPersonalDriveFileDelete,
+          dir: props.fileToDelete?.dir,
+          filename: props.fileToDelete?.filename
+        }
       });
       if (response.statusCode === 200) {
         closeDialog();

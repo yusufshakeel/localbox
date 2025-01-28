@@ -8,10 +8,16 @@ import ListFiles from '@/components/personal-drive/ListFiles';
 import FileUploadComponent from '@/components/FileUploadComponent';
 import {AcceptFileType} from '@/types/file';
 import {useState} from 'react';
+import DeleteFile from '@/components/DeleteFile';
 
 function PersonalDrive() {
   const {data: session} = useSession() as any;
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
+  const [fileToDelete, setFileToDelete] = useState<{filename: string} | null>(null);
+
+  const deleteFileHandler = (filename: string) => {
+    setFileToDelete({filename});
+  };
 
   return (
     <BaseLayout pageTitle={Pages.personalDrive.title}>
@@ -36,11 +42,20 @@ function PersonalDrive() {
             session,
             [`${Pages.personalDrive.id}:${PermissionsType.AUTHORIZED_USE}`]
           ) &&
-          <div className="col-span-12 lg:col-span-9">
-            <ListFiles lastUploadAt={lastUploadAt}/>
+          <div className="col-span-12">
+            <ListFiles
+              lastUploadAt={lastUploadAt}
+              deleteFileHandler={deleteFileHandler}
+              session={session}
+            />
           </div>
         }
       </div>
+      <DeleteFile
+        fileToDelete={fileToDelete}
+        setLastUploadAt={setLastUploadAt}
+        isPersonalDriveFileDelete={true}
+      />
     </BaseLayout>
   );
 }

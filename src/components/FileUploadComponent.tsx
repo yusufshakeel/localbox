@@ -85,7 +85,7 @@ export default function FileUploadComponent({
         <Button variant="secondary" className="mr-3" data-testid="reset-btn" onClick={handleReset}>
           Reset
         </Button>
-        {selectedFile && <p className="my-1">Uploaded: {progress}%</p>}
+        {selectedFile && <span className="my-1">Uploaded: {progress}%</span>}
       </div>
     </div>
   );

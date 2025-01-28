@@ -34,7 +34,13 @@ export async function isValidSessionWithPermissions(
 
   const user = (await db.query.selectAsync(
     UsersCollectionName,
-    { where: { id: session.user.id, status: UserStatus.active } }
+    {
+      where: { id: session.user.id, status: UserStatus.active },
+      attributes: [
+        'id', 'username', 'displayName', 'status', 'type', 'permissions',
+        'personalDriveStorageLimit', 'createdAt', 'updatedAt'
+      ]
+    }
   ))?.[0];
   if (!user) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -42,13 +48,13 @@ export async function isValidSessionWithPermissions(
 
   const listOfPermissions = [...allowedPermissions, PermissionsType.ADMIN];
 
-  if (!allowedUserTypes.includes(session.user.type)
-    || !listOfPermissions.some(v => session.user.permissions.includes(v))
+  if (!allowedUserTypes.includes(user.type)
+    || !listOfPermissions.some(v => user.permissions.includes(v))
   ) {
     return res.status(403).json({ message: 'Forbidden: Do not have required permissions.' });
   }
 
-  return session;
+  return { ...session, user: { ...session.user, ...user } };
 }
 
 export async function hasApiPrivileges(
