@@ -131,7 +131,7 @@ export default function ListFiles(props: any) {
     const apiCall = async () => {
       const response: any = await httpClient.get({
         url: '/api/personal-drive',
-        params: { sort: props.sort || 'DESC' }
+        params: { fetchFiles: true, sort: props.sort || 'DESC' }
       });
       if (response.statusCode === 200 && response.data?.files) {
         setStorageLimit(response.data.storageLimit);

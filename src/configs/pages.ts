@@ -48,7 +48,7 @@ export const Pages = {
   'adminsDashboard': {
     id: 'adminsDashboard',
     link: '/admins/dashboard',
-    title: 'Admins Dashboard',
+    title: 'Admin Dashboard',
     pageFor: [UserType.admin],
     permissions: permissionTag('adminsDashboard', [
       PermissionsType.ADMIN
