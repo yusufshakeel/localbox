@@ -20,6 +20,9 @@ import {Avatar, AvatarFallback} from '@/components/ui/avatar';
 import {Button} from '@/components/ui/button';
 import {handleDownload} from '@/utils/download';
 import {EllipsisVertical} from 'lucide-react';
+import {FILE_EXTENSIONS} from '@/configs/files';
+import path from 'path';
+import {PublicFolders} from '@/configs/folders';
 
 export type PropType = {
   messages: MessageType[];
@@ -87,46 +90,51 @@ export default function ChatsComponent(props: PropType) {
             const fileName = getFilename(msg.message);
             const message =
             msg.type === 'file'
-              ? <div className="mt-2 float-end">
-                <span className="me-3">{fileName}</span>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <Button variant='ghost'>
-                      <EllipsisVertical/>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => handleDownload('temp-chats', msg.message)}>
+              ? (
+                <div className="mt-2 float-end">
+                  <span className="me-3 text-sm">{fileName}</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant='ghost' size="icon">
+                        <EllipsisVertical/>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => handleDownload('temp-chats', msg.message)}>
                       Download
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              )
               : <span>{msg.message}</span>;
 
             let messagePreview: any = '';
             if (msg.type === 'file') {
-              if (['jpg', 'jpeg', 'png'].includes(fileName.split('.')?.pop() ?? '')) {
+              const fileExtension = path.extname(fileName).toLowerCase();
+
+              if (FILE_EXTENSIONS.images.includes(fileExtension)) {
                 messagePreview = (
                   <Image
                     width={200}
                     height={200}
-                    src={`/temp-chats/${encodeURIComponent(msg.message)}`}
-                    className="img-fluid"
-                    alt=""/>
+                    priority
+                    src={`/${PublicFolders.tempChats}/${encodeURIComponent(msg.message)}`}
+                    className="my-2"
+                    alt={fileName}/>
                 );
               }
-              else if (['mp4'].includes(fileName.split('.')?.pop() ?? '')) {
+              else if (FILE_EXTENSIONS.videos.includes(fileExtension)) {
                 messagePreview = (
                   <video controls style={{height: '150px'}} key={msg.message}>
-                    <source src={`/temp-chats/${encodeURIComponent(msg.message)}`}/>
+                    <source src={`/${PublicFolders.tempChats}/${encodeURIComponent(msg.message)}`}/>
                   Your browser does not support the video tag.
                   </video>
                 );
-              } else if (['mp3'].includes(fileName.split('.')?.pop() ?? '')) {
+              } else if (FILE_EXTENSIONS.audios.includes(fileExtension)) {
                 messagePreview = (
                   <audio controls key={msg.message}>
-                    <source src={`/temp-chats/${encodeURIComponent(msg.message)}`}/>
+                    <source src={`/${PublicFolders.tempChats}/${encodeURIComponent(msg.message)}`}/>
                       Your browser does not support the audio tag.
                   </audio>
                 );
@@ -143,7 +151,8 @@ export default function ChatsComponent(props: PropType) {
                       <strong>{msg.displayName} </strong>
                     </span>
                     <span
-                      className="float-end ms-3"> <small>{formatDate(msg.timestamp)}</small></span>
+                      className="float-end ms-3"> <small>{formatDate(msg.timestamp)}</small>
+                    </span>
                   </div>
                   <div className="mb-1"
                     style={{wordBreak: 'break-word', overflowWrap: 'break-word'}}>
