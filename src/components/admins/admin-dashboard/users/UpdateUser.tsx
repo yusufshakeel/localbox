@@ -47,7 +47,7 @@ export default function UpdateUser(props: any) {
       form.setValue('status', props.userAccountToUpdate.status);
 
       if (props.userAccountToUpdate.permissions.includes(`${Pages.personalDrive.id}:${PermissionsType.AUTHORIZED_USE}`)) {
-        form.setValue('personalDriveStorageLimit', props.userAccountToUpdate.personalDriveStorageLimit.toString() || '');
+        form.setValue('personalDriveStorageLimit', props.userAccountToUpdate?.personalDriveStorageLimit?.toString() || '0');
         setShowPersonalDriveStorageLimit(true);
       } else {
         setShowPersonalDriveStorageLimit(false);
