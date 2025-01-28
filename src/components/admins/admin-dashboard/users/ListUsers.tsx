@@ -25,6 +25,7 @@ type UserSchemaForColumn = {
   updatedAt: string
   permissions: string[],
   personalDriveStorageLimit: number,
+  personalDriveStorageUsed: number,
   setUserAccountToDelete: (_: object) => void
   setUserAccountPasswordToUpdate: (_: object) => void
   setUserAccountPermissionsToUpdate: (_: object) => void
@@ -97,6 +98,7 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
         permissions,
         status,
         personalDriveStorageLimit,
+        personalDriveStorageUsed,
         setUserAccountToDelete,
         setUserAccountPasswordToUpdate,
         setUserAccountPermissionsToUpdate,
@@ -119,7 +121,15 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => setUserAccountToUpdate(
-                { id, username, displayName, status, personalDriveStorageLimit, permissions }
+                {
+                  id,
+                  username,
+                  displayName,
+                  status,
+                  personalDriveStorageLimit,
+                  personalDriveStorageUsed,
+                  permissions
+                }
               )}>
               Update Details
             </DropdownMenuItem>

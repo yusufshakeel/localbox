@@ -26,6 +26,7 @@ async function getHandler(
     'status',
     'permissions',
     'personalDriveStorageLimit',
+    'personalDriveStorageUsed',
     'createdAt',
     'updatedAt'
   ];

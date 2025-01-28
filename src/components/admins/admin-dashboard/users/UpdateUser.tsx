@@ -78,6 +78,13 @@ export default function UpdateUser(props: any) {
           setErrorMessage('Personal Drive storage limit cannot be less than 0.');
           return;
         }
+
+        if (+personalDriveStorageLimit < +props.userAccountToUpdate.personalDriveStorageUsed) {
+          setErrorMessage(
+            `Personal Drive storage limit cannot be less than ${+props.userAccountToUpdate.personalDriveStorageUsed}.`
+          );
+          return;
+        }
       }
 
       const response = await httpClient.patch({
@@ -122,12 +129,21 @@ export default function UpdateUser(props: any) {
               />
 
               {
-                showPersonalDriveStorageLimit &&
-                <TextInputField
-                  form={form}
-                  name="personalDriveStorageLimit"
-                  label="Personal Drive - Update storage limit (in Bytes)"
-                />
+                showPersonalDriveStorageLimit
+                && (
+                  <>
+                    <TextInputField
+                      form={form}
+                      name="personalDriveStorageLimit"
+                      label="Personal Drive - Update storage limit (in Bytes)"
+                    />
+                    <p className="text-sm">
+                      Used: {props.userAccountToUpdate?.personalDriveStorageUsed || 0} Bytes
+                      <br/>
+                      Limit: {props.userAccountToUpdate?.personalDriveStorageLimit} Bytes
+                    </p>
+                  </>
+                )
               }
 
               <FormField

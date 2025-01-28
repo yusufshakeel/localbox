@@ -16,6 +16,7 @@ const schemaRegistry = new SchemaRegistry({
         { name: 'type', isRequired: true },
         { name: 'permissions', isRequired: true },
         { name: 'personalDriveStorageLimit' },
+        { name: 'personalDriveStorageUsed' },
         { name: 'createdAt', isRequired: true },
         { name: 'updatedAt' }
       ]

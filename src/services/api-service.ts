@@ -38,7 +38,8 @@ export async function isValidSessionWithPermissions(
       where: { id: session.user.id, status: UserStatus.active },
       attributes: [
         'id', 'username', 'displayName', 'status', 'type', 'permissions',
-        'personalDriveStorageLimit', 'createdAt', 'updatedAt'
+        'personalDriveStorageLimit', 'personalDriveStorageUsed',
+        'createdAt', 'updatedAt'
       ]
     }
   ))?.[0];

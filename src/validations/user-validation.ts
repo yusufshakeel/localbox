@@ -45,7 +45,7 @@ export const userUpdateSchema = z.object({
   status: z.enum([UserStatus.active, UserStatus.suspend]),
   personalDriveStorageLimit: z.string()
     .min(1, 'Personal Drive storage limit is required')
-    .regex(/^[0-9]+$/, 'Personal Drive storage limit must be numeric')
+    .regex(/^[0-9]+$/, 'Personal Drive storage limit must be a whole number')
     .optional()
 });
 
