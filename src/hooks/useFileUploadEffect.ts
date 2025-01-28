@@ -60,8 +60,9 @@ const useFileUploadEffect = (option: OptionType = {dir: 'uploads'}) => {
     setProgress(0);
     try {
       const response = await httpClient.post<any>({
-        url: `/api/personal-drive`,
+        url: `/api/upload`,
         body: formData,
+        params: { isPersonalDriveFileUpload: true },
         headers: {'Content-Type': 'multipart/form-data'},
         onUploadProgress
       });

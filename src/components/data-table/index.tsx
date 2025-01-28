@@ -50,7 +50,7 @@ export function DataTable<TData, TValue>({
     },
     globalFilterFn: (rows: any, columnIds: any, filterValue) => {
       const {original} = rows;
-      if (original[columnIds].toLowerCase().includes(filterValue.toLowerCase())) {
+      if (original[columnIds].toString().toLowerCase().includes(filterValue.toLowerCase())) {
         return rows;
       }
     }
@@ -66,7 +66,7 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
       </div>
-      <div className="rounded-md border max-h-96 overflow-y-auto">
+      <div className="rounded-md border overflow-y-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
