@@ -7,6 +7,9 @@ import {db, TempChatsMessagesCollectionName} from '@/configs/database/temp-chats
 import {db as Configs, ConfigsCollectionName} from '@/configs/database/configs';
 import {PublicFolder, PublicFolders} from '@/configs/folders';
 import {getEpochTimestampInMilliseconds, getISOStringDate} from '@/utils/date';
+import {hasApiPrivileges} from '@/services/api-service';
+import {Pages} from '@/configs/pages';
+import {PermissionsType} from '@/types/permissions';
 
 const getMessageTTLInMilliseconds = async (): Promise<number> => {
   try {
@@ -110,17 +113,38 @@ export default async function handler(req: any, res: any) {
       await cleanupExpiredMessages(messageTTLInMilliseconds);
       cleanupOlderFiles(messageTTLInMilliseconds); // fire and forget
 
-      let messages;
-      try {
-        messages = await db.query.selectAsync(TempChatsMessagesCollectionName);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err: any) {
-        messages = [];
+      const session = await hasApiPrivileges(req, res, {
+        allowedMethods: [],
+        permissions: [
+          `${Pages.tempChats.id}:${PermissionsType.AUTHORIZED_VIEW}`
+        ]
+      });
+      if (!session) {
+        io.emit('error', { error: 'You do not have permissions to view messages.' });
+      } else {
+        let messages;
+        try {
+          messages = await db.query.selectAsync(TempChatsMessagesCollectionName);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err: any) {
+          messages = [];
+        }
+        io.emit('initialMessages', messages);
       }
-      socket.emit('initialMessages', messages);
 
       // Handle new messages
       socket.on('sendMessage', async (data) => {
+        const session = await hasApiPrivileges(req, res, {
+          allowedMethods: [],
+          permissions: [
+            `${Pages.tempChats.id}:${PermissionsType.AUTHORIZED_USE}`
+          ]
+        });
+        if (!session) {
+          io.emit('error', { error: 'You do not have permissions to send messages.' });
+          return;
+        }
+
         const now = Date.now();
         const newMessage = { ...data, timestamp: now };
         await db.query.insertAsync(TempChatsMessagesCollectionName, { ...data, timestamp: now });

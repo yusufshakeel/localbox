@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import io from 'socket.io-client';
 import {getUUID} from '@/utils/uuid';
+import showToast from '@/utils/show-toast';
 
 let socket: any;
 
@@ -31,6 +32,14 @@ const useChattingEffect = () => {
 
     socket.on('newMessage', (msg: MessageType) => {
       setMessages((prev) => [...prev, msg]);
+    });
+
+    socket.on('error', (err: { error: string }) => {
+      showToast({
+        content: err.error,
+        type: 'error',
+        autoClose: 3000
+      });
     });
 
     return () => {
