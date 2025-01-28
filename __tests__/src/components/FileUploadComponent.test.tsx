@@ -11,13 +11,16 @@ jest.mock('../../../src/utils/show-toast', () => jest.fn());
 
 describe('FileUploadComponent', () => {
   let mockHandleFileUpload: jest.Mock;
+  let mockHandlePersonalDriveFileUpload: jest.Mock;
 
   beforeEach(() => {
     mockHandleFileUpload = jest.fn();
+    mockHandlePersonalDriveFileUpload = jest.fn();
     (useFileUploadEffect as jest.Mock).mockReturnValue({
       file: null,
       error: null,
-      handleFileUpload: mockHandleFileUpload
+      handleFileUpload: mockHandleFileUpload,
+      handlePersonalDriveFileUpload: mockHandlePersonalDriveFileUpload
     });
   });
 
@@ -54,6 +57,28 @@ describe('FileUploadComponent', () => {
 
     await waitFor(() => {
       expect(mockHandleFileUpload).toHaveBeenCalledWith(expect.any(FormData));
+    });
+  });
+
+  it('Calls handlePersonalDriveFileUpload when the upload button is clicked for personal drive', async () => {
+    render(
+      <FileUploadComponent
+        setLastUploadAt={jest.fn()}
+        dir='uploads'
+        acceptFileType='*'
+        isPersonalDriveFileUpload={true}
+      />
+    );
+
+    const fileInput: any = screen.getByTestId('file-input');
+    const uploadButton: any = screen.getByTestId('upload-btn');
+
+    const testFile = new File(['test content'], 'testFile.txt', { type: 'text/plain' });
+    fireEvent.change(fileInput, { target: { files: [testFile] } });
+    fireEvent.click(uploadButton);
+
+    await waitFor(() => {
+      expect(mockHandlePersonalDriveFileUpload).toHaveBeenCalledWith(expect.any(FormData));
     });
   });
 
