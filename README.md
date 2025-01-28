@@ -1,19 +1,30 @@
 # localbox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
-![Static Badge](https://img.shields.io/badge/version-v0.8.5-blue)
+![Static Badge](https://img.shields.io/badge/version-v0.9.1-blue)
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
 
 Features:
+* Personal Drive with configurable storage limit per user
 * File upload and sharing
 * Temporary Chats (TempChats)
 * Audio/Video player
 * User management (Authentication and Authorization)
 * Dark Mode
 
-![img-v0.7.2.png](public/assets/img-v0.7.2.png)
+### Home
+
+![img-v0.9.1.png](public/assets/img-v0.9.1.png)
+
+### Personal Drive
+
+![personal-drive.png](public/assets/personal-drive.png)
+
+### Admin Dashboard
+
+![admin-dashboard.png](public/assets/admin-dashboard.png)
 
 ## Table of Content
 
