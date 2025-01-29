@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { readdir } from 'fs/promises';
 import fs from 'fs/promises';
 import path from 'path';
-import {FilesApiResponse} from '@/types/api-responses';
 import {PrivateFolder, PrivateFolders, PublicFolders} from '@/configs/folders';
 import {HttpMethod} from '@/types/api';
 import {hasApiPrivileges} from '@/services/api-service';
@@ -10,7 +9,7 @@ import {Pages} from '@/configs/pages';
 import {UserType} from '@/types/users';
 import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
-import {getUsernameFromFilename} from '@/utils/filename';
+import {getFilename, getUsernameFromFilename} from '@/utils/filename';
 
 async function deleteHandler(
   req: NextApiRequest,
@@ -49,6 +48,52 @@ async function deleteHandler(
   await fs.unlink(filepath);
 
   return res.status(200).json({ message: 'File deleted successfully.' });
+}
+
+async function renamePersonalDriveFilesHandler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  session: any
+) {
+  if (!req.body?.filename) {
+    return res.status(400).json({ error: 'Bad request', message: 'filename is required' });
+  }
+
+  if (!req.body?.newFilename || !req.body.newFilename.trim().length) {
+    return res.status(400).json({ error: 'Bad request', message: 'newFilename is required' });
+  }
+
+  if (session.user.type === UserType.user) {
+    const userHasPermissions = hasPermissions(
+      session,
+      [ `${Pages.personalDrive.id}:${PermissionsType.AUTHORIZED_USE}` ]
+    );
+
+    if (!userHasPermissions) {
+      return res.status(400).json({
+        error: 'Bad request', message: 'You do not have permissions to delete files'
+      });
+    }
+
+    if (getUsernameFromFilename(req.body?.filename) !== session.user.username) {
+      return res.status(400).json({
+        error: 'Bad request', message: 'You do not have permissions to delete this file'
+      });
+    }
+  }
+
+  const personalDrivePath = path.join(
+    process.cwd(), PrivateFolder, PrivateFolders.personalDrive, session.user.id
+  );
+
+  const currentFilePrefix = req.body.filename.split(getFilename(req.body.filename))[0];
+  const newFilename = `${currentFilePrefix}${req.body.newFilename.trim()}`;
+
+  const oldPath = path.join(personalDrivePath, req.body.filename);
+  const newPath = path.join(personalDrivePath, newFilename);
+
+  await fs.rename(oldPath, newPath);
+  return res.status(200).json({ message: 'File renamed successfully'  });
 }
 
 async function deletePersonalDriveFilesHandler(
@@ -114,9 +159,9 @@ async function getHandler(
   return res.status(200).json({ files: filteredFiles });
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<FilesApiResponse>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const allowedMethods = [HttpMethod.GET, HttpMethod.DELETE];
+    const allowedMethods = [HttpMethod.GET, HttpMethod.DELETE, HttpMethod.PATCH];
 
     let requiredPermissions: string[] = [];
 
@@ -134,6 +179,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const pageId = Pages[req.body.dir as keyof typeof Pages].id;
         requiredPermissions = [
           `${pageId}:${PermissionsType.AUTHORIZED_USE}`
+        ];
+      }
+    } else if (req.method === HttpMethod.PATCH) {
+      if (req.body.isPersonalDriveFileDelete) {
+        requiredPermissions = [
+          `${Pages.personalDrive.id}:${PermissionsType.AUTHORIZED_USE}`
         ];
       }
     }
@@ -155,6 +206,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         return await deletePersonalDriveFilesHandler(req, res, session);
       } else {
         return await deleteHandler(req, res, session);
+      }
+    }
+
+    if (req.method === HttpMethod.PATCH) {
+      if (req.body.isPersonalDriveFileDelete && req.query.action === 'renameFile') {
+        return await renamePersonalDriveFilesHandler(req, res, session);
       }
     }
   } catch (error: any) {
