@@ -11,6 +11,7 @@ import Link from 'next/link';
 import {setupPages} from '@/setup/pages';
 import {Pages} from '@/configs/pages';
 import {setupConfigs} from '@/setup/configs';
+import {getISOStringDate} from '@/utils/date';
 
 export default function Setup(props: any) {
   const  pageTitle = Pages.setup.title;
