@@ -56,7 +56,7 @@ export default function Setup(props: any) {
 
         <p>Done!</p>
 
-        <p>Restart the server.</p>
+        <p className="text-lg font-bold">Restart the server.</p>
 
         <Link href={Pages.home.link}>
           <Button variant="secondary">

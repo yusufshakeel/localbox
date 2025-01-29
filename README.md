@@ -1,7 +1,7 @@
 # localbox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
-![Static Badge](https://img.shields.io/badge/version-v0.9.1-blue)
+![Static Badge](https://img.shields.io/badge/version-v0.9.2-blue)
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
@@ -118,15 +118,25 @@ npm run build
 npm run start
 ```
 
-Alternatively, run the following command if you want to run the application in dev mode.
-
-```shell
-npm run dev
-```
+>
+> Alternatively, run the following command if you want to run the application in dev mode.
+>
+> ```shell
+> npm run dev
+> ```
+>
 
 * You will see the url of the localbox application in the terminal after it starts running.
 
 * Open the url (example [http://localhost:3000](http://localhost:3000)) in the browser.
+
+## Use port
+
+Run the following command to run the application on another port.
+
+```shell
+PORT=9000 npm run start
+```
 
 ## First time setup
 
@@ -141,11 +151,15 @@ Password: root1234
 ```
 Change the password of the **admin** account after logging in.
 
+**Important! Make sure to restart the server.**
+
 ## Rerun setup
 
 * Delete the `setup.lock` file from the `/private` folder.
 * Run the server `npm run start` or `npm run dev`
 * Open the Home page.
+* Setup will be performed again.
+* **Important! Make sure to restart the server.**
 
 ## Get Updates
 
