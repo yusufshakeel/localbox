@@ -42,7 +42,7 @@ export const userCreateSchema = z.object({
 export const userUpdateSchema = z.object({
   username: getUsernameZodString(),
   displayName: getDisplayNameZodString(),
-  status: z.enum([UserStatus.active, UserStatus.suspend]),
+  status: z.enum([UserStatus.active, UserStatus.suspended]),
   personalDriveStorageLimit: z.string()
     .min(1, 'Personal Drive storage limit is required')
     .regex(/^[0-9]+$/, 'Personal Drive storage limit must be a whole number')

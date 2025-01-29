@@ -81,7 +81,7 @@ export default function UpdateUser(props: any) {
 
         if (+personalDriveStorageLimit < +props.userAccountToUpdate.personalDriveStorageUsed) {
           setErrorMessage(
-            `Personal Drive storage limit cannot be less than ${+props.userAccountToUpdate.personalDriveStorageUsed}.`
+            `Personal Drive storage limit cannot be less than the current used ${+props.userAccountToUpdate.personalDriveStorageUsed} Bytes.`
           );
           return;
         }
@@ -160,7 +160,7 @@ export default function UpdateUser(props: any) {
                       </FormControl>
                       <SelectContent>
                         <SelectItem value={UserStatus.active}>{UserStatus.active}</SelectItem>
-                        <SelectItem value={UserStatus.suspend}>{UserStatus.suspend}</SelectItem>
+                        <SelectItem value={UserStatus.suspended}>{UserStatus.suspended}</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

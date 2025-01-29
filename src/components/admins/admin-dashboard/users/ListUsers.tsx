@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {formatDate} from '@/utils/date';
+import {humanReadableFileSize} from '@/utils/filesize';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -85,6 +86,26 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
     cell: ({ row }) => {
       const { permissions } = row.original;
       return permissions.length;
+    }
+  },
+  {
+    accessorKey: 'personalDriveStorageLimit',
+    header: 'Personal Drive',
+    cell: ({ row }) => {
+      const {
+        personalDriveStorageLimit,
+        personalDriveStorageUsed
+      } = row.original;
+
+      if (personalDriveStorageLimit && +personalDriveStorageLimit >= 0) {
+        return (
+          <span>
+            {humanReadableFileSize(+personalDriveStorageUsed || 0)} of {' '}
+            {humanReadableFileSize(+personalDriveStorageLimit)}
+          </span>
+        );
+      }
+      return 'Not Configured';
     }
   },
   {
