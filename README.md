@@ -24,7 +24,7 @@ Features:
 
 ### Admin Dashboard
 
-![admin-dashboard.png](public/assets/admin-dashboard.png)
+![admin-dashboard-v0.9.1.png](public/assets/admin-dashboard-v0.9.1.png)
 
 ## Table of Content
 
