@@ -20,14 +20,15 @@ import {AlertCircle} from 'lucide-react';
 export default function RenameFile(props: any) {
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [currentFilename, setCurrentFilename] = useState<string>('');
   const [newFilename, setNewFilename] = useState<string>('');
 
   useEffect(() => {
-    if (props.isPersonalDriveFileDelete) {
-      if (props.fileToRename?.filename) {
-        setOpen(true);
-        setNewFilename(getFilename(props.fileToRename.filename));
-      }
+    if (props.fileToRename?.filename) {
+      const filename = getFilename(props.fileToRename.filename);
+      setOpen(true);
+      setCurrentFilename(filename);
+      setNewFilename(filename);
     }
   }, [props.fileToRename, props.isPersonalDriveFileDelete]);
 
@@ -49,6 +50,7 @@ export default function RenameFile(props: any) {
         url: '/api/files',
         body: {
           isPersonalDriveFileDelete: props.isPersonalDriveFileDelete,
+          dir: props.fileToRename?.dir,
           filename: props.fileToRename?.filename,
           newFilename: newFilename.trim()
         },
@@ -105,7 +107,13 @@ export default function RenameFile(props: any) {
         />
         <p className="text-sm">{checkFileExtension()}</p>
         <DialogFooter>
-          <Button variant="destructive" className="me-3" onClick={renameHandler}>Yes, rename the file</Button>
+          <Button variant="default"
+            className="me-3"
+            onClick={renameHandler}
+            disabled={newFilename.trim() === currentFilename.trim()}
+          >
+            Yes, rename the file
+          </Button>
           <Button variant="secondary" className="me-3" onClick={closeDialog}>Close</Button>
         </DialogFooter>
       </DialogContent>

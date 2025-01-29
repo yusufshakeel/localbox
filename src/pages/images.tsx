@@ -16,12 +16,14 @@ import {Image as ImageIcon} from 'lucide-react';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
 import DeleteFile from '@/components/DeleteFile';
 import {getFilename} from '@/utils/filename';
+import RenameFile from '@/components/RenameFile';
 
 function Images() {
   const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
   const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
+  const [fileToRename, setFileToRename] = useState<{dir: string, filename: string} | null>(null);
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -31,6 +33,10 @@ function Images() {
 
   const deleteFileHandler = (dir: string, filename: string) => {
     setFileToDelete({dir, filename});
+  };
+
+  const renameFileHandler = (dir: string, filename: string) => {
+    setFileToRename({dir, filename});
   };
 
   useEffect(() => {
@@ -95,6 +101,7 @@ function Images() {
                   dir={PublicFolders.images}
                   sort={'DESC'}
                   deleteFileHandler={deleteFileHandler}
+                  renameFileHandler={renameFileHandler}
                   session={session}
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText="View"
@@ -106,6 +113,7 @@ function Images() {
         }
       </div>
       <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
+      <RenameFile fileToRename={fileToRename} setLastUploadAt={setLastUploadAt}/>
     </BaseLayout>
   );
 }

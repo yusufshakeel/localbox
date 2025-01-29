@@ -15,12 +15,14 @@ import {AcceptFileType} from '@/types/file';
 import {Music} from 'lucide-react';
 import DeleteFile from '@/components/DeleteFile';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
+import RenameFile from '@/components/RenameFile';
 
 function Audios() {
   const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string|null>(null);
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
   const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
+  const [fileToRename, setFileToRename] = useState<{dir: string, filename: string} | null>(null);
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
@@ -30,6 +32,10 @@ function Audios() {
 
   const deleteFileHandler = (dir: string, filename: string) => {
     setFileToDelete({dir, filename});
+  };
+
+  const renameFileHandler = (dir: string, filename: string) => {
+    setFileToRename({dir, filename});
   };
 
   useEffect(() => {
@@ -87,6 +93,7 @@ function Audios() {
                   dir={PublicFolders.audios}
                   sort={'DESC'}
                   deleteFileHandler={deleteFileHandler}
+                  renameFileHandler={renameFileHandler}
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText="Play"
                   lastUploadAt={lastUploadAt}
@@ -98,6 +105,7 @@ function Audios() {
         }
       </div>
       <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
+      <RenameFile fileToRename={fileToRename} setLastUploadAt={setLastUploadAt}/>
     </BaseLayout>
   );
 }
