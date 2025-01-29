@@ -8,7 +8,6 @@ import {LOCALBOX_SETUP_LOCK_FILENAME} from '@/configs';
 import {Button} from '@/components/ui/button';
 import {Home} from 'lucide-react';
 import Link from 'next/link';
-import {getISOStringDate} from '@/utils/date';
 import {setupPages} from '@/setup/pages';
 import {Pages} from '@/configs/pages';
 import {setupConfigs} from '@/setup/configs';
@@ -33,7 +32,7 @@ export default function Setup(props: any) {
       <div className="grid gap-4">
         <h1 className="text-3xl">Setup</h1>
 
-        <h2 className="text-2xl"><code>.env</code> file created</h2>
+        <h2 className="text-2xl"><code>.env</code> file</h2>
         <div>File path: <span>{props.envFilePath}</span></div>
 
         <h2 className="text-2xl">Database collections</h2>
@@ -47,12 +46,22 @@ export default function Setup(props: any) {
           }
         </div>
 
-        <h2 className="text-2xl">Admin account created</h2>
-        <div>
-          <p>username: {props.adminUser?.username}</p>
-          <p>password: {props.adminUser?.password}</p>
-          <p>You can change the password after logging in.</p>
-        </div>
+        {
+          props.adminUser?.isAccountCreated === true
+            ? (
+              <>
+                <h2 className="text-2xl">Admin account created</h2>
+                <div>
+                  <p>username: {props.adminUser?.username}</p>
+                  <p>password: {props.adminUser?.password}</p>
+                  <p>You can change the password after logging in.</p>
+                </div>
+              </>
+            )
+            : (
+              <h2 className="text-2xl">Admin account already exists.</h2>
+            )
+        }
 
         <p>Done!</p>
 

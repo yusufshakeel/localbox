@@ -5,6 +5,7 @@ import {getISOStringDate} from '@/utils/date';
 import {PermissionsType} from '@/types/permissions';
 
 export function setupAdminAccount() {
+  let isAccountCreated = false;
   const plainTextPassword = 'root1234';
   const adminUser = {
     username: 'admin',
@@ -34,9 +35,11 @@ export function setupAdminAccount() {
         createdAt: getISOStringDate()
       }
     );
+    isAccountCreated = true;
   }
 
   return {
+    isAccountCreated,
     username: adminUser.username,
     password: plainTextPassword
   };
