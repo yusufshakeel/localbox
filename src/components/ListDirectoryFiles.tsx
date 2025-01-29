@@ -31,6 +31,7 @@ type FileSchemaForColumns = {
   usernameFromFilename: string,
   timestampFromFilename: string,
   deleteFileHandler?: (dir: string, filename: string) => void
+  renameFileHandler?: (dir: string, filename: string) => void
   selectedFileHandler?: (filename: string) => void
   selectedFileHandlerText?: string,
   session: any
@@ -105,6 +106,7 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
         selectedFileHandlerText,
         selectedFileHandler,
         deleteFileHandler,
+        renameFileHandler,
         session
       } = row.original;
 
@@ -140,6 +142,36 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
         }
       };
 
+      const getRenameFileMenuItem = () => {
+        if (!renameFileHandler) {
+          return;
+        }
+
+        const renameMenuItem = (
+          <>
+            <DropdownMenuItem onClick={() => renameFileHandler(dir, filename)}>
+              Rename
+            </DropdownMenuItem>
+          </>
+        );
+
+        if (session.user.type === UserType.admin) {
+          return renameMenuItem;
+        }
+
+        if (session.user.type === UserType.user) {
+          const page = Pages[dir as keyof typeof Pages].id;
+          const userHasPermissions = hasPermissions(
+            session,
+            [`${page}:${PermissionsType.AUTHORIZED_USE}`]
+          );
+
+          if (userHasPermissions && getUsernameFromFilename(filename) === session.user.username) {
+            return renameMenuItem;
+          }
+        }
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -159,6 +191,7 @@ const columns: ColumnDef<FileSchemaForColumns>[] = [
                 </>
               )
             }
+            {getRenameFileMenuItem()}
             <DropdownMenuItem onClick={() => handleDownload(dir, filename)}>
               Download
             </DropdownMenuItem>
@@ -175,6 +208,7 @@ export type PropType = {
   sort?: 'ASC' | 'DESC',
   lastUploadAt?: string,
   deleteFileHandler?: (dir: string, filename: string) => void,
+  renameFileHandler?: (dir: string, filename: string) => void,
   selectedFileHandler?: (filename: string) => void,
   selectedFileHandlerText?: string,
   fetchAgain?: boolean,
@@ -196,6 +230,7 @@ export default function ListDirectoryFiles(props: PropType) {
           return {
             dir: props.dir,
             deleteFileHandler: props.deleteFileHandler,
+            renameFileHandler: props.renameFileHandler,
             selectedFileHandler: props.selectedFileHandler,
             selectedFileHandlerText: props.selectedFileHandlerText,
             filename,
@@ -212,6 +247,7 @@ export default function ListDirectoryFiles(props: PropType) {
   }, [
     props.dir,
     props.deleteFileHandler,
+    props.renameFileHandler,
     props.selectedFileHandler,
     props.selectedFileHandlerText,
     props.sort,

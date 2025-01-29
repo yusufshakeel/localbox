@@ -11,14 +11,20 @@ import {AcceptFileType} from '@/types/file';
 import {useState} from 'react';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
 import DeleteFile from '@/components/DeleteFile';
+import RenameFile from '@/components/RenameFile';
 
 function Documents() {
   const {data: session} = useSession() as any;
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
   const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
+  const [fileToRename, setFileToRename] = useState<{dir: string, filename: string} | null>(null);
 
   const deleteFileHandler = (dir: string, filename: string) => {
     setFileToDelete({dir, filename});
+  };
+
+  const renameFileHandler = (dir: string, filename: string) => {
+    setFileToRename({dir, filename});
   };
 
   return (
@@ -49,6 +55,7 @@ function Documents() {
                 dir={PublicFolders.documents}
                 sort={'DESC'}
                 deleteFileHandler={deleteFileHandler}
+                renameFileHandler={renameFileHandler}
                 session={session}
                 lastUploadAt={lastUploadAt}
               />
@@ -57,6 +64,7 @@ function Documents() {
         }
       </div>
       <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
+      <RenameFile fileToRename={fileToRename} setLastUploadAt={setLastUploadAt}/>
     </BaseLayout>
   );
 }

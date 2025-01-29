@@ -13,12 +13,14 @@ import {AcceptFileType} from '@/types/file';
 import {Video} from 'lucide-react';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
 import DeleteFile from '@/components/DeleteFile';
+import RenameFile from '@/components/RenameFile';
 
 function Videos() {
   const {data: session} = useSession() as any;
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
   const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
+  const [fileToRename, setFileToRename] = useState<{dir: string, filename: string} | null>(null);
 
   useEffect(() => {
     if (lastUploadAt && selectedFile === fileToDelete?.filename) {
@@ -34,6 +36,10 @@ function Videos() {
 
   const deleteFileHandler = (dir: string, filename: string) => {
     setFileToDelete({dir, filename});
+  };
+
+  const renameFileHandler = (dir: string, filename: string) => {
+    setFileToRename({dir, filename});
   };
 
   return (
@@ -85,6 +91,7 @@ function Videos() {
                   dir={PublicFolders.videos}
                   sort={'DESC'}
                   deleteFileHandler={deleteFileHandler}
+                  renameFileHandler={renameFileHandler}
                   session={session}
                   selectedFileHandler={selectedFileHandler}
                   selectedFileHandlerText='Play'
@@ -96,6 +103,7 @@ function Videos() {
         }
       </div>
       <DeleteFile fileToDelete={fileToDelete} setLastUploadAt={setLastUploadAt}/>
+      <RenameFile fileToRename={fileToRename} setLastUploadAt={setLastUploadAt}/>
     </BaseLayout>
   );
 }
