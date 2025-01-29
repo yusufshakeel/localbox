@@ -84,8 +84,8 @@ export default function RenameFile(props: any) {
             <AlertTitle>Info</AlertTitle>
             <AlertDescription>
               <p>
-                You have changed the file extension
-                from <strong>{currentFileExtension}</strong> to <strong>{newFileExtension}</strong>.
+                You are changing the file extension
+                from <strong>{currentFileExtension}</strong> to <strong>{newFileExtension}</strong>
               </p>
               <p>Make sure it is correct before proceeding.</p>
             </AlertDescription>
@@ -110,7 +110,7 @@ export default function RenameFile(props: any) {
           <Button variant="default"
             className="me-3"
             onClick={renameHandler}
-            disabled={newFilename.trim() === currentFilename.trim()}
+            disabled={!newFilename.trim() || newFilename.trim() === currentFilename.trim()}
           >
             Yes, rename the file
           </Button>

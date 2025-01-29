@@ -170,36 +170,6 @@ This directory contains private files. Don't change anything here.
 This directory contains files and folders that can be viewed in browser
 when you are running localbox.
 
-### public/assets
-
-This directory contains assets of the project. Don't change anything here.
-
-### public/audios
-
-Admin can upload audio files in this folder and clients will be able to download them.
-
-### public/documents
-
-Admin can upload document files in this folder and clients will be able to download them.
-
-### public/images
-
-Admin can upload image files in this folder and clients will be able to download them.
-
-### public/uploads
-
-Anyone can upload any files here.
-
-### public/videos
-
-Admin can upload video files in this folder and clients will be able to download them.
-
-### public/temp-chats
-
-This folder contains all the uploaded files from the TempChats.
-
-Note: All the uploaded files via TempChats are auto-deleted.
-
 ## License
 
 It's free :smiley:
