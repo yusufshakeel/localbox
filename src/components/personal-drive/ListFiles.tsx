@@ -28,7 +28,8 @@ type FilesSchemaForColumn = {
   size: number,
   uploadedAt: string,
   session: any,
-  deleteFileHandler?: (filename: string) => void
+  renameFileHandler: (filename: string) => void,
+  deleteFileHandler: (filename: string) => void,
 }
 
 const columns: ColumnDef<FilesSchemaForColumn>[] = [
@@ -83,24 +84,9 @@ const columns: ColumnDef<FilesSchemaForColumn>[] = [
     cell: ({ row }) => {
       const {
         filename,
-        deleteFileHandler
+        deleteFileHandler,
+        renameFileHandler
       } = row.original;
-
-      const getDeleteFileMenuItem = () => {
-        if (!deleteFileHandler) {
-          return;
-        }
-
-        return (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-500"
-              onClick={() => deleteFileHandler(filename)}>
-              Delete
-            </DropdownMenuItem>
-          </>
-        );
-      };
 
       return (
         <DropdownMenu>
@@ -111,10 +97,17 @@ const columns: ColumnDef<FilesSchemaForColumn>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => renameFileHandler(filename)}>
+              Rename
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handlePersonalDriveDownload(filename)}>
               Download
             </DropdownMenuItem>
-            {getDeleteFileMenuItem()}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-red-500"
+              onClick={() => deleteFileHandler(filename)}>
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -144,13 +137,20 @@ export default function ListFiles(props: any) {
             size: file.details.size,
             uploadedAt: formatDate(file.details.birthtime),
             session: props.session,
-            deleteFileHandler: props.deleteFileHandler
+            deleteFileHandler: props.deleteFileHandler,
+            renameFileHandler: props.renameFileHandler
           };
         }));
       }
     };
     apiCall().catch(e => showToast({content: e.message, type: 'error'}));
-  }, [props.deleteFileHandler, props.lastUploadAt, props.session, props.sort]);
+  }, [
+    props.deleteFileHandler,
+    props.lastUploadAt,
+    props.renameFileHandler,
+    props.session,
+    props.sort
+  ]);
 
   const filterFiles = (files: any[], fileType: string) => {
     return files.filter((file: any) => file.fileType === fileType);

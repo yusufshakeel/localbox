@@ -10,11 +10,13 @@ import {AcceptFileType} from '@/types/file';
 import {useEffect, useState} from 'react';
 import DeleteFile from '@/components/DeleteFile';
 import httpClient from '@/api-clients';
+import RenameFile from '@/components/RenameFile';
 
 function PersonalDrive() {
   const {data: session} = useSession() as any;
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
   const [fileToDelete, setFileToDelete] = useState<{filename: string} | null>(null);
+  const [fileToRename, setFileToRename] = useState<{filename: string} | null>(null);
   const [loading, setLoading] = useState(true);
   const [isPersonalDriveConfigured, setIsPersonalDriveConfigured] = useState(false);
 
@@ -42,6 +44,10 @@ function PersonalDrive() {
 
   const deleteFileHandler = (filename: string) => {
     setFileToDelete({filename});
+  };
+
+  const renameFileHandler = (filename: string) => {
+    setFileToRename({filename});
   };
 
   if (loading) {
@@ -92,12 +98,18 @@ function PersonalDrive() {
               lastUploadAt={lastUploadAt}
               deleteFileHandler={deleteFileHandler}
               session={session}
+              renameFileHandler={renameFileHandler}
             />
           </div>
         }
       </div>
       <DeleteFile
         fileToDelete={fileToDelete}
+        setLastUploadAt={setLastUploadAt}
+        isPersonalDriveFileDelete={true}
+      />
+      <RenameFile
+        fileToRename={fileToRename}
         setLastUploadAt={setLastUploadAt}
         isPersonalDriveFileDelete={true}
       />
