@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import {LOCALBOX_SETUP_LOCK_FILENAME} from '@/configs';
 import {Pages} from '@/configs/pages';
+import {resetAdminPasswordIfRequired} from '@/setup/admin-account';
 
 export default function Home() {
   return (
@@ -18,14 +19,21 @@ export default function Home() {
   );
 }
 
-export function getServerSideProps() {
-  const filePath = path.join(process.cwd(), 'private', LOCALBOX_SETUP_LOCK_FILENAME);
-  if (!fs.existsSync(filePath)) {
-    return {
-      redirect: {
-        destination: '/setup'
-      }
-    };
+export async function getServerSideProps() {
+  try {
+    const filePath = path.join(process.cwd(), 'private', LOCALBOX_SETUP_LOCK_FILENAME);
+    if (!fs.existsSync(filePath)) {
+      return {
+        redirect: {
+          destination: '/setup'
+        }
+      };
+    }
+    await resetAdminPasswordIfRequired();
+    return {props: {}};
+  } catch (error: any) {
+    // eslint-disable-next-line
+    console.log('Something went wrong', error.message);
+    return {props: {}};
   }
-  return { props: {} };
 }

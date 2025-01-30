@@ -5,6 +5,7 @@ import {FILE_UPLOAD_MAX_SIZE_IN_BYTES} from '@/configs/uploads';
 import {AUTH_SESSION_MAX_AGE_IN_SECONDS} from '@/configs/auth';
 
 export const LOCALBOX_SETUP_LOCK_FILENAME = 'setup.lock';
+export const RESET_ADMIN_PASSWORD_FILE = 'reset-admin-password.txt';
 
 export const Configs = [
   {
