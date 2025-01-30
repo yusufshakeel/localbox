@@ -1,7 +1,7 @@
 # localbox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
-![Static Badge](https://img.shields.io/badge/version-v0.10.0-blue)
+![Static Badge](https://img.shields.io/badge/version-v0.10.1-blue)
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
@@ -34,6 +34,7 @@ Features:
 * [Getting Started](#getting-started)
 * [First time setup](#first-time-setup)
 * [Rerun setup](#rerun-setup)
+* [Reset Admin Password](#reset-admin-password)
 * [Get Updates](#get-updates)
 * [Folders](#folders)
 * [License](#license)
@@ -160,6 +161,29 @@ Change the password of the **admin** account after logging in.
 * Open the Home page.
 * Setup will be performed again.
 * **Important! Make sure to restart the server.**
+
+### When to rerun the setup?
+
+- When pulling the latest code from the main branch from [GitHub](https://github.com/yusufshakeel/localbox).
+- When you re-install the npm packages by running the `npm i` command.
+- When you re-bootstrap.
+
+## Reset Admin Password
+
+Go to `/private` folder and look for `reset-admin-password.txt` file. Enter the new password like
+the following and save the file.
+
+```text
+NEW_PASSWORD=myNewAdminPassword
+```
+Points to note:
+- Make sure to write the password after the `=` sign.
+- Do not add space before/after the password.
+- Keep the password within one line.
+- Password length must be more at least 8 characters and less than
+32 characters.
+
+Now, go to the home page and the admin password will be updated.
 
 ## Get Updates
 
