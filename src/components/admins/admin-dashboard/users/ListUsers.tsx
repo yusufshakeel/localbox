@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import {useEffect, useState} from 'react';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import {ArrowUpDown, HardDrive, MoreHorizontal} from 'lucide-react';
 import httpClient from '@/api-clients';
 import showToast from '@/utils/show-toast';
 import {DataTable} from '@/components/data-table';
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import {formatDate} from '@/utils/date';
 import {humanReadableFileSize} from '@/utils/filesize';
+import {Progress} from '@/components/ui/progress';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -89,8 +90,18 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
     }
   },
   {
-    accessorKey: 'personalDriveStorageLimit',
-    header: 'Personal Drive',
+    accessorKey: 'personalDriveStorageUsed',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          <span className="font-bold">Personal Drive</span>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const {
         personalDriveStorageLimit,
@@ -176,6 +187,8 @@ const columns: ColumnDef<UserSchemaForColumn>[] = [
 
 export default function ListUsers(props: any) {
   const [files, setFiles] = useState<UserSchemaForColumn[]>([]);
+  const [storageLimit, setStorageLimit] = useState<number | null>(null);
+  const [storageUsed, setStorageUsed] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -183,7 +196,11 @@ export default function ListUsers(props: any) {
         url: '/api/admins/users'
       });
       if (response.statusCode === 200 && response.data?.users) {
+        let limit = 0;
+        let used = 0;
         setFiles(response.data.users.map((user: any) => {
+          limit += +user.personalDriveStorageLimit || 0;
+          used += +user.personalDriveStorageUsed || 0;
           return {
             ...user,
             updatedAt: user.updatedAt ? formatDate(user.updatedAt) : '',
@@ -193,6 +210,8 @@ export default function ListUsers(props: any) {
             setUserAccountToUpdate: props.setUserAccountToUpdate
           };
         }));
+        setStorageLimit(limit);
+        setStorageUsed(used);
       }
     };
     fetchUsers().catch(e => showToast({content: e.message, type: 'error'}));
@@ -205,6 +224,38 @@ export default function ListUsers(props: any) {
   ]);
 
   return (
-    <DataTable columns={columns} data={files}/>
+    <>
+      <div className="flex flex-1 flex-col gap-4 my-5">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-xl bg-muted/50">
+            <div className="flex items-center p-4">
+              <HardDrive className="w-10 h-10 mr-4" />
+              <div>
+                <p className="text-lg font-medium">Personal Drive</p>
+                {
+                  storageUsed !== null && storageLimit !== null
+                  && (
+                    <p>
+                      {humanReadableFileSize(storageUsed)} used out
+                      of {humanReadableFileSize(storageLimit)}
+                    </p>
+                  )
+                }
+                {
+                  storageUsed !== null && storageUsed >= 0
+                  && storageLimit !== null && storageLimit > 0
+                  && (
+                    <div className="my-2">
+                      <Progress value={Math.floor((storageUsed/storageLimit) * 100)} />
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <DataTable columns={columns} data={files}/>
+    </>
   );
 }
