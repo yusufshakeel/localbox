@@ -196,7 +196,7 @@ export default function ListFiles(props: any) {
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Info</AlertTitle>
               <AlertDescription>
-                <p>You have used {Math.floor((storageUsed/storageLimit) * 100)}% of
+                <p>You have used {((storageUsed/storageLimit) * 100).toFixed(1)}% of
                   your storage space.</p>
                 <p>Delete files to free up space, or reach out to the Admin to
                   upgrade your storage.</p>
