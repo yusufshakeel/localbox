@@ -1,6 +1,6 @@
 {
   "name": "localbox",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Turn your laptop or desktop into a personal local cloud to easily share files with other devices on the same Wi-Fi network.",
   "private": true,
   "scripts": {
