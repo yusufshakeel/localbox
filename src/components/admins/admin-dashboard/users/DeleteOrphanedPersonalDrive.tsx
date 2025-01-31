@@ -1,5 +1,5 @@
 import {Button} from '@/components/ui/button';
-import {Wrench} from 'lucide-react';
+import {Folder, Wrench} from 'lucide-react';
 import {
   Dialog,
   DialogContent, DialogFooter,
@@ -76,13 +76,24 @@ export default function DeleteOrphanedPersonalDrive(props: any) {
         <div>
           { errorMessage && <AlertError message={errorMessage}/> }
           <p>You previously deleted some user accounts that had access to Personal Drive.
-            This action will permanently remove those Personal Drives along with all
-            their contents.
+            This action will permanently remove their contents and free up space.
           </p>
           <p className="my-5">Total number of Personal Drives to be deleted: {directoriesToDelete.length}</p>
+          <div className="text-sm">
+            {
+              directoriesToDelete.map(dir => {
+                return (
+                  <p key={dir} className="flex items-center space-x-1">
+                    <Folder className="w-5 h-5"/>
+                    <span>{dir}</span>
+                  </p>
+                );
+              })
+            }
+          </div>
         </div>
         <DialogFooter>
-          <Button variant="destructive" className="me-3" onClick={deleteDirectoriesHandler}>Yes, delete the directories</Button>
+          <Button variant="destructive" className="me-3" onClick={deleteDirectoriesHandler}>Yes, delete the Personal Drives</Button>
           <Button variant="secondary" className="me-3" onClick={closeDialog}>Close</Button>
         </DialogFooter>
       </DialogContent>
