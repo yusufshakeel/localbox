@@ -5,6 +5,7 @@ import UpdateUser from '@/components/admins/admin-dashboard/users/UpdateUser';
 import DeleteUser from '@/components/admins/admin-dashboard/users/DeleteUser';
 import UpdateUserPassword from '@/components/admins/admin-dashboard/users/UpdateUserPassword';
 import UpdateUserPermissions from '@/components/admins/admin-dashboard/users/UpdateUserPermissions';
+import DeleteOrphanedPersonalDrive from '@/components/admins/admin-dashboard/users/DeleteOrphanedPersonalDrive';
 
 export default function UserManagementComponent() {
   const [lastUserAccountChangesAt, setLastUserAccountChangesAt] = useState('');
@@ -18,6 +19,7 @@ export default function UserManagementComponent() {
       <CreateUser
         setLastUserAccountChangesAt={setLastUserAccountChangesAt}
       />
+      <DeleteOrphanedPersonalDrive lastUserAccountChangesAt={lastUserAccountChangesAt}/>
       <UpdateUser
         userAccountToUpdate={userAccountToUpdate}
         setUserAccountToUpdate={setUserAccountToUpdate}
