@@ -270,6 +270,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return await renameFilesHandler(req, res, session);
       }
     }
+
+    return res.status(400).json({ error: 'No handler' });
   } catch (error: any) {
     res.status(500).json({ error: 'Something went wrong', message: error.message });
   }

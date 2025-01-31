@@ -39,6 +39,8 @@ export default async function handler(
     if (req.method === HttpMethod.GET) {
       return await getHandler(req, res);
     }
+
+    return res.status(400).json({ error: 'No handler' });
   } catch (error: any) {
     return res.status(500).json({message: error.message});
   }
