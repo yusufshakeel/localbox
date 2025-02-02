@@ -1,7 +1,7 @@
 # localbox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/localbox)
-![Static Badge](https://img.shields.io/badge/version-v0.10.2-blue)
+![Static Badge](https://img.shields.io/badge/version-v0.11.0-blue)
 
 Turn your laptop or desktop into a personal local cloud to easily share files with 
 other devices on the same Wi-Fi network.
@@ -13,6 +13,13 @@ Features:
 * Audio/Video player
 * User management (Authentication and Authorization)
 * Dark Mode
+
+Key building blocks:
+* Framework: [Next.js](https://github.com/vercel/next.js)
+* UI: [shadcn-ui](https://github.com/shadcn-ui/ui)
+* Audio/Video: [video.js](https://github.com/videojs/video.js)
+* Authentication and Authorization: [next-auth](https://github.com/nextauthjs/next-auth)
+* Database: [minivium](https://github.com/yusufshakeel/minivium)
 
 ### Home
 
