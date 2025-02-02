@@ -16,6 +16,7 @@ import {Music} from 'lucide-react';
 import DeleteFile from '@/components/DeleteFile';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
 import RenameFile from '@/components/RenameFile';
+import {AudioPlayer} from '@/components/audio-video-player';
 
 function Audios() {
   const {data: session} = useSession() as any;
@@ -73,11 +74,9 @@ function Audios() {
                   selectedFile?.length
                     ? (
                       <div className="mb-5">
-                        <audio style={{width: '100%'}} controls key={selectedFile}
-                          autoPlay={true}>
-                          <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
-                          Your browser does not support the audio tag.
-                        </audio>
+                        <AudioPlayer sources={[
+                          { src: `/audios/${encodeURIComponent(selectedFile)}` }
+                        ]}/>
                         <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
                       </div>
                     )
