@@ -31,7 +31,7 @@ Key building blocks:
 
 ### Admin Dashboard
 
-![admin-dashboard-v0.9.1.png](public/assets/admin-dashboard-v0.9.1.png)
+![admin-dashboard-v0.11.0.png](public/assets/admin-dashboard-v0.11.0.png)
 
 ## Table of Content
 
