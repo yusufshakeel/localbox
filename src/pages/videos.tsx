@@ -14,6 +14,7 @@ import {Video} from 'lucide-react';
 import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedFile';
 import DeleteFile from '@/components/DeleteFile';
 import RenameFile from '@/components/RenameFile';
+import {VideoPlayer} from '@/components/audio-video-player';
 
 function Videos() {
   const {data: session} = useSession() as any;
@@ -71,11 +72,9 @@ function Videos() {
                   selectedFile?.length
                     ? (
                       <>
-                        <video controls key={selectedFile}
-                          autoPlay={true}>
-                          <source src={`/videos/${encodeURIComponent(selectedFile)}`}/>
-                            Your browser does not support the video tag.
-                        </video>
+                        <VideoPlayer sources={[
+                          { src: `/videos/${encodeURIComponent(selectedFile)}` }
+                        ]}/>
                         <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
                       </>
                     )
