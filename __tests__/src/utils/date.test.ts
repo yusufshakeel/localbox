@@ -4,6 +4,8 @@ describe('Testing date util', () => {
   describe('Testing format date', () => {
     it('Should be able to format date', () => {
       expect(formatDate(1734261142000)).toBe('15 Dec 2024 04:42:22 pm');
+      expect(formatDate('1734261142000')).toBe('15 Dec 2024 04:42:22 pm');
+      expect(formatDate('2024-12-15T11:12:22.000Z')).toBe('15 Dec 2024 04:42:22 pm');
     });
 
     it('Should return empty string when timestamp is invalid', () => {
