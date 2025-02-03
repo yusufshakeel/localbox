@@ -14,7 +14,7 @@ Features:
 * User management (Authentication and Authorization)
 * Dark Mode
 
-Key building blocks:
+Building blocks:
 * Framework: [Next.js](https://github.com/vercel/next.js)
 * UI: [shadcn-ui](https://github.com/shadcn-ui/ui)
 * Audio/Video: [video.js](https://github.com/videojs/video.js)
@@ -187,10 +187,10 @@ Points to note:
 - Make sure to write the password after the `=` sign.
 - Do not add space before/after the password.
 - Keep the password within one line.
-- Password length must be more at least 8 characters and less than
-32 characters.
+- Password length must be between 8 and 32 characters.
 
 Now, go to the home page and the admin password will be updated.
+Change the Admin password after logging in.
 
 ## Get Updates
 
