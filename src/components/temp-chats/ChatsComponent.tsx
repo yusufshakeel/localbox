@@ -23,7 +23,7 @@ import {EllipsisVertical} from 'lucide-react';
 import {FILE_EXTENSIONS} from '@/configs/files';
 import path from 'path';
 import {PublicFolders} from '@/configs/folders';
-import {AudioPlayer, VideoPlayer} from '@/components/audio-video-player';
+import {VideoPlayer} from '@/components/audio-video-player';
 
 export type PropType = {
   messages: MessageType[];
@@ -135,11 +135,10 @@ export default function ChatsComponent(props: PropType) {
                 );
               } else if (FILE_EXTENSIONS.audios.includes(fileExtension)) {
                 messagePreview = (
-                  <div key={msg.message}>
-                    <AudioPlayer sources={[
-                      { src: `/${PublicFolders.tempChats}/${encodeURIComponent(msg.message)}` }
-                    ]}/>
-                  </div>
+                  <audio controls key={msg.message}>
+                    <source src={`/${PublicFolders.tempChats}/${encodeURIComponent(msg.message)}`}/>
+                    Your browser does not support the audio tag.
+                  </audio>
                 );
               }
             }

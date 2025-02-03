@@ -87,17 +87,3 @@ export function VideoPlayer(props: PlayerProps) {
     <VideoJS options={options} onReady={onReady} />
   );
 }
-
-export function AudioPlayer(props: PlayerProps) {
-  const playerRef = useRef(null);
-
-  const options = getOptions(props.sources);
-
-  const onReady = (player: any) => {
-    playerRef.current = player;
-  };
-
-  return (
-    <VideoJS options={options} onReady={onReady} />
-  );
-}
