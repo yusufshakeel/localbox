@@ -17,7 +17,7 @@ Features:
 Building blocks:
 * Framework: [Next.js](https://github.com/vercel/next.js)
 * UI: [shadcn-ui](https://github.com/shadcn-ui/ui)
-* Audio/Video: [video.js](https://github.com/videojs/video.js)
+* Video: [video.js](https://github.com/videojs/video.js)
 * Authentication and Authorization: [next-auth](https://github.com/nextauthjs/next-auth)
 * Database: [minivium](https://github.com/yusufshakeel/minivium)
 
