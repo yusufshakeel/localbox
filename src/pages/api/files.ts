@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { readdir } from 'fs/promises';
-import fs from 'fs/promises';
+import { readdir, access, unlink, rename } from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
-import {PrivateFolder, PrivateFolders, PublicFolders} from '@/configs/folders';
+import {PrivateFolder, PrivateFolders, PublicFolder, PublicFolders} from '@/configs/folders';
 import {HttpMethod} from '@/types/api';
 import {hasApiPrivileges} from '@/services/api-service';
 import {Pages} from '@/configs/pages';
@@ -10,6 +10,7 @@ import {UserType} from '@/types/users';
 import {hasPermissions} from '@/utils/permissions';
 import {PermissionsType} from '@/types/permissions';
 import {getFilename, getUsernameFromFilename} from '@/utils/filename';
+import mime from 'mime-types';
 
 async function deleteHandler(
   req: NextApiRequest,
@@ -44,8 +45,8 @@ async function deleteHandler(
   }
 
   const filepath = path.join(process.cwd(), 'public', req.body.dir, req.body.filename);
-  await fs.access(filepath);
-  await fs.unlink(filepath);
+  await access(filepath);
+  await unlink(filepath);
 
   return res.status(200).json({ message: 'File deleted successfully.' });
 }
@@ -95,7 +96,7 @@ async function renameFilesHandler(
   const oldPath = path.join(dirPath, req.body.filename);
   const newPath = path.join(dirPath, newFilename);
 
-  await fs.rename(oldPath, newPath);
+  await rename(oldPath, newPath);
   return res.status(200).json({ message: 'File renamed successfully'  });
 }
 
@@ -141,7 +142,7 @@ async function renamePersonalDriveFilesHandler(
   const oldPath = path.join(personalDrivePath, req.body.filename);
   const newPath = path.join(personalDrivePath, newFilename);
 
-  await fs.rename(oldPath, newPath);
+  await rename(oldPath, newPath);
   return res.status(200).json({ message: 'File renamed successfully'  });
 }
 
@@ -178,10 +179,67 @@ async function deletePersonalDriveFilesHandler(
   );
 
   const filepath = path.join(personalDrivePath, req.body.filename);
-  await fs.access(filepath);
-  await fs.unlink(filepath);
+  await access(filepath);
+  await unlink(filepath);
 
   return res.status(200).json({ message: 'File deleted successfully.' });
+}
+
+async function downloadFileHandler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const filename = req.query.downloadFilename as string;
+  const dir = req.query.dir as string;
+  const filePath = path.join(process.cwd(), PublicFolder, dir, filename);
+
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ error: 'File not found' });
+  }
+
+  if (req.query.stream) {
+    // Set headers for file streaming
+    const contentType = mime.contentType(filename);
+    const stat = fs.statSync(filePath);
+    const fileSize = stat.size;
+    const range = req.headers.range;
+
+    if (range && contentType !== false) {
+      // serving chunk size file
+      const parts = range.replace(/bytes=/, '').split('-');
+      const start = parseInt(parts[0], 10);
+      const megabyte = 10e6;
+      const CHUNK_SIZE = fileSize >= 10 * megabyte ? 8 * megabyte : 4 * megabyte;
+      const end = Math.min(start + CHUNK_SIZE - 1, fileSize - 1);
+      const chunkSize = end - start + 1;
+
+      res.writeHead(206, {
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunkSize,
+        'Content-Type': contentType
+      });
+
+      fs.createReadStream(filePath, { start, end }).pipe(res);
+    } else {
+      // serving full file
+      res.writeHead(200, {
+        'Accept-Ranges': 'bytes',
+        'Content-Length': fileSize,
+        'Content-Type': 'application/octet-stream'
+      });
+
+      fs.createReadStream(filePath).pipe(res);
+    }
+  } else {
+    // Set headers for file download
+    res.setHeader('Content-Disposition', `attachment; filename=${getFilename(filename)}`);
+    res.setHeader('Content-Type', 'application/octet-stream');
+
+    // Stream the file to the client
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+  }
 }
 
 async function getHandler(
@@ -215,7 +273,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     let requiredPermissions: string[] = [];
 
     if (req.method === HttpMethod.GET) {
-      const pageId = Pages[req.query.dir as keyof typeof Pages].id;
+      let pageId = '';
+      if (req.query.dir === PublicFolders.tempChats) {
+        pageId = Pages.tempChats.id;
+      } else {
+        pageId = Pages[req.query.dir as keyof typeof Pages].id;
+      }
       requiredPermissions = [
         `${pageId}:${PermissionsType.AUTHORIZED_VIEW}`
       ];
@@ -252,6 +315,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === HttpMethod.GET) {
+      if (req.query.downloadFilename && req.query.dir) {
+        return await downloadFileHandler(req, res);
+      }
       return await getHandler(req, res);
     }
 

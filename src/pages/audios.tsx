@@ -75,7 +75,7 @@ function Audios() {
                       <div className="mb-5">
                         <audio style={{width: '100%'}} controls key={selectedFile}
                           autoPlay={true}>
-                          <source src={`/audios/${encodeURIComponent(selectedFile)}`}/>
+                          <source src={`/api/files?downloadFilename=${selectedFile}&dir=audios&stream=true`}/>
                           Your browser does not support the audio tag.
                         </audio>
                         <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
