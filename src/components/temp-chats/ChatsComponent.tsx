@@ -24,6 +24,7 @@ import {FILE_EXTENSIONS} from '@/configs/files';
 import path from 'path';
 import {PublicFolders} from '@/configs/folders';
 import {VideoPlayer} from '@/components/audio-video-player';
+import mime from 'mime-types';
 
 export type PropType = {
   messages: MessageType[];
@@ -120,23 +121,28 @@ export default function ChatsComponent(props: PropType) {
                     width={200}
                     height={200}
                     priority
-                    src={`/${PublicFolders.tempChats}/${encodeURIComponent(msg.message)}`}
+                    src={`/api/files?downloadFilename=${msg.message}&dir=${PublicFolders.tempChats}`}
                     className="my-2"
                     alt={fileName}/>
                 );
               }
               else if (FILE_EXTENSIONS.videos.includes(fileExtension)) {
+                const contentType = mime.contentType(msg.message);
+                const type = contentType !== false ? contentType : undefined;
                 messagePreview = (
                   <div key={msg.message}>
                     <VideoPlayer sources={[
-                      { src: `/${PublicFolders.tempChats}/${encodeURIComponent(msg.message)}` }
+                      {
+                        src: `/api/files?downloadFilename=${msg.message}&dir=${PublicFolders.tempChats}&stream=true`,
+                        type
+                      }
                     ]}/>
                   </div>
                 );
               } else if (FILE_EXTENSIONS.audios.includes(fileExtension)) {
                 messagePreview = (
                   <audio controls key={msg.message}>
-                    <source src={`/${PublicFolders.tempChats}/${encodeURIComponent(msg.message)}`}/>
+                    <source src={`/api/files?downloadFilename=${msg.message}&dir=${PublicFolders.tempChats}&stream=true`}/>
                     Your browser does not support the audio tag.
                   </audio>
                 );

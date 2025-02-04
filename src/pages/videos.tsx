@@ -15,23 +15,31 @@ import UserCannotDeleteUploadedFile from '@/components/UserCannotDeleteUploadedF
 import DeleteFile from '@/components/DeleteFile';
 import RenameFile from '@/components/RenameFile';
 import {VideoPlayer} from '@/components/audio-video-player';
+import mime from 'mime-types';
 
 function Videos() {
   const {data: session} = useSession() as any;
-  const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [
+    selectedFile, setSelectedFile
+  ] = useState<{ filename: string, type?: string } | null>(null);
   const [lastUploadAt, setLastUploadAt] = useState<string>('');
   const [fileToDelete, setFileToDelete] = useState<{dir: string, filename: string} | null>(null);
   const [fileToRename, setFileToRename] = useState<{dir: string, filename: string} | null>(null);
 
   useEffect(() => {
-    if (lastUploadAt && selectedFile === fileToDelete?.filename) {
-      setSelectedFile('');
+    if (lastUploadAt && selectedFile?.filename === fileToDelete?.filename) {
+      setSelectedFile(null);
     }
   }, [fileToDelete?.filename, lastUploadAt, selectedFile]);
 
   const selectedFileHandler = (file: string) => {
     if (file.length) {
-      setSelectedFile(file);
+      const contentType = mime.contentType(file);
+      if (contentType !== false) {
+        setSelectedFile({ filename: file, type: contentType });
+      } else {
+        setSelectedFile({filename: file});
+      }
     }
   };
 
@@ -69,13 +77,16 @@ function Videos() {
             <>
               <div className="col-span-12 lg:col-span-5">
                 {
-                  selectedFile?.length
+                  selectedFile?.filename?.length
                     ? (
                       <>
                         <VideoPlayer sources={[
-                          { src: `/videos/${encodeURIComponent(selectedFile)}` }
+                          {
+                            src: `/api/files?downloadFilename=${selectedFile.filename}&dir=videos&stream=true`,
+                            type: selectedFile.type
+                          }
                         ]}/>
-                        <p className="my-5 text-center truncate">{getFilename(selectedFile)}</p>
+                        <p className="my-5 text-center truncate">{getFilename(selectedFile.filename)}</p>
                       </>
                     )
                     : <div className="aspect-video rounded-xl bg-muted/50">

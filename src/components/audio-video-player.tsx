@@ -8,7 +8,6 @@ export const VideoJS = (props: any) => {
   const {options, onReady} = props;
 
   React.useEffect(() => {
-
     // Make sure Video.js player is only initialized once
     if (!playerRef.current) {
       // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
@@ -61,26 +60,35 @@ type PlayerProps = {
   sources: Source[]
 }
 
-const getOptions = (sources: Source[]) => {
-  return {
+export function VideoPlayer(props: PlayerProps) {
+  const playerRef = useRef(null);
+
+  const options = {
     autoplay: false,
     controls: true,
     responsive: true,
     fluid: true,
-    sources: sources,
+    sources: props.sources,
     controlBar: {
       volumePanel: { inline: false } // Ensure volume control is visible
-    }
+    },
+    inactivityTimeout: 0 // Prevent auto-pause when switching tabs
   };
-};
-
-export function VideoPlayer(props: PlayerProps) {
-  const playerRef = useRef(null);
-
-  const options = getOptions(props.sources);
 
   const onReady = (player: any) => {
     playerRef.current = player;
+
+    // Prevent pausing when tab is inactive
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        player.play();
+      }
+    });
+
+    // Prevent background audio suspension (Chrome)
+    navigator.mediaSession?.setActionHandler('play', () => {
+      player.play();
+    });
   };
 
   return (

@@ -78,7 +78,7 @@ function Images() {
                           width={300}
                           height={300}
                           className="img-fluid ms-auto me-auto"
-                          src={`/images/${encodeURIComponent(selectedFile)}`}
+                          src={`/api/files?downloadFilename=${selectedFile}&dir=images`}
                           alt={selectedFile}/>
                         <p className="my-5 text-center">{getFilename(selectedFile)}</p>
                         <p className="my-3 text-center">
