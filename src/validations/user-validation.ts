@@ -21,7 +21,8 @@ const getDisplayNameZodString = () => {
   const zodString = z.string({ required_error: 'Display name is required' });
   return zodString
     .min(AUTH_DISPLAY_NAME_MIN_LENGTH, `Display name must have at least ${AUTH_DISPLAY_NAME_MIN_LENGTH} characters`)
-    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`);
+    .max(AUTH_DISPLAY_NAME_MAX_LENGTH, `Display name cannot have more than ${AUTH_DISPLAY_NAME_MAX_LENGTH} characters`)
+    .regex(/^[a-zA-Z0-9 ]+$/, 'Display name must be alphanumeric');
 };
 
 const getPasswordZodString = () => {
@@ -29,8 +30,8 @@ const getPasswordZodString = () => {
   return zodString
     .min(AUTH_PASSWORD_MIN_LENGTH, `Password must have at least ${AUTH_PASSWORD_MIN_LENGTH} characters`)
     .max(AUTH_PASSWORD_MAX_LENGTH, `Password cannot have more than ${AUTH_PASSWORD_MAX_LENGTH} characters`)
-    .regex(/[a-zA-Z]/, 'Password must contain at least one letter.')
-    .regex(/\d/, 'Password must contain at least one digit.');
+    .regex(/[a-zA-Z]/, 'Password must contain at least one letter a-z A-Z')
+    .regex(/\d/, 'Password must contain at least one digit 0-9');
 };
 
 export const userCreateSchema = z.object({
