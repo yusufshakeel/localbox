@@ -38,7 +38,8 @@ const config: Config = {
     '/node_modules/*',
     '/src/components/ui/*',
     '/src/components/app-sidebar.tsx',
-    '/src/components/theme-provider.tsx'
+    '/src/components/theme-provider.tsx',
+    '/src/pages/api/auth/*'
   ],
 
   // Indicates which provider should be used to instrument code for coverage

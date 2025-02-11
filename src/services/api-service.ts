@@ -11,7 +11,7 @@ export function isAllowedMethod(
   allowedMethods: string[]
 ) {
   if (!allowedMethods.includes(req.method as string)) {
-    res.setHeader('Allow', ['POST']);
+    res.setHeader('Allow', allowedMethods);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
   return true;
@@ -23,7 +23,7 @@ export async function isValidSessionWithPermissions(
   option: {
     allowedUserTypes: string[],
     allowedPermissions: string[]
-  } = { allowedUserTypes:[], allowedPermissions:[] }
+  }
 ) {
   const session = await getServerSession(req, res, authOptions);
   const { allowedUserTypes, allowedPermissions } = option;
